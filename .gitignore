@@ -1,0 +1,10 @@
+data/raw/
+data/processed/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# Logs e metricas dos runs versionados. Apenas os pesos ficam de fora, o que são 188 MB por checkpoint estoura o limite do GH. 
+# TODO: Publicar last.pt como release/anexo e referenciar no README.
+runs/**/checkpoints/
+*.pt

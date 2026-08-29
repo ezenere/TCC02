@@ -1,0 +1,47 @@
+# Preparacao dos dados. Config versionada; qualquer mudanca aqui invalida
+# o manifesto anterior (o hash do manifesto muda e é registrado nos runs).
+seed: 20250828
+
+paths:
+  images: data/raw/HaGRIDv2_dataset_512
+  annotations: data/raw/annotations
+  processed: data/processed
+  manifest: data/processed/manifest.csv
+  results: results
+
+# 18 classes originais da v1 (paper WACV). As 15 novas da v2 ficam fora.
+classes:
+  - call
+  - dislike
+  - fist
+  - four
+  - like
+  - mute
+  - ok
+  - one
+  - palm
+  - peace
+  - peace_inverted
+  - rock
+  - stop
+  - stop_inverted
+  - three
+  - three2
+  - two_up
+  - two_up_inverted
+
+subset:
+  fraction: 0.50        # 50% do pool das 18 classes, separado por user_id
+  train_fraction: 0.70  # holdout 70/30
+  # Tolerancias sucessivas do guloso balanceado por classe (passes crescentes).
+  tolerances: [0.01, 0.03, 0.10, 1.0]
+
+crop:
+  margin: 0.10          # cada lado expande 10% da dimensao correspondente
+  mode: square          # square = expande para quadrado (preserva aspecto)
+                        # stretch = resize direto da bbox (distorce)
+  size: 256
+  jpeg_quality: 90
+
+runtime:
+  workers: 24

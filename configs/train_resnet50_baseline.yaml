@@ -1,0 +1,38 @@
+# Baseline de evidencia. 5 epocas, treino completo.
+# O treino longo (30+ epocas) usara outra config, com este arquivo como base.
+run_name: resnet50_baseline_5ep
+seed: 20250828
+
+data:
+  manifest: data/processed/manifest.csv
+  root: null              # image_path no manifesto ja e relativo a raiz do repo
+  image_size: 224         # random crop a partir dos 256 armazenados
+  hflip: true             # gestos do HaGRID sao agnosticos a mao esquerda/direita
+  batch_size: 96
+  eval_batch_size: 192
+  workers: 16
+  prefetch_factor: 6
+
+model:
+  arch: resnet50
+  pretrained: true        # pesos ImageNet
+
+optim:
+  name: sgd
+  lr: 0.0375              # escala linear de 0.1@256 para batch 96
+  momentum: 0.9
+  weight_decay: 0.0001
+  nesterov: true
+  label_smoothing: 0.0
+
+sched:
+  name: cosine
+
+train:
+  epochs: 5
+  amp: fp16
+  channels_last: true
+  cudnn_benchmark: true
+
+paths:
+  runs: runs
