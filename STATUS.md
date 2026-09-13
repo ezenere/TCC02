@@ -106,3 +106,6 @@ Runs 1 e 2 registram commit `40f79c3` com árvore suja: o código é o de `714b4
 `tests/test_pruning.py` (7 verdes), `docs/METODOLOGIA.md` § 2.1 com a limitação da poda estruturada em DenseNet.
 Smoke GPU (1 época, 320 imgs, init do baseline, 50%): esparsidade obtida 0,5000, 54 camadas mascaradas, 11,8 M não-nulos.
 A varredura `[GPU]` (D0922) espera a fila do eixo 1 terminar.
+
+### Run 3 concluído — `eixo1_resnet50_s1` (86 min)
+teste: **acc 0.99803, F1 0.99805, erro 0.1973% (165 erros), best epoca 28**. Commit registrado: limpo.
