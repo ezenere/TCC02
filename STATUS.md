@@ -93,3 +93,9 @@ Val: melhor F1 0,99700 na época 28; queda transitória na época 2 (pico do lr 
 163 s/época, 1.077 img/s. `make_eixo1.py`, `plot_curves.py`, `cost.py` e `compact_log.py` validados sobre este run.
 
 **⚠ commitar agora.** O `run_meta.json` deste run registra `git_commit = 40f79c3` com **árvore suja** (`git_dirty: true`): o código que produziu o resultado ainda não está em nenhum commit. Os próximos runs da fila são processos novos e vão registrar o commit que existir no momento em que começarem — commitar antes de a DenseNet s0 terminar (~2 h) faz os runs 2–6 saírem limpos. O run 1 fica documentado como "commit 40f79c3 + alterações não commitadas equivalentes ao commit seguinte".
+
+### Run 2 concluído — `eixo1_densenet121_s0` (107 min)
+teste (best.pt = época 30, escolhido por val): **acc 99,809% · F1 macro 99,810% · erro 0,1914% (160 / 83.613)**.
+204 s/época, 861 img/s. Custo: 6,97 M parâmetros, 2,86 GMACs @224, 27,2 MiB FP32 (critério ≈7,0 M / ≈2,9 G atingido).
+Razão de erro DenseNet/ResNet (seed 0) = 0,90 — ainda uma seed; sinal indeterminado. A DenseNet melhorou até a última época (best = 30), a ResNet estabilizou na 28.
+Runs 1 e 2 registram commit `40f79c3` com árvore suja: o código é o de `714b431` (commitado durante o run 2). Runs 3–6 registram `714b431` limpo.
