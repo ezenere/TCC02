@@ -1,9 +1,13 @@
-"""Dataset and DataLoader built from manifest.csv.
+"""Dataset and DataLoader built from a versioned manifest.
 
-Every experiment reads the manifest and nothing else. The processed image
-files are never enumerated from the filesystem, so runs stay reproducible and
-comparable across axes. The class list is derived from the manifest itself,
-which keeps a single source of truth for the label ordering.
+Every experiment reads the manifest and nothing else — the processed image
+files are never enumerated from the filesystem. Splits:
+
+  v1 manifest : split ∈ {train, test}
+  v2+ manifest: split ∈ {train, test} and inner_split ∈ {fit, val, test}
+
+Definitive runs train on `fit`, select on `val`, and touch `test` exactly once.
+Axis 4 restricts `fit` further through a boolean mask column of the manifest.
 """
 
 from __future__ import annotations
@@ -17,9 +21,12 @@ from PIL import Image
 from torch.utils.data import DataLoader, Dataset
 from torchvision import transforms
 
-# ImageNet statistics: the backbones are initialised with ImageNet weights.
+from runinfo import manifest_version
+
 IMAGENET_MEAN = (0.485, 0.456, 0.406)
 IMAGENET_STD = (0.229, 0.224, 0.225)
+BASE_COLUMNS = ["image_path", "label", "user_id", "split"]
+TRUTHY = {"true", "1", "t", "yes"}
 
 
 def manifest_sha256(path: str | Path) -> str:
@@ -31,24 +38,70 @@ def manifest_sha256(path: str | Path) -> str:
 
 
 def read_manifest(path: str | Path) -> pd.DataFrame:
-    df = pd.read_csv(path)
-    expected = {"image_path", "label", "user_id", "split"}
-    missing = expected - set(df.columns)
+    df = pd.read_csv(path, dtype=str, keep_default_na=False)
+    missing = set(BASE_COLUMNS) - set(df.columns)
     if missing:
         raise ValueError(f"manifest is missing columns: {sorted(missing)}")
     return df
 
 
 def class_names(df: pd.DataFrame) -> list[str]:
-    """Label ordering: sorted, so the class index is stable across runs."""
+    """Sorted, so the class index is stable across runs and versions."""
     return sorted(df["label"].unique())
 
 
-class ManifestDataset(Dataset):
-    """Images of one split, addressed by row order in the manifest."""
+def as_bool(series: pd.Series) -> pd.Series:
+    return series.astype(str).str.strip().str.lower().isin(TRUTHY)
 
+
+def split_frames(df: pd.DataFrame, mask_column: str | None = None):
+    """(fit, val, test) frames. val is None on a v1 manifest.
+
+    The mask only ever restricts `fit`; val and test are never filtered.
+    Subject disjointness is asserted here so a hand-edited manifest can never
+    silently leak into a run.
+    """
+    test = df[df["split"] == "test"]
+    if "inner_split" in df.columns:
+        fit = df[df["inner_split"] == "fit"]
+        val = df[df["inner_split"] == "val"]
+    else:
+        fit = df[df["split"] == "train"]
+        val = None
+
+    if mask_column:
+        if mask_column not in df.columns:
+            raise ValueError(f"manifest has no column '{mask_column}'")
+        fit = fit[as_bool(fit[mask_column])]
+        if len(fit) == 0:
+            raise ValueError(f"mask column '{mask_column}' selects no fit rows")
+
+    fit_users, test_users = set(fit["user_id"]), set(test["user_id"])
+    assert not (fit_users & test_users), "subject leakage: fit ∩ test"
+    if val is not None:
+        val_users = set(val["user_id"])
+        assert not (fit_users & val_users), "subject leakage: fit ∩ val"
+        assert not (val_users & test_users), "subject leakage: val ∩ test"
+    return fit, val, test
+
+
+def frame_for_split(df: pd.DataFrame, split: str) -> pd.DataFrame:
+    """Rows of one named split: fit | val | test | train."""
+    if split == "train":
+        return df[df["split"] == "train"]
+    if split == "test":
+        return df[df["split"] == "test"]
+    if "inner_split" not in df.columns:
+        raise ValueError(f"split '{split}' needs a v2+ manifest with inner_split")
+    out = df[df["inner_split"] == split]
+    if len(out) == 0:
+        raise ValueError(f"split '{split}' is empty")
+    return out
+
+
+class ManifestDataset(Dataset):
     def __init__(self, df: pd.DataFrame, classes: list[str], transform,
-                 root: Path | None = None):
+                 root: str | Path | None = None):
         self.paths = df["image_path"].tolist()
         index = {c: i for i, c in enumerate(classes)}
         self.targets = [index[label] for label in df["label"]]
@@ -68,77 +121,93 @@ class ManifestDataset(Dataset):
 
 
 def build_transforms(cfg: dict) -> tuple:
-    """Train: random crop from the stored 256px image + optional hflip.
-
-    Test: deterministic centre crop, so the metric never moves between runs.
-    """
+    """Train: random crop 224 from the stored 256 + hflip. Nothing else —
+    rotations are forbidden (they map classes onto their *_inverted pairs).
+    Eval: deterministic centre crop."""
     size = int(cfg["data"]["image_size"])
     normalize = transforms.Normalize(IMAGENET_MEAN, IMAGENET_STD)
-
     train_ops = [transforms.RandomCrop(size)]
     if cfg["data"].get("hflip", True):
         train_ops.append(transforms.RandomHorizontalFlip(p=0.5))
     train_ops += [transforms.ToTensor(), normalize]
+    eval_ops = [transforms.CenterCrop(size), transforms.ToTensor(), normalize]
+    return transforms.Compose(train_ops), transforms.Compose(eval_ops)
 
-    test_ops = [transforms.CenterCrop(size), transforms.ToTensor(), normalize]
-    return transforms.Compose(train_ops), transforms.Compose(test_ops)
+
+def _loader_kwargs(cfg: dict) -> dict:
+    """Workers are NOT persistent by default: a persistent worker keeps its
+    augmentation RNG across epochs, so a resumed run (fresh workers) would not
+    replay the same crops/flips. Restarting workers costs ~1 s per epoch."""
+    workers = int(cfg["data"]["workers"])
+    return dict(
+        num_workers=workers, pin_memory=True,
+        persistent_workers=bool(cfg["data"].get("persistent_workers", False)) and workers > 0,
+        prefetch_factor=int(cfg["data"].get("prefetch_factor", 4)) if workers else None,
+    )
 
 
-def build_dataloaders(cfg: dict, mask_column: str | None = None):
-    """Train/test loaders plus metadata that must be logged with the run.
+def build_dataloaders(cfg: dict, mask_column: str | None = None,
+                      limit_fit: int | None = None, limit_val: int | None = None):
+    """(fit_loader, val_loader | None, test_loader, meta, generator).
 
-    `mask_column` selects a boolean column of the manifest (axis 4 fractions);
-    it only ever restricts the training split, the test split is untouchable.
+    `generator` drives the fit shuffle; re-seed it per epoch so a resumed run
+    replays exactly the same batch order.
     """
     manifest = cfg["data"]["manifest"]
     df = read_manifest(manifest)
     classes = class_names(df)
+    fit, val, test = split_frames(df, mask_column)
 
-    train_df = df[df["split"] == "train"]
-    test_df = df[df["split"] == "test"]
+    seed = int(cfg["seed"])
+    if limit_fit:
+        fit = fit.sample(n=min(limit_fit, len(fit)), random_state=seed)
+    if limit_val and val is not None:
+        val = val.sample(n=min(limit_val, len(val)), random_state=seed)
 
-    if mask_column:
-        if mask_column not in df.columns:
-            raise ValueError(f"manifest has no column '{mask_column}'")
-        train_df = train_df[train_df[mask_column].astype(bool)]
-
-    # Subject disjointness is a precondition of every axis; re-check it here so
-    # a hand-edited manifest can never silently leak into a run.
-    overlap = set(train_df["user_id"]) & set(test_df["user_id"])
-    if overlap:
-        raise AssertionError(
-            f"subject leakage: {len(overlap)} user_ids in both splits")
-
-    train_tf, test_tf = build_transforms(cfg)
+    train_tf, eval_tf = build_transforms(cfg)
     root = cfg["data"].get("root")
-
-    train_ds = ManifestDataset(train_df, classes, train_tf, root)
-    test_ds = ManifestDataset(test_df, classes, test_tf, root)
-
-    workers = int(cfg["data"]["workers"])
+    kw = _loader_kwargs(cfg)
     batch = int(cfg["data"]["batch_size"])
-    common = dict(
-        num_workers=workers,
-        pin_memory=True,
-        persistent_workers=workers > 0,
-        prefetch_factor=int(cfg["data"].get("prefetch_factor", 4)) if workers else None,
-    )
+    eval_batch = int(cfg["data"].get("eval_batch_size", batch))
 
-    train_loader = DataLoader(
-        train_ds, batch_size=batch, shuffle=True, drop_last=True,
-        generator=torch.Generator().manual_seed(int(cfg["seed"])), **common)
-    test_loader = DataLoader(
-        test_ds, batch_size=int(cfg["data"].get("eval_batch_size", batch)),
-        shuffle=False, drop_last=False, **common)
+    generator = torch.Generator().manual_seed(seed)
+    fit_loader = DataLoader(ManifestDataset(fit, classes, train_tf, root),
+                            batch_size=batch, shuffle=True, drop_last=True,
+                            generator=generator, **kw)
+    val_loader = None if val is None else DataLoader(
+        ManifestDataset(val, classes, eval_tf, root),
+        batch_size=eval_batch, shuffle=False, **kw)
+    test_loader = DataLoader(ManifestDataset(test, classes, eval_tf, root),
+                             batch_size=eval_batch, shuffle=False, **kw)
 
     meta = {
         "classes": classes,
-        "n_train": len(train_ds),
-        "n_test": len(test_ds),
-        "n_users_train": train_df["user_id"].nunique(),
-        "n_users_test": test_df["user_id"].nunique(),
         "manifest": str(manifest),
+        "manifest_version": manifest_version(manifest),
         "manifest_sha256": manifest_sha256(manifest),
         "mask_column": mask_column,
+        "n_fit": len(fit), "n_val": 0 if val is None else len(val), "n_test": len(test),
+        "n_users_fit": fit["user_id"].nunique(),
+        "n_users_val": 0 if val is None else val["user_id"].nunique(),
+        "n_users_test": test["user_id"].nunique(),
+        "limit_fit": limit_fit, "limit_val": limit_val,
     }
-    return train_loader, test_loader, meta
+    return fit_loader, val_loader, test_loader, meta, generator
+
+
+def build_eval_loader(cfg: dict, split: str, manifest: str | None = None):
+    """Loader over one split with the deterministic eval transform."""
+    manifest = manifest or cfg["data"]["manifest"]
+    df = read_manifest(manifest)
+    classes = class_names(df)
+    frame = frame_for_split(df, split)
+    _, eval_tf = build_transforms(cfg)
+    loader = DataLoader(
+        ManifestDataset(frame, classes, eval_tf, cfg["data"].get("root")),
+        batch_size=int(cfg["data"].get("eval_batch_size", cfg["data"]["batch_size"])),
+        shuffle=False, **_loader_kwargs(cfg))
+    meta = {"classes": classes, "split": split, "n": len(frame),
+            "n_users": frame["user_id"].nunique(), "manifest": str(manifest),
+            "manifest_version": manifest_version(manifest),
+            "manifest_sha256": manifest_sha256(manifest)}
+    return loader, meta
