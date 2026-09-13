@@ -1,0 +1,2 @@
+arch,n_seeds,acc_mean,acc_std,f1_mean,f1_std,err_mean,err_std,epoch_time_s,throughput_img_s,err_ratio_vs_resnet50
+resnet50,1,0.9978831043019626,,0.9979063187213808,,0.002116895698037413,,163.18533333333332,1076.9766666666667,1.0

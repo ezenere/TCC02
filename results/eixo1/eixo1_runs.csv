@@ -1,0 +1,2 @@
+run,arch,seed,epochs_run,best_epoch,test_acc,test_f1_macro,test_error_rate,test_n_errors,test_n,val_f1_best,val_acc_best,train_acc_last,epoch_time_s,throughput_img_s,manifest_version,manifest_sha256,git_commit,stopped_early
+eixo1_resnet50_s0,resnet50,0,30,28,0.9978831043019626,0.9979063187213808,0.002116895698037413,177,83613,0.996996,0.996976,0.999915,163.18533333333332,1076.9766666666667,2,ed5c1eb749ec9e72,40f79c3bcd,False
