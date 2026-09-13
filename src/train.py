@@ -25,6 +25,8 @@ import yaml
 from torch.utils.tensorboard import SummaryWriter
 from tqdm import tqdm
 
+from compress.pruning import (apply_masks, global_magnitude_masks, masks_to_cpu,
+                              masks_to_device, sparsity_report)
 from datamodule import build_dataloaders
 from metrics import compute_metrics, write_json
 from runinfo import env_info, git_info
@@ -109,7 +111,7 @@ def evaluate(model, loader, device, amp_dtype, criterion, classes, desc="eval"):
 
 
 def train_one_epoch(model, loader, device, amp_dtype, criterion, optimizer,
-                    scaler, scheduler, desc):
+                    scaler, scheduler, desc, masks=None):
     model.train()
     loss_sum = correct = seen = 0
     t0 = time.perf_counter()
@@ -124,6 +126,8 @@ def train_one_epoch(model, loader, device, amp_dtype, criterion, optimizer,
         scaler.step(optimizer)
         scaler.update()
         scheduler.step()
+        if masks:
+            apply_masks(model, masks)          # keep pruned weights at zero
         bs = labels.size(0)
         loss_sum += loss.item() * bs
         correct += (logits.argmax(1) == labels).sum().item()
@@ -195,6 +199,10 @@ def main() -> int:
     ap.add_argument("--resume", action="store_true", help="continue from <run>/checkpoints/last.pt")
     ap.add_argument("--eval-test", action="store_true",
                     help="evaluate best.pt on the test split at the end (once)")
+    ap.add_argument("--init-from", type=Path, default=None,
+                    help="checkpoint whose weights initialise the model (axis 2 fine-tuning)")
+    ap.add_argument("--sparsity", type=float, default=None,
+                    help="global magnitude pruning target applied before training (axis 2)")
     ap.add_argument("--sanity", type=int, default=0)
     ap.add_argument("--limit-fit", type=int, default=None, help="smoke tests only")
     ap.add_argument("--limit-val", type=int, default=None, help="smoke tests only")
@@ -207,8 +215,16 @@ def main() -> int:
         cfg["train"]["epochs"] = args.epochs
     if args.run_name:
         cfg["run_name"] = args.run_name
-    cfg["run_name"] = cfg["run_name"].format(arch=cfg["model"]["arch"], seed=cfg["seed"],
-                                             frac=args.frac_column or "full")
+    if args.init_from is not None:
+        cfg["model"]["init_from"] = str(args.init_from)
+    if args.sparsity is not None:
+        cfg.setdefault("prune", {})["sparsity"] = args.sparsity
+    prune_cfg = cfg.get("prune") or {}
+    sparsity = prune_cfg.get("sparsity")
+    sparsity = float(sparsity) if sparsity is not None else None
+    cfg["run_name"] = cfg["run_name"].format(
+        arch=cfg["model"]["arch"], seed=cfg["seed"], frac=args.frac_column or "full",
+        sparsity=f"{int(round(100 * sparsity)):02d}" if sparsity is not None else "00")
     seed = int(cfg["seed"])
     set_seed(seed)
     bench = bool(cfg["train"].get("cudnn_benchmark", True))
@@ -225,6 +241,20 @@ def main() -> int:
         raise SystemExit("definitive runs need a v2+ manifest with inner_split (val)")
 
     model = build_model(cfg["model"]["arch"], len(classes), bool(cfg["model"]["pretrained"])).to(device)
+    init_from = cfg["model"].get("init_from")
+    if init_from:
+        src_ck = torch.load(init_from, map_location=device, weights_only=False)
+        model.load_state_dict(src_ck["model"])
+        if src_ck.get("classes") and src_ck["classes"] != classes:
+            raise SystemExit("init_from checkpoint has a different class list")
+    masks = None
+    if sparsity is not None:
+        masks = global_magnitude_masks(model, sparsity)
+        apply_masks(model, masks)
+        rep0 = sparsity_report(model, masks)
+        print(f"poda global por magnitude: alvo {sparsity:.2%} -> obtida "
+              f"{rep0['sparsity_prunable']:.4%} dos pesos podáveis "
+              f"({rep0['params_nonzero'] / 1e6:.2f} M não-nulos de {rep0['params_total'] / 1e6:.2f} M)")
     if cfg["train"].get("channels_last", True):
         model = model.to(memory_format=torch.channels_last)
     criterion = nn.CrossEntropyLoss(label_smoothing=float(cfg["optim"].get("label_smoothing", 0.0)))
@@ -267,6 +297,9 @@ def main() -> int:
         scheduler.load_state_dict(ck["scheduler"])
         state = ck["state"]
         state["epoch"] = ck["epoch"] + 1
+        if ck.get("prune_masks"):
+            masks = masks_to_device(ck["prune_masks"], device)
+            apply_masks(model, masks)
         print(f"retomando: epoca {state['epoch'] + 1}/{epochs}, best F1 {state['best_f1']:.4f} "
               f"(epoca {state['best_epoch']})")
 
@@ -275,6 +308,7 @@ def main() -> int:
     run_meta.update({**meta, "run_name": cfg["run_name"], "seed": seed,
                      "arch": cfg["model"]["arch"], "epochs": epochs,
                      "batch_size": cfg["data"]["batch_size"], "frac_column": args.frac_column,
+                     "init_from": init_from, "prune_sparsity": sparsity,
                      "cudnn_benchmark": bench,
                      "started_at": run_meta.get("started_at") or time.strftime("%Y-%m-%dT%H:%M:%S"),
                      **git_info(), **env_info(),
@@ -295,7 +329,7 @@ def main() -> int:
         generator.manual_seed(seed * 100_003 + epoch)     # replayable batch order
         tr_loss, tr_acc, dt, ips = train_one_epoch(
             model, fit_loader, device, amp_dtype, criterion, optimizer, scaler, scheduler,
-            desc=f"epoch {epoch + 1}/{epochs}")
+            desc=f"epoch {epoch + 1}/{epochs}", masks=masks)
         val = evaluate(model, val_loader, device, amp_dtype, criterion, classes,
                        desc=f"val {epoch + 1}/{epochs}")
 
@@ -323,7 +357,8 @@ def main() -> int:
               "scaler": scaler.state_dict(), "scheduler": scheduler.state_dict(), "state": state,
               "val_metrics": {k: v for k, v in val.items() if k not in ("confusion_matrix", "per_class")},
               "classes": classes, "manifest_sha256": meta["manifest_sha256"],
-              "manifest_version": meta["manifest_version"], "config": cfg, "seed": seed}
+              "manifest_version": meta["manifest_version"], "config": cfg, "seed": seed,
+              "prune_masks": masks_to_cpu(masks) if masks else None}
         torch.save(ck, last_path)
         if is_best:
             torch.save(ck, best_path)
@@ -337,6 +372,12 @@ def main() -> int:
             break
     writer.close()
 
+    if masks:
+        final_rep = sparsity_report(model, masks)
+        run_meta["sparsity_achieved"] = final_rep["sparsity_prunable"]
+        run_meta["params_nonzero"] = final_rep["params_nonzero"]
+        assert abs(final_rep["sparsity_prunable"] - sparsity) < 1e-3, \
+            f"sparsity drifted: {final_rep['sparsity_prunable']:.4%} vs alvo {sparsity:.2%}"
     run_meta.update({"finished_at": time.strftime("%Y-%m-%dT%H:%M:%S"),
                      "epochs_run": state["epoch"] if state["stopped_early"] else epochs,
                      "best_epoch": state["best_epoch"], "best_val_f1_macro": state["best_f1"],
@@ -351,6 +392,9 @@ def main() -> int:
         payload = {"split": "test", "checkpoint": "best.pt", "selected_by": "val f1_macro",
                    "epoch": ck["epoch"] + 1, "run_name": cfg["run_name"], "arch": cfg["model"]["arch"],
                    "seed": seed, "frac_column": args.frac_column,
+                   "init_from": init_from, "prune_sparsity": sparsity,
+                   "sparsity_achieved": run_meta.get("sparsity_achieved"),
+                   "params_nonzero": run_meta.get("params_nonzero"),
                    "manifest_version": meta["manifest_version"], "manifest_sha256": meta["manifest_sha256"],
                    **git_info(), **test}
         write_json(run_dir / "metrics.json", payload)

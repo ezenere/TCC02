@@ -99,3 +99,10 @@ teste (best.pt = época 30, escolhido por val): **acc 99,809% · F1 macro 99,810
 204 s/época, 861 img/s. Custo: 6,97 M parâmetros, 2,86 GMACs @224, 27,2 MiB FP32 (critério ≈7,0 M / ≈2,9 G atingido).
 Razão de erro DenseNet/ResNet (seed 0) = 0,90 — ainda uma seed; sinal indeterminado. A DenseNet melhorou até a última época (best = 30), a ResNet estabilizou na 28.
 Runs 1 e 2 registram commit `40f79c3` com árvore suja: o código é o de `714b431` (commitado durante o run 2). Runs 3–6 registram `714b431` limpo.
+
+### Antecipado (CPU, durante a fila): eixo 2 — poda (D0921-2..5)
+`src/compress/pruning.py` (máscaras explícitas, limiar global por magnitude, `apply_masks` após cada step), integração no
+`train.py` (`--init-from`, `--sparsity`; máscaras persistidas no checkpoint; assert de esparsidade ao final), `configs/prune_*.yaml`,
+`tests/test_pruning.py` (7 verdes), `docs/METODOLOGIA.md` § 2.1 com a limitação da poda estruturada em DenseNet.
+Smoke GPU (1 época, 320 imgs, init do baseline, 50%): esparsidade obtida 0,5000, 54 camadas mascaradas, 11,8 M não-nulos.
+A varredura `[GPU]` (D0922) espera a fila do eixo 1 terminar.

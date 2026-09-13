@@ -72,7 +72,48 @@ GPU), `metrics.csv` por época, TensorBoard, `metrics.json` (teste), `metrics_va
 `scripts/plot_curves.py` (figuras), `src/measure/cost.py` (custo estático).
 
 ## 2. Eixo 2 — Compressão
-_(a preencher: poda global por magnitude com fine-tuning; PTQ int8 em CPU (fbgemm) e GPU (TensorRT))_
+
+### 2.1 Poda (pruning)
+
+**Técnica.** Poda **global, não-estruturada, por magnitude** (`src/compress/pruning.py`):
+um único limiar de |w| sobre todos os pesos de `Conv2d` e `Linear` do modelo (biases e
+BatchNorm excluídos), de modo que a fração `s` de menor magnitude é zerada. O limiar global
+deixa a esparsidade se distribuir de forma desigual entre camadas — as camadas mais
+redundantes perdem mais pesos — o que é a vantagem do critério global sobre o por-camada.
+
+**Máscaras explícitas.** As máscaras são tensores booleanos persistidos no checkpoint
+(`prune_masks`), e não a reparametrização de `torch.nn.utils.prune` (que instala hooks
+`weight_orig`/`weight_mask` e contamina exportação ONNX e quantização). Após **cada**
+`optimizer.step()` do fine-tuning as máscaras são reaplicadas (`apply_masks`), garantindo
+que os zeros permaneçam; ao final do run a esparsidade obtida é medida a partir dos zeros
+reais dos pesos e um assert falha se divergir do alvo em mais de 0,1 p.p.
+
+**Protocolo.** Para cada arquitetura e seed: parte-se do `best.pt` do eixo 1 da **mesma
+seed**, aplica-se a poda no nível `s ∈ {50%, 70%, 90%}` (estendendo a 95% e 98% se a razão
+de erro em 90% ainda for < 2×), e faz-se fine-tuning de 5 épocas em `fit` com SGD
+(lr 0,00375 = 0,1× o inicial, cosine sem warmup, demais hiperparâmetros idênticos ao eixo 1),
+seleção por F1 macro em `val` e avaliação única no teste (`configs/prune_*.yaml`,
+`src/train.py --init-from ... --sparsity ...`). Reporta-se acurácia, F1 macro, taxa de erro,
+**razão de erro em relação ao baseline da mesma seed**, parâmetros não-nulos e tamanho do
+`state_dict` comprimido (gzip), que reflete a esparsidade.
+
+**Limitação registrada: poda estruturada em DenseNet.** A poda estruturada (remoção de
+filtros/canais inteiros, a que de fato reduz MACs e latência sem hardware esparso) é
+diretamente aplicável à ResNet, mas na DenseNet cada camada concatena as saídas de todas as
+anteriores do bloco; remover um canal de uma camada altera a entrada de todas as seguintes e
+das transições, exigindo propagação de índices por todo o bloco denso. Por isso o protocolo
+usa poda **não-estruturada** nas duas arquiteturas — comparável entre elas — e registra
+que, nesse regime, o ganho de latência em GPU/CPU densos é nulo ou pequeno: o que a poda
+reduz é o número de parâmetros efetivos e o tamanho do artefato comprimido. Esta é uma
+constatação a reportar, não uma falha de implementação.
+
+**Testes.** `tests/test_pruning.py`: esparsidade obtida = alvo ± 0,1 p.p. em 50/70/90%;
+limiar global (esparsidade difere entre camadas); os pesos removidos são os de menor
+magnitude; máscaras sobrevivem a passos do otimizador com momentum e weight decay;
+round-trip por checkpoint preserva máscaras e saídas.
+
+### 2.2 Quantização
+_(a preencher: PTQ int8 em CPU (fbgemm/x86) e GPU (TensorRT), calibração com 1.024 imagens de `fit`)_
 
 ## 3. Eixo 3 — Benchmark
 _(a preencher)_
