@@ -15,7 +15,7 @@ def git_info() -> dict:
         except Exception:                                   # noqa: BLE001
             return None
     commit = run("rev-parse", "HEAD")
-    dirty = run("status", "--porcelain")
+    dirty = run("status", "--porcelain", "--untracked-files=no")   # tracked changes only
     return {"git_commit": commit,
             "git_dirty": bool(dirty) if dirty is not None else None}
 
