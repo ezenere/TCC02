@@ -142,7 +142,38 @@ registrada em cada `metrics_int8_fbgemm.json`.
 _(a preencher: engines FP32/FP16/INT8, calibrador de entropia com as mesmas 1.024 imagens, perfis batch 1 e 32)_
 
 ## 3. Eixo 3 — Benchmark
-_(a preencher)_
+
+**Células.** {ResNet-50, DenseNet-121} × {baseline, poda@{50,70,90,95,98}%, int8-CPU (fbgemm),
+int8-GPU (TensorRT), poda@joelho + int8}. Cada célula existe em 3 seeds (a técnica é aplicada ao
+modelo do eixo 1 da mesma seed), e tudo é reportado como média ± desvio entre seeds.
+
+**Métricas de qualidade.** Acurácia, F1 macro e taxa de erro no teste; **razão de erro** em relação ao
+baseline da mesma seed — a métrica primária, porque o teto está saturado (~0,2% de erro) e deltas de
+acurácia são ilegíveis. A leitura é feita como **localização do joelho**: o primeiro nível de compressão
+em que a razão de erro excede 1,5×.
+
+**Métricas de custo** (`src/measure/cost.py`): parâmetros totais e **não-nulos** (os zerados pela poda
+não contam), MACs a 224×224 (fvcore; 1 multiply-add = 1), tamanho em disco do artefato que de fato
+seria implantado — `state_dict` FP32 para o baseline, o mesmo comprimido com gzip para os podados
+(a esparsidade não-estruturada só se materializa em disco após compressão), TorchScript int8 e engine
+TensorRT para os quantizados.
+
+**Latência** (`src/measure/latency.py`): entrada sintética, 50 iterações de aquecimento e 300 medidas por
+lote; p50, p95 e média; lotes 1 e 32. **CPU** (Ryzen 9 9950X): PyTorch eager FP32 e TorchScript int8
+(fbgemm) no mesmo processo, com 1 e 16 threads declarados. **GPU** (RTX 3080 Ti): PyTorch eager
+FP32/FP16 e engines TensorRT FP32/FP16/INT8 — o baseline é medido também em TensorRT, para que o ganho
+de int8 não se confunda com o ganho de runtime. Cada JSON de latência grava hardware, versões, threads
+e uma nota manual sobre o estado da sessão gráfica; as medições de GPU são feitas em TTY com o
+compositor fechado. Os modelos podados são medidos uma vez para documentar que kernels densos não
+exploram esparsidade não-estruturada (latência ≈ baseline).
+
+**Decisão** (`results/eixo3/make_eixo3.py --decide`, critério fixado em 2026-09-14 antes dos
+resultados): entre as células com razão de erro média ≤ 1,5×, vence a de **menor latência p50 em GPU
+(TensorRT, lote 1)**; empate → menor artefato em disco. A configuração vencedora alimenta o eixo 4;
+`results/eixo3/decision.md` lista as finalistas e o motivo de cada derrota.
+
+**Figuras.** Fronteiras de Pareto razão de erro × latência (CPU e GPU em painéis separados), × tamanho
+em disco e × MACs, com barras de erro entre seeds.
 
 ## 4. Eixo 4 — Redução de dados anotados
 _(a preencher)_
