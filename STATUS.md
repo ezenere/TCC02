@@ -171,3 +171,15 @@ ResNet-50        0,94×        0,99×        1,07×      2,40 M (10%)     17,2 M
 DenseNet-121     0,99×        0,99×        1,02×      0,77 M (11%)     5,7 MiB (0,22×)
 ```
 Nenhum joelho até 90% em nenhuma arquitetura. A DenseNet, já 3,4× menor, tolera 90% de poda com 0,77 M pesos não-nulos.
+
+### Antecipado (CPU, durante a varredura de poda): PTQ int8 em CPU (D0925-1..3, seed 0)
+`src/compress/quantize_cpu.py` — FX graph mode, backend x86/fbgemm, calibração com 1.024 imagens de `fit`, artefato TorchScript
+avaliado do disco no teste completo (8 threads). DenseNet quantizou pelo FX sem fallback (D0925-2 não acionado).
+```
+                 erros int8 / baseline   razão   acc int8    artefato          throughput CPU
+ResNet-50        170 / 177               0,96×   99,797%     23,0 MiB (0,26×)  440 img/s
+DenseNet-121     210 / 160               1,31×   99,749%     7,7 MiB (0,28×)   472 img/s
+```
+Queda de acurácia < 1 p.p. nas duas → sem QAT. **Achado:** a int8 degrada a DenseNet (1,31×) e não a ResNet (0,96×) — o primeiro sinal
+assimétrico entre arquiteturas do projeto; verificar nas seeds 1–2 (CPU, ~4 min cada) e no backend TensorRT.
+Pendente: FP32 em CPU no mesmo processo para a comparação de latência (`--eval-fp32`) — fica para o harness de latência (D1001).

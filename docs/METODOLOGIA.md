@@ -113,7 +113,33 @@ magnitude; máscaras sobrevivem a passos do otimizador com momentum e weight dec
 round-trip por checkpoint preserva máscaras e saídas.
 
 ### 2.2 Quantização
-_(a preencher: PTQ int8 em CPU (fbgemm/x86) e GPU (TensorRT), calibração com 1.024 imagens de `fit`)_
+
+**Duas rotas, um artefato por backend.** A quantização é medida em dois runtimes distintos, porque
+acurácia e latência de um modelo int8 dependem do backend e não se transferem entre eles:
+(a) **CPU** — PTQ estática int8 nativa do PyTorch; (b) **GPU** — engine TensorRT com calibração int8
+(seção a preencher). Em cada backend o baseline FP32 é medido **no mesmo runtime** (PyTorch eager em
+CPU; TensorRT FP32/FP16 em GPU), para que o ganho medido seja da precisão numérica e não da troca de
+runtime.
+
+**PTQ em CPU (`src/compress/quantize_cpu.py`).** FX graph mode (`prepare_fx` → calibração →
+`convert_fx`) com o `qconfig_mapping` padrão do backend `x86` (kernels fbgemm): fusão
+conv+bn+relu, observadores por tensor nas ativações e por canal nos pesos. **Calibração com 1.024
+imagens de `fit`** (amostra determinística, seed 0) — nunca do teste. O modelo convertido é
+serializado em TorchScript (`model_int8_fbgemm.pt`), e é esse artefato — recarregado do disco —
+que é avaliado no teste completo em CPU (`torch.set_num_threads` declarado). A DenseNet-121
+quantizou pelo mesmo caminho FX, sem tratamento especial das concatenações; o fallback previsto
+(quantização estática via ONNX Runtime) não foi necessário. Critério de escalada: se a queda de
+acurácia excedesse 1 p.p., passar a QAT — não ocorreu (seed 0: ResNet-50 razão de erro 0,96;
+DenseNet-121 ver `results/eixo2/`).
+
+**Reportado por célula:** acurácia, F1 macro, taxa de erro e razão de erro vs baseline da mesma
+seed; tamanho do artefato serializado (TorchScript int8 vs `state_dict` FP32); backend, nº de
+threads e throughput da avaliação. A FX graph mode quantization está marcada como legada no
+PyTorch 2.11 (migração para `torchao`); a versão exata está pinada em `requirements.txt` e
+registrada em cada `metrics_int8_fbgemm.json`.
+
+### 2.3 TensorRT (GPU)
+_(a preencher: engines FP32/FP16/INT8, calibrador de entropia com as mesmas 1.024 imagens, perfis batch 1 e 32)_
 
 ## 3. Eixo 3 — Benchmark
 _(a preencher)_
