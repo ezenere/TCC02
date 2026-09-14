@@ -183,3 +183,13 @@ DenseNet-121     210 / 160               1,31×   99,749%     7,7 MiB (0,28×)  
 Queda de acurácia < 1 p.p. nas duas → sem QAT. **Achado:** a int8 degrada a DenseNet (1,31×) e não a ResNet (0,96×) — o primeiro sinal
 assimétrico entre arquiteturas do projeto; verificar nas seeds 1–2 (CPU, ~4 min cada) e no backend TensorRT.
 Pendente: FP32 em CPU no mesmo processo para a comparação de latência (`--eval-fp32`) — fica para o harness de latência (D1001).
+
+### PTQ int8 CPU — seeds 1 e 2 concluídas (buffer 26–27/09 antecipado)
+```
+                 razão de erro (3 seeds)   erros int8 / baseline por seed
+ResNet-50        1,04 ± 0,07×              170/177, 174/165, 196/178
+DenseNet-121     1,24 ± 0,07×              210/160, 203/167, 198/167
+```
+Δ razão = 0,20 > 2×std (0,14) → **sinal**: a quantização int8 (fbgemm, PTQ por tensor nas ativações) custa mais à DenseNet.
+Hipótese a registrar no texto: as concatenações densas juntam ativações de escalas diferentes num só tensor, e a escala
+única por tensor do PTQ estático perde resolução nos canais de menor amplitude. Verificável no TensorRT (calibrador de entropia) — D1001+.
