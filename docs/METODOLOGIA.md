@@ -149,14 +149,17 @@ partir de `model_qdq_int8.onnx`, um grafo com nós `QuantizeLinear`/`DequantizeL
 TensorRT consome diretamente.
 
 **Grafo Q/DQ** (`src/compress/quantize_onnx_qdq.py`): `quantize_static` do ONNX Runtime, formato QDQ,
-int8 **simétrico** em ativações e pesos (exigência do TensorRT), pesos por canal, calibração **MinMax**
-com as mesmas 1.024 imagens de `fit` (seed 0) da PTQ de CPU — as duas rotas int8 partem do mesmo
-conjunto de calibração e diferem no observador (FX: histograma; ORT/TensorRT: MinMax) e no backend.
-Os calibradores por entropia e percentil do ONNX Runtime não têm modo incremental e retêm todas as
-ativações intermediárias do conjunto de calibração (30–53 GB para a ResNet-50): foram descartados
-após dois encerramentos por OOM. O calibrador MinMax é consolidado a cada 2 lotes de 16 imagens
-(correção de um bug do ORT em que o flush descartava as faixas sem consolidá-las) e o processo roda
-sob `systemd-run --user --scope -p MemoryMax=16G`.
+int8 **simétrico** em ativações e pesos (exigência do TensorRT), pesos por canal armazenados já em int8
+com apenas `DequantizeLinear` (o par Q→DQ sobre peso em float não tem kernel no TensorRT), bias mantido
+em float (o TensorRT rejeita `DequantizeLinear` sobre Int32) e a convolução de entrada mantida em float
+(3 canais; sem implementação int8 para o bloco fundido). **Calibração das ativações por entropia (KL)**
+com as mesmas 1.024 imagens de `fit` (seed 0) da PTQ de CPU, de modo que as duas rotas int8 partem do
+mesmo conjunto de calibração. Os calibradores por histograma do ONNX Runtime acumulam todas as ativações
+intermediárias do conjunto inteiro antes de montar os histogramas (30–53 GB para a ResNet-50, dois
+encerramentos por OOM); foram tornados incrementais alimentando o `HistogramCollector` lote a lote, e o
+processo roda sob `systemd-run --scope -p MemoryMax=16G`. A escolha do calibrador foi feita **em `val`**,
+sem tocar no teste: com MinMax, a ResNet-50 int8 errava 131 imagens de val contra ~59 do modelo FP32
+(um outlier dilata a escala de todo o tensor); com entropia, 61. Na DenseNet-121, 67 contra 63.
 
 **Engines** (`src/compress/trt_build.py`): um perfil de otimização com lote mínimo 1, ótimo e máximo
 32; workspace de 4 GiB; após a construção, o `EngineInspector` registra o histograma de tipos das
