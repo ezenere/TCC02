@@ -109,3 +109,6 @@ A varredura `[GPU]` (D0922) espera a fila do eixo 1 terminar.
 
 ### Run 3 concluído — `eixo1_resnet50_s1` (86 min)
 teste: **acc 0.99803, F1 0.99805, erro 0.1973% (165 erros), best epoca 28**. Commit registrado: limpo.
+
+### Run 4 concluído — `eixo1_densenet121_s1` (106 min)
+teste: **acc 0.99800, F1 0.99802, erro 0.1997% (167 erros), best epoca 26**. Commit registrado: limpo.
