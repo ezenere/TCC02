@@ -104,6 +104,25 @@ def main() -> int:
         per = val.label.value_counts() / tr.label.value_counts()
         check(per.max() - per.min() < 0.03, f"val por classe {100 * per.min():.2f}%..{100 * per.max():.2f}% (amplitude < 3 p.p.)", failures)
 
+    if v >= 3:
+        import sys as _sys
+        _sys.path.insert(0, "src")
+        from make_masks import FRACTIONS, SEEDS, check as check_masks, column
+        v2 = pd.read_csv(manifest_path(2), dtype=str, keep_default_na=False)
+        check(df[list(v2.columns)].equals(v2), "colunas da v2 idênticas, linha a linha", failures)
+        cols = [column(f, k) for k in SEEDS for f in FRACTIONS]
+        check(all(c in df.columns for c in cols), f"{len(cols)} colunas de máscara presentes", failures)
+        d = df.copy()
+        for c in cols:
+            d[c] = d[c].str.lower().isin({"true", "1"})
+        try:
+            check_masks(d)
+            check(True, "máscaras: só em fit, aninhadas, proporção e estratificação ±0,1 p.p.", failures)
+        except AssertionError as exc:
+            check(False, f"máscaras: {exc}", failures)
+        n_fit = int((d.inner_split == "fit").sum())
+        print("       " + ", ".join(f"{column(f, 0)}={int(d[column(f, 0)].sum()):,}" for f in FRACTIONS) + f" de {n_fit:,}")
+
     # --- registry ---------------------------------------------------------
     actual = sha256(path)
     reg = registered_sha(v)
