@@ -150,3 +150,10 @@ scripts/publish_release.sh v0.2-eixo1 "Eixo 1 — treinos definitivos (2 arquite
 3. **Interpretação do eixo 3:** como não há sinal entre arquiteturas, o benchmark responde "qual técnica de compressão degrada menos, em qual arquitetura" — a pergunta continua bem posta. Informar.
 4. **Poda estruturada em DenseNet:** registrada como limitação (concatenações); poda não-estruturada nas duas. Informar.
 5. Próximo bloco de GPU: varredura de poda (D0922–D0923), ~5 h.
+
+### Antecipado (CPU): exportação ONNX (D0923-3 parcial, D0924-2)
+`src/compress/export_onnx.py` — opset 17, batch dinâmico, checker + paridade ORT-CPU vs PyTorch FP32 em 64 imagens de `val`.
+ResNet-50 s0: 89,7 MiB, 122 nós, max|Δ| 5,7e-6, 0 argmax divergentes. DenseNet-121 s0: 27,0 MiB, 372 nós, max|Δ| 2,9e-6, 0 divergentes.
+Observação para o eixo 3: em CPU o ORT é 35% mais rápido que o PyTorch eager na ResNet (86 vs 64 img/s, 8 threads) mas 30% mais lento na DenseNet
+(42 vs 60 img/s) — o backend interage com a arquitetura; a latência precisa ser declarada por backend, como o CLAUDE.md já exige.
+Pendente: TensorRT (instalar quando a GPU estiver livre). `.gitignore`: `*.onnx`, `*.engine`, `*.plan`.
