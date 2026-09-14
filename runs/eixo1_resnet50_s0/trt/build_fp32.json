@@ -1,0 +1,23 @@
+{
+  "engine": "runs/eixo1_resnet50_s0/trt/model_fp32.engine",
+  "engine_bytes": 103750524,
+  "precision": "fp32",
+  "build_time_s": 13.9,
+  "onnx": "runs/eixo1_resnet50_s0/model.onnx",
+  "opt_profile": {
+    "min": 1,
+    "opt": 32,
+    "max": 32
+  },
+  "workspace_gib": 4,
+  "calibration": null,
+  "tensorrt": "11.3.0.99",
+  "python": "3.11.15",
+  "torch": "2.11.0+cu128",
+  "torchvision": "0.26.0+cu128",
+  "cuda": "12.8",
+  "cudnn": 91900,
+  "gpu": "NVIDIA GeForce RTX 3080 Ti",
+  "hostname": "EZenereArch",
+  "built_at": "2026-09-14T13:44:49"
+}

@@ -1,0 +1,31 @@
+{
+  "onnx_qdq": "runs/eixo1_densenet121_s0/model_qdq_int8.onnx",
+  "onnx_bytes": 28948122,
+  "source_onnx": "runs/eixo1_densenet121_s0/model.onnx",
+  "method": "onnxruntime quantize_static, QDQ, MinMax calibration, symmetric int8, per-channel weights",
+  "calibration": {
+    "split": "fit",
+    "n": 1024,
+    "seed": 0,
+    "batch": 16,
+    "max_intermediate_outputs": 2
+  },
+  "quantize_linear_nodes": 556,
+  "time_s": 28.0,
+  "smoke": {
+    "split": "val",
+    "n": 256,
+    "acc_qdq_ort_cpu": 0.9921875,
+    "acc_fp32_ort_cpu": 0.99609375
+  },
+  "onnxruntime": "1.30.0",
+  "onnx": "1.22.0",
+  "python": "3.11.15",
+  "torch": "2.11.0+cu128",
+  "torchvision": "0.26.0+cu128",
+  "cuda": "12.8",
+  "cudnn": 91900,
+  "gpu": "NVIDIA GeForce RTX 3080 Ti",
+  "hostname": "EZenereArch",
+  "built_at": "2026-09-14T13:51:36"
+}

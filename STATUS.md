@@ -193,3 +193,15 @@ DenseNet-121     1,24 ± 0,07×              210/160, 203/167, 198/167
 Δ razão = 0,20 > 2×std (0,14) → **sinal**: a quantização int8 (fbgemm, PTQ por tensor nas ativações) custa mais à DenseNet.
 Hipótese a registrar no texto: as concatenações densas juntam ativações de escalas diferentes num só tensor, e a escala
 única por tensor do PTQ estático perde resolução nos canais de menor amplitude. Verificável no TensorRT (calibrador de entropia) — D1001+.
+
+## 2026-09-14 (tarde) — incidente e TensorRT
+
+**Incidente:** dois OOM (30 GB e 53 GB de RSS) na calibração por **entropia** do ONNX Runtime, que retém todas as ativações
+intermediárias das 1.024 imagens. O segundo foi erro de execução meu: o patch para MinMax falhou na asserção e o quantizador rodou
+mesmo assim com o código antigo. Os OOM derrubaram a sessão e a fila de poda (o run `resnet50_p98_s0` retomou do `last.pt`, época 2).
+**Correções:** (1) quantizador reescrito com MinMax incremental + correção do bug de flush do ORT; (2) toda execução desse tipo sob
+`systemd-run --scope -p MemoryMax=16G` (regra nova no CLAUDE.md); (3) patches encadeados com `&&` e verificados por `grep` antes de rodar.
+**Resultado:** `model_qdq_int8.onnx` para ResNet-50 (177 QuantizeLinear) e DenseNet-121 (556) em 28 s cada, memória contida.
+**TensorRT 11:** sem `IInt8EntropyCalibrator2` nem flags `FP16`/`INT8` — redes fortemente tipadas; precisão vem do ONNX
+(fp32 / fp16 convertido / QDQ). Engine FP32 da ResNet s0 construída e avaliada: erro 0,2105% (176) vs 0,2117% (177) do PyTorch — paridade OK.
+`trt_build.py` reescrito; engines FP16/INT8 e as demais serão construídas com a GPU ociosa, após a fila de poda.

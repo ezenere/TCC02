@@ -102,6 +102,7 @@ nvidia-nvshmem-cu12==3.4.5
 nvidia-nvtx-cu12==12.8.90
 onnx==1.22.0
 onnx-ir==1.0.0
+onnxconverter-common==1.16.0
 onnxruntime==1.30.0
 onnxscript==0.7.2
 overrides==7.7.0

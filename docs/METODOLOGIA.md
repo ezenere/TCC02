@@ -139,7 +139,33 @@ PyTorch 2.11 (migração para `torchao`); a versão exata está pinada em `requi
 registrada em cada `metrics_int8_fbgemm.json`.
 
 ### 2.3 TensorRT (GPU)
-_(a preencher: engines FP32/FP16/INT8, calibrador de entropia com as mesmas 1.024 imagens, perfis batch 1 e 32)_
+
+**Quantização explícita.** O TensorRT 11 removeu a calibração int8 implícita (`IInt8EntropyCalibrator2`)
+e as flags de precisão do builder (`FP16`, `INT8`): as redes são **fortemente tipadas** e a precisão da
+engine é a precisão do grafo. Assim, cada célula tem o seu ONNX: FP32 a partir de `model.onnx`
+(com TF32 desligado, para ser FP32 de fato — TF32 é o padrão em Ampere); FP16 a partir de
+`model_fp16.onnx` (pesos e ativações em fp16, entradas/saídas em fp32; `onnxconverter-common`); INT8 a
+partir de `model_qdq_int8.onnx`, um grafo com nós `QuantizeLinear`/`DequantizeLinear` cujas escalas o
+TensorRT consome diretamente.
+
+**Grafo Q/DQ** (`src/compress/quantize_onnx_qdq.py`): `quantize_static` do ONNX Runtime, formato QDQ,
+int8 **simétrico** em ativações e pesos (exigência do TensorRT), pesos por canal, calibração **MinMax**
+com as mesmas 1.024 imagens de `fit` (seed 0) da PTQ de CPU — as duas rotas int8 partem do mesmo
+conjunto de calibração e diferem no observador (FX: histograma; ORT/TensorRT: MinMax) e no backend.
+Os calibradores por entropia e percentil do ONNX Runtime não têm modo incremental e retêm todas as
+ativações intermediárias do conjunto de calibração (30–53 GB para a ResNet-50): foram descartados
+após dois encerramentos por OOM. O calibrador MinMax é consolidado a cada 2 lotes de 16 imagens
+(correção de um bug do ORT em que o flush descartava as faixas sem consolidá-las) e o processo roda
+sob `systemd-run --user --scope -p MemoryMax=16G`.
+
+**Engines** (`src/compress/trt_build.py`): um perfil de otimização com lote mínimo 1, ótimo e máximo
+32; workspace de 4 GiB; após a construção, o `EngineInspector` registra o histograma de tipos das
+camadas (evidência de que a engine int8/fp16 é o que diz ser). Engines são construídas com a GPU
+ociosa, porque a seleção de kernels é feita por medição de tempo. **Avaliação**
+(`src/compress/trt_eval.py`): a engine roda sobre o teste completo via `execute_async_v3` com
+buffers em tensores CUDA do PyTorch (`src/compress/trt_runtime.py`) e produz `metrics_trt_<precisão>.json`
+no mesmo formato das demais células. Sanidade: a engine FP32 deve reproduzir a acurácia do PyTorch
+(±0,02 p.p.); a int8 é reportada por backend, sem assumir paridade com a int8 de CPU.
 
 ## 3. Eixo 3 — Benchmark
 
