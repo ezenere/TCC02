@@ -28,9 +28,11 @@ def main() -> int:
     ap.add_argument("--split", default="test")
     ap.add_argument("--batch", type=int, default=32)
     ap.add_argument("--workers", type=int, default=8)
+    ap.add_argument("--out", type=Path, default=None)
+    ap.add_argument("--engine-tag", default="")
     args = ap.parse_args()
 
-    engine = args.run / "trt" / f"model_{args.precision}.engine"
+    engine = args.run / "trt" / f"model_{args.precision}{args.engine_tag}.engine"
     ck = torch.load(args.run / "checkpoints/best.pt", map_location="cpu", weights_only=False)
     cfg = json.loads(json.dumps(ck["config"]))
     cfg["data"]["eval_batch_size"] = args.batch
@@ -50,7 +52,7 @@ def main() -> int:
     torch.cuda.synchronize()
     dt = time.perf_counter() - t0
     m = compute_metrics(torch.cat(targets).numpy(), torch.cat(preds).numpy(), meta["classes"])
-    build = json.loads((args.run / "trt" / f"build_{args.precision}.json").read_text())
+    build = json.loads((args.run / "trt" / f"build_{args.precision}{args.engine_tag}.json").read_text())
     payload = {"split": args.split, "artifact": str(engine), "artifact_bytes": engine.stat().st_size,
                "backend": "tensorrt", "precision": args.precision, "tensorrt": build.get("tensorrt"),
                "calibration": build.get("calibration"), "checkpoint": str(args.run / "checkpoints/best.pt"),
@@ -59,7 +61,7 @@ def main() -> int:
                "manifest_version": meta["manifest_version"], "manifest_sha256": meta["manifest_sha256"],
                "eval_time_s": round(dt, 1), "eval_img_s": round(m["n"] / dt, 1),
                "evaluated_at": time.strftime("%Y-%m-%dT%H:%M:%S"), **git_info(), **env_info(), **m}
-    out = args.run / f"metrics_trt_{args.precision}.json"
+    out = args.out or (args.run / f"metrics_trt_{args.precision}.json")
     write_json(out, payload)
     print(f"{cfg['model']['arch']} TRT {args.precision} {args.split}: n={m['n']:,} acc {m['acc']:.5f} "
           f"f1 {m['f1_macro']:.5f} erro {m['error_rate']:.4%} ({m['n_errors']}) | {payload['eval_img_s']} img/s\n-> {out}")

@@ -86,7 +86,7 @@ def build(onnx_path: Path, out: Path, precision: str, size: int, args) -> dict:
     data = bytes(serialized)
     out.write_bytes(data)
 
-    qdq_json = onnx_path.parent / "qdq_int8.json"
+    qdq_json = onnx_path.with_suffix(".json").with_name(onnx_path.stem.replace("model_", "") + ".json")
     return {"engine": str(out), "engine_bytes": len(data), "precision": precision,
             "strongly_typed": True, "tf32": precision != "fp32", "build_time_s": round(dt, 1),
             "onnx": str(onnx_path), "onnx_bytes": onnx_path.stat().st_size,
@@ -103,6 +103,8 @@ def main() -> int:
     ap.add_argument("--max-batch", type=int, default=32)
     ap.add_argument("--workspace-gib", type=int, default=4)
     ap.add_argument("--force", action="store_true")
+    ap.add_argument("--qdq", type=Path, default=None, help="override the int8 Q/DQ ONNX (compare calibrators)")
+    ap.add_argument("--engine-tag", default="", help="suffix for the engine/build files")
     args = ap.parse_args()
 
     ck = torch.load(args.run / "checkpoints/best.pt", map_location="cpu", weights_only=False)
@@ -112,17 +114,19 @@ def main() -> int:
 
     for prec in args.precision:
         src = args.run / SOURCES[prec]
+        if prec == "int8" and args.qdq is not None:
+            src = args.qdq
         if prec == "fp16" and not src.exists():
             make_fp16_onnx(args.run / "model.onnx", src)
             print(f"fp16 onnx -> {src} ({src.stat().st_size / 2**20:.1f} MiB)")
         if prec == "int8" and not src.exists():
             raise SystemExit(f"{src} missing — run src/compress/quantize_onnx_qdq.py first")
-        out = args.run / "trt" / f"model_{prec}.engine"
+        out = args.run / "trt" / f"model_{prec}{args.engine_tag}.engine"
         if out.exists() and not args.force:
             print(f"skip {out} (existe)")
             continue
         info = build(src, out, prec, size, args)
-        write_json(args.run / "trt" / f"build_{prec}.json", info)
+        write_json(args.run / "trt" / f"build_{prec}{args.engine_tag}.json", info)
         print(f"{prec}: {out} ({info['engine_bytes'] / 2**20:.1f} MiB, build {info['build_time_s']}s) "
               f"| camadas por tipo: {info['inspector']['output_datatype_histogram']}")
     return 0

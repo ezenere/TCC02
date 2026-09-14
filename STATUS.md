@@ -231,3 +231,27 @@ visível mas dentro do orçamento de 1,5× do critério do eixo 3. A DenseNet to
 (1,03 vs 1,10 em 90%; 1,65 vs 1,90 em 98%) apesar de partir de 3,4× menos parâmetros.
 Célula poda+int8 (D0930-1): rodada em 90% e 95% (o último nível dentro do orçamento), não em 98%, onde a poda sozinha já
 excede o critério — registrar a escolha na reunião.
+
+## 2026-09-14 (noite) — TensorRT fechado na seed 0 (D0928-2/3/4, D0929-1, D0930-1 parcial)
+
+**Rota int8 do TensorRT 11 (o que funcionou):** rede fortemente tipada; ONNX Q/DQ do ORT com pesos int8 + só `DequantizeLinear`
+(`AddQDQPairToWeight=False`), bias não quantizado (TRT rejeita DQ sobre Int32), conv de entrada mantida em float (3 canais; sem kernel
+int8 para o bloco fundido Q+conv+relu+maxpool). Calibração escolhida **em `val`**, sem tocar no teste:
+```
+calibrador (ativações)   ResNet val erros   DenseNet val erros    (FP32 em val: ~59 / ~54)
+MinMax                   131                67
+Entropia (KL) incremental 61                63     ← escolhido; memória contida por alimentar histogramas lote a lote
+```
+**Resultados no teste, seed 0** (razão vs PyTorch da mesma seed; img/s em lote 32, avaliação com dataloader):
+```
+                     ResNet-50                        DenseNet-121
+TRT FP32 (TF32 off)  176 erros  0,99×   1.945 img/s   160 erros  1,00×   1.665 img/s
+TRT FP16             176 erros  0,99×   4.488 img/s   160 erros  1,00×   3.183 img/s
+TRT INT8 (entropia)  180 erros  1,02×   6.227 img/s   190 erros  1,19×   1.763 img/s
+int8 CPU fbgemm      170 erros  0,96×                 210 erros  1,31×
+```
+**Achados:** (1) a int8 degrada a DenseNet nos dois backends (1,19× TRT, 1,31× CPU) e não a ResNet (1,02× / 0,96×) — o efeito é da
+arquitetura, não do backend; (2) a engine int8 da DenseNet é **mais lenta que a FP16** (1.763 vs 3.183 img/s): 376 camadas ficam em float
+e as conversões Q/DQ em torno das concatenações custam mais do que os kernels int8 economizam; na ResNet a int8 é 1,4× a FP16;
+(3) a acurácia difere entre backends (ResNet 180 vs 170 erros; DenseNet 190 vs 210), como o CLAUDE.md previa — reportar por backend.
+**Em andamento:** fila TensorRT das seeds 1–2 (FP32/FP16/INT8) e poda@90/95 + INT8 TRT (seed 0) — `runs/queue_trt.log`.
