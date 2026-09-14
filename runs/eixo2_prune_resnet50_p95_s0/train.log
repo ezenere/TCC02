@@ -1,0 +1,8 @@
+poda global por magnitude: alvo 95.00% -> obtida 95.0000% dos pesos podáveis (1.23 M não-nulos de 23.54 M)
+run       : eixo2_prune_resnet50_p95_s0
+arch      : resnet50 (pretrained=False)  seed=0
+manifesto : v2 ed5c1eb749ec9e72...  mask=None
+fit/val/test: 175,591 / 19,511 / 83,613 imgs  (11,805 / 2,268 / 6,044 sujeitos)
+batch 96 | steps/epoch 1,829 | epochs 5 | warmup 0 ep | early stop patience off
+
+epoch 1/5:   0%|          | 0/1829 [00:00<?, ?it/s]

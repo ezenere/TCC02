@@ -157,3 +157,17 @@ ResNet-50 s0: 89,7 MiB, 122 nós, max|Δ| 5,7e-6, 0 argmax divergentes. DenseNet
 Observação para o eixo 3: em CPU o ORT é 35% mais rápido que o PyTorch eager na ResNet (86 vs 64 img/s, 8 threads) mas 30% mais lento na DenseNet
 (42 vs 60 img/s) — o backend interage com a arquitetura; a latência precisa ser declarada por backend, como o CLAUDE.md já exige.
 Pendente: TensorRT (instalar quando a GPU estiver livre). `.gitignore`: `*.onnx`, `*.engine`, `*.plan`.
+
+## 2026-09-22 (ter) — Dia 6, poda seed 0 (antecipado para 14/09)
+
+**Concluído:** D0922-1, D0922-2, D0922-3, D0922-4. Seis runs de poda (seed 0) em 1,7 h de GPU, 0 falhas; esparsidade obtida = alvo em todos.
+**Em andamento:** D0923-1 `[GPU][NOITE]` — fila: seed 0 a 95/98% + seeds 1–2 em 50/70/90/95/98% (24 runs, ETA ≈ 7 h).
+**Decisão automática (D0922-4):** extensão para **95% e 98%** disparada — razão de erro em 90%: DenseNet 1,02×, ResNet 1,07× (< 2×).
+
+### Poda, seed 0 (razão de erro vs baseline da mesma seed; teste)
+```
+                 50%          70%          90%        não-nulos @90%   gzip @90%
+ResNet-50        0,94×        0,99×        1,07×      2,40 M (10%)     17,2 MiB (0,21×)
+DenseNet-121     0,99×        0,99×        1,02×      0,77 M (11%)     5,7 MiB (0,22×)
+```
+Nenhum joelho até 90% em nenhuma arquitetura. A DenseNet, já 3,4× menor, tolera 90% de poda com 0,77 M pesos não-nulos.

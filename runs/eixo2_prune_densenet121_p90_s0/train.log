@@ -1,0 +1,21 @@
+poda global por magnitude: alvo 90.00% -> obtida 90.0000% dos pesos podáveis (0.77 M não-nulos de 6.97 M)
+run       : eixo2_prune_densenet121_p90_s0
+arch      : densenet121 (pretrained=False)  seed=0
+manifesto : v2 ed5c1eb749ec9e72...  mask=None
+fit/val/test: 175,591 / 19,511 / 83,613 imgs  (11,805 / 2,268 / 6,044 sujeitos)
+batch 96 | steps/epoch 1,829 | epochs 5 | warmup 0 ep | early stop patience off
+val 1/5:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 1/5: train 0.0052/0.9993 | val loss 0.0128 acc 0.9969 f1 0.9969 err 0.3126% * | 212s 828 img/s
+val 2/5:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 2/5: train 0.0027/0.9995 | val loss 0.0125 acc 0.9968 f1 0.9968 err 0.3178%  | 198s 886 img/s
+val 3/5:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 3/5: train 0.0022/0.9996 | val loss 0.0121 acc 0.9969 f1 0.9969 err 0.3126% * | 198s 887 img/s
+val 4/5:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 4/5: train 0.0019/0.9997 | val loss 0.0125 acc 0.9970 f1 0.9970 err 0.2973% * | 198s 886 img/s
+val 5/5:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 5/5: train 0.0017/0.9998 | val loss 0.0125 acc 0.9969 f1 0.9969 err 0.3126%  | 198s 888 img/s
+test:   0%|          | 0/436 [00:00<?, ?it/s]
+TESTE (best.pt, epoca 4): acc 0.9981  f1 0.9981  erro 0.1949% (163 / 83613)
+-> runs/eixo2_prune_densenet121_p90_s0/metrics.json
+densenet121: params 6.97 M (nao-nulos 0.77 M, esparsidade 88.9%) | MACs 2.86 G @ 224px | FP32 27.2 MiB, gzip 5.7 MiB [0.9s]
+-> runs/eixo2_prune_densenet121_p90_s0/cost.json
