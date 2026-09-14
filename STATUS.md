@@ -112,3 +112,6 @@ teste: **acc 0.99803, F1 0.99805, erro 0.1973% (165 erros), best epoca 28**. Com
 
 ### Run 4 concluído — `eixo1_densenet121_s1` (106 min)
 teste: **acc 0.99800, F1 0.99802, erro 0.1997% (167 erros), best epoca 26**. Commit registrado: limpo.
+
+### Run 5 concluído — `eixo1_resnet50_s2` (87 min)
+teste: **acc 0.99787, F1 0.99789, erro 0.2129% (178 erros), best epoca 21**. Commit registrado: limpo.
