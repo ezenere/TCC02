@@ -126,6 +126,17 @@ def main() -> int:
     print("\n=== summary ===")
     print(s.to_string(index=False))
     print(f"\njoelho (razao de erro > {args.knee}x): {knees(s, args.knee)}")
+    lines = ["| esparsidade | ResNet-50 razão | DenseNet-121 razão | não-nulos R / D | gzip R / D (× baseline) |",
+             "|---|---|---|---|---|"]
+    piv = {(r.arch, r.sparsity_target): r for r in s.itertuples()}
+    for sp in sorted(s.sparsity_target.unique()):
+        r, d = piv.get(("resnet50", sp)), piv.get(("densenet121", sp))
+        f = lambda x: f"{x.err_ratio_mean:.2f} ± {x.err_ratio_std:.2f} (n={int(x.n_seeds)})" if x is not None else "—"
+        nz = lambda x: f"{x.params_nonzero / 1e6:.2f} M" if x is not None else "—"
+        gz = lambda x: f"{x.gzip_ratio_vs_baseline:.2f}" if x is not None else "—"
+        lines.append(f"| {int(100 * sp)}% | {f(r)} | {f(d)} | {nz(r)} / {nz(d)} | {gz(r)} / {gz(d)} |")
+    lines.append(f"\n**Joelho (razão > {args.knee}×):** " + ", ".join(f"{LABEL.get(a, a)} {k}" for a, k in knees(s, args.knee).items()))
+    render_block(OUT / "README.md", "<!-- eixo2:prune:start -->", "<!-- eixo2:prune:end -->", "\n".join(lines))
 
     if args.extend:
         at90 = s[s.sparsity_target == 0.9]
@@ -136,5 +147,19 @@ def main() -> int:
     return 0
 
 
+def render_block(readme, start: str, end: str, block: str) -> None:
+    """Rewrite the text between two marker comments in README.md."""
+    from pathlib import Path as _P
+    readme = _P(readme)
+    if not readme.exists():
+        return
+    txt = readme.read_text()
+    if start in txt and end in txt:
+        pre, rest = txt.split(start, 1)
+        _, post = rest.split(end, 1)
+        readme.write_text(f"{pre}{start}\n{block}\n{end}{post}")
+
+
 if __name__ == "__main__":
     raise SystemExit(main())
+
