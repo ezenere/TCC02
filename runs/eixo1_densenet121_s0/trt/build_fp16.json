@@ -1,12 +1,12 @@
 {
-  "engine": "runs/eixo1_resnet50_s0/trt/model_fp32.engine",
-  "engine_bytes": 105671828,
-  "precision": "fp32",
+  "engine": "runs/eixo1_densenet121_s0/trt/model_fp16.engine",
+  "engine_bytes": 15630076,
+  "precision": "fp16",
   "strongly_typed": true,
-  "tf32": false,
-  "build_time_s": 14.2,
-  "onnx": "runs/eixo1_resnet50_s0/model.onnx",
-  "onnx_bytes": 94097904,
+  "tf32": true,
+  "build_time_s": 192.5,
+  "onnx": "runs/eixo1_densenet121_s0/model_fp16.onnx",
+  "onnx_bytes": 14248618,
   "opt_profile": {
     "min": 1,
     "opt": 32,
@@ -14,10 +14,11 @@
   },
   "workspace_gib": 4,
   "inspector": {
-    "n_layers": 78,
+    "n_layers": 774,
     "output_datatype_histogram": {
-      "Float": 77,
-      "?": 1
+      "Half": 772,
+      "?": 1,
+      "Float": 1
     }
   },
   "calibration": null,
@@ -29,5 +30,5 @@
   "cudnn": 91900,
   "gpu": "NVIDIA GeForce RTX 3080 Ti",
   "hostname": "EZenereArch",
-  "built_at": "2026-09-14T20:15:23"
+  "built_at": "2026-09-14T20:21:19"
 }

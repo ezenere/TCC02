@@ -55,8 +55,7 @@ def inspect_engine(engine_bytes: bytes) -> dict:
             hist["(sem detalhe)"] += 1
             continue
         outs = layer.get("Outputs") or []
-        fmt = outs[0].get("Format/Datatype", "?") if outs else "?"
-        hist[fmt.split()[-1] if fmt else "?"] += 1
+        hist[outs[0].get("Datatype", "?") if outs else "?"] += 1
     return {"n_layers": len(layers), "output_datatype_histogram": dict(hist)}
 
 
