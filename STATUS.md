@@ -205,3 +205,12 @@ mesmo assim com o código antigo. Os OOM derrubaram a sessão e a fila de poda (
 **TensorRT 11:** sem `IInt8EntropyCalibrator2` nem flags `FP16`/`INT8` — redes fortemente tipadas; precisão vem do ONNX
 (fp32 / fp16 convertido / QDQ). Engine FP32 da ResNet s0 construída e avaliada: erro 0,2105% (176) vs 0,2117% (177) do PyTorch — paridade OK.
 `trt_build.py` reescrito; engines FP16/INT8 e as demais serão construídas com a GPU ociosa, após a fila de poda.
+
+### Antecipado (CPU): manifesto v3 e driver do eixo 4 (D1006-2/3/4)
+`manifest_v3.csv` (sha `40f09516…`): 25 máscaras `frac_{75,50,25,10,5}_s{0..4}`, estratificadas por classe (±0,1 p.p.), aninhadas,
+só em `fit`; val/test idênticos à v2. `scripts/verify_manifest.py --version 3` → 0 violações; byte-idêntico entre processos.
+`src/reduce_data.py`: fila retomável (pula runs com `metrics.json`), seeds 0–2 antes de 3–4, frações da maior para a menor;
+encadeia denso → poda → fine-tuning quando `--sparsity` é dado. `train.py` ganhou `--manifest` e `--patience`.
+**Para a pauta:** a fração **100%** entra no eixo 4 como run próprio (30 épocas + early stopping, paciência 5), para que todos os pontos
+da curva tenham a mesma receita — custa ~1,75 h × seed a mais do que reutilizar os runs do eixo 1 (que não tiveram early stopping).
+Alternativa: reutilizar o eixo 1 como ponto 100% e registrar a diferença de receita. Aguardo decisão.

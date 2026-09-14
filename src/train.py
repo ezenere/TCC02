@@ -203,6 +203,8 @@ def main() -> int:
                     help="checkpoint whose weights initialise the model (axis 2 fine-tuning)")
     ap.add_argument("--sparsity", type=float, default=None,
                     help="global magnitude pruning target applied before training (axis 2)")
+    ap.add_argument("--manifest", type=str, default=None, help="override data.manifest (e.g. manifest_v3.csv)")
+    ap.add_argument("--patience", type=int, default=None, help="override train.early_stopping_patience")
     ap.add_argument("--sanity", type=int, default=0)
     ap.add_argument("--limit-fit", type=int, default=None, help="smoke tests only")
     ap.add_argument("--limit-val", type=int, default=None, help="smoke tests only")
@@ -215,6 +217,10 @@ def main() -> int:
         cfg["train"]["epochs"] = args.epochs
     if args.run_name:
         cfg["run_name"] = args.run_name
+    if args.manifest:
+        cfg["data"]["manifest"] = args.manifest
+    if args.patience is not None:
+        cfg["train"]["early_stopping_patience"] = args.patience
     if args.init_from is not None:
         cfg["model"]["init_from"] = str(args.init_from)
     if args.sparsity is not None:
