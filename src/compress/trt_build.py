@@ -51,6 +51,9 @@ def inspect_engine(engine_bytes: bytes) -> dict:
     layers = info.get("Layers", [])
     hist = collections.Counter()
     for layer in layers:
+        if not isinstance(layer, dict):          # engine built without DETAILED verbosity: names only
+            hist["(sem detalhe)"] += 1
+            continue
         outs = layer.get("Outputs") or []
         fmt = outs[0].get("Format/Datatype", "?") if outs else "?"
         hist[fmt.split()[-1] if fmt else "?"] += 1
@@ -67,6 +70,7 @@ def build(onnx_path: Path, out: Path, precision: str, size: int, args) -> dict:
 
     config = builder.create_builder_config()
     config.set_memory_pool_limit(trt.MemoryPoolType.WORKSPACE, args.workspace_gib << 30)
+    config.profiling_verbosity = trt.ProfilingVerbosity.DETAILED   # per-layer types in the inspector
     if precision == "fp32":
         config.clear_flag(trt.BuilderFlag.TF32)          # genuine FP32 (TF32 is on by default on Ampere)
     profile = builder.create_optimization_profile()
