@@ -146,6 +146,9 @@ sympy==1.14.0
 tabulate==0.10.0
 tensorboard==2.21.0
 tensorboard-data-server==0.7.2
+tensorrt_cu12==11.3.0.99
+tensorrt_cu12_bindings==11.3.0.99
+tensorrt_cu12_libs==11.3.0.99
 termcolor==3.3.0
 terminado==0.18.1
 threadpoolctl==3.6.0
