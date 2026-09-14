@@ -138,8 +138,8 @@ def main() -> int:
             x = x.numpy()
         else:
             x = x.to(args.device)
-            if args.device == "cuda":
-                x = x.to(memory_format=torch.channels_last)
+            if args.device == "cuda" and args.kind == "eager":
+                x = x.to(memory_format=torch.channels_last)   # TensorRT reads NCHW pointers
         r = measure(fn, x, args.warmup, args.iters, sync)
         r["img_s_p50"] = 1000 * b / r["p50_ms"]
         r["img_s_mean"] = 1000 * b / r["mean_ms"]

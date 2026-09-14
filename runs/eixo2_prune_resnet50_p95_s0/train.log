@@ -4,5 +4,18 @@ arch      : resnet50 (pretrained=False)  seed=0
 manifesto : v2 ed5c1eb749ec9e72...  mask=None
 fit/val/test: 175,591 / 19,511 / 83,613 imgs  (11,805 / 2,268 / 6,044 sujeitos)
 batch 96 | steps/epoch 1,829 | epochs 5 | warmup 0 ep | early stop patience off
-
-epoch 1/5:   0%|          | 0/1829 [00:00<?, ?it/s]
+val 1/5:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 1/5: train 0.0503/0.9953 | val loss 0.0154 acc 0.9964 f1 0.9964 err 0.3639% * | 170s 1033 img/s
+val 2/5:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 2/5: train 0.0086/0.9982 | val loss 0.0135 acc 0.9967 f1 0.9967 err 0.3280% * | 162s 1081 img/s
+val 3/5:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 3/5: train 0.0066/0.9986 | val loss 0.0128 acc 0.9969 f1 0.9969 err 0.3126% * | 162s 1081 img/s
+val 4/5:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 4/5: train 0.0055/0.9988 | val loss 0.0128 acc 0.9969 f1 0.9969 err 0.3075% * | 163s 1080 img/s
+val 5/5:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 5/5: train 0.0053/0.9989 | val loss 0.0127 acc 0.9969 f1 0.9969 err 0.3126%  | 162s 1084 img/s
+test:   0%|          | 0/436 [00:00<?, ?it/s]
+TESTE (best.pt, epoca 4): acc 0.9972  f1 0.9973  erro 0.2751% (230 / 83613)
+-> runs/eixo2_prune_resnet50_p95_s0/metrics.json
+resnet50: params 23.54 M (nao-nulos 1.23 M, esparsidade 94.8%) | MACs 4.11 G @ 224px | FP32 90.1 MiB, gzip 12.1 MiB [2.6s]
+-> runs/eixo2_prune_resnet50_p95_s0/cost.json
