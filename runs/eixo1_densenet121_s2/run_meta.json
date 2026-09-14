@@ -31,16 +31,18 @@
   "n_users_test": 6044,
   "limit_fit": null,
   "limit_val": null,
-  "run_name": "eixo1_resnet50_s0",
-  "seed": 0,
-  "arch": "resnet50",
+  "run_name": "eixo1_densenet121_s2",
+  "seed": 2,
+  "arch": "densenet121",
   "epochs": 30,
   "batch_size": 96,
   "frac_column": null,
+  "init_from": null,
+  "prune_sparsity": null,
   "cudnn_benchmark": true,
-  "started_at": "2026-09-13T15:49:30",
-  "git_commit": "40f79c3bcd73e1166070339bc22f35768f3a728e",
-  "git_dirty": true,
+  "started_at": "2026-09-13T23:44:18",
+  "git_commit": "b88e6d46f3717bfde173f427c2dc05f38cc60711",
+  "git_dirty": false,
   "python": "3.11.15",
   "torch": "2.11.0+cu128",
   "torchvision": "0.26.0+cu128",
@@ -50,12 +52,11 @@
   "hostname": "EZenereArch",
   "note": "cudnn.benchmark=True leaves residual non-determinism in the backward kernels; the data pipeline, init and augmentation are seeded.",
   "resumed_at": [
-    "2026-09-13T15:49:30"
+    "2026-09-13T23:44:18"
   ],
-  "finished_at": "2026-09-13T17:15:11",
+  "finished_at": "2026-09-14T01:31:59",
   "epochs_run": 30,
-  "best_epoch": 28,
-  "best_val_f1_macro": 0.996996394452098,
-  "stopped_early": false,
-  "git_note": "started on 40f79c3 with uncommitted changes; the code is identical to commit 714b431 (committed while the run was in progress)"
+  "best_epoch": 22,
+  "best_val_f1_macro": 0.9970453777373854,
+  "stopped_early": false
 }

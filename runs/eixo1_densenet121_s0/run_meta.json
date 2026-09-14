@@ -56,5 +56,6 @@
   "epochs_run": 30,
   "best_epoch": 30,
   "best_val_f1_macro": 0.9972453991905659,
-  "stopped_early": false
+  "stopped_early": false,
+  "git_note": "started on 40f79c3 with uncommitted changes; the code is identical to commit 714b431 (committed while the run was in progress)"
 }

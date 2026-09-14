@@ -85,8 +85,40 @@ def main() -> int:
     print("\n=== summary (teste, media ± std entre seeds) ===")
     print(summary.to_string())
     print("\n" + signal_check(summary))
-    print(f"\n-> {OUT / 'eixo1_runs.csv'}\n-> {OUT / 'eixo1_summary.csv'}")
+    render_readme(runs, summary)
+    print(f"\n-> {OUT / 'eixo1_runs.csv'}\n-> {OUT / 'eixo1_summary.csv'}\n-> {OUT / 'README.md'} (tabela)")
     return 0
+
+
+LABEL = {"resnet50": "ResNet-50", "densenet121": "DenseNet-121"}
+
+
+def render_readme(runs: pd.DataFrame, s: pd.DataFrame) -> None:
+    """Rewrite the block between the markers in README.md from the CSVs."""
+    def pm(mean, std, scale=100, nd=3):
+        return f"{scale * mean:.{nd}f} ± {scale * std:.{nd}f}" if pd.notna(std) else f"{scale * mean:.{nd}f}"
+    lines = ["| arquitetura | seeds | acurácia (%) | F1 macro (%) | taxa de erro (%) | erros (de "
+             f"{int(runs.test_n.iloc[0]):,}) | razão de erro vs ResNet-50 | s/época | img/s |",
+             "|---|---|---|---|---|---|---|---|---|"]
+    for arch, r in s.iterrows():
+        errs = ", ".join(str(int(e)) for e in runs[runs.arch == arch].sort_values("seed").test_n_errors)
+        lines.append(f"| {LABEL.get(arch, arch)} | {int(r.n_seeds)} | {pm(r.acc_mean, r.acc_std)} | "
+                     f"{pm(r.f1_mean, r.f1_std)} | {pm(r.err_mean, r.err_std, nd=4)} | {errs} | "
+                     f"{r.get('err_ratio_vs_resnet50', float('nan')):.2f} | {r.epoch_time_s:.0f} | {r.throughput_img_s:.0f} |")
+    lines += ["", "Por run (`eixo1_runs.csv`):", "",
+              "| run | best epoch (val) | acc | F1 macro | erro (%) | erros |", "|---|---|---|---|---|---|"]
+    for _, r in runs.sort_values(["arch", "seed"]).iterrows():
+        lines.append(f"| `{r.run}` | {int(r.best_epoch)} | {r.test_acc:.5f} | {r.test_f1_macro:.5f} | "
+                     f"{100 * r.test_error_rate:.4f} | {int(r.test_n_errors)} |")
+    lines += ["", f"**{signal_check(s)}**"]
+    block = "\n".join(lines)
+    readme = OUT / "README.md"
+    txt = readme.read_text()
+    a, b = "<!-- eixo1:table:start -->", "<!-- eixo1:table:end -->"
+    if a in txt and b in txt:
+        pre, rest = txt.split(a, 1)
+        _, post = rest.split(b, 1)
+        readme.write_text(f"{pre}{a}\n{block}\n{b}{post}")
 
 
 if __name__ == "__main__":

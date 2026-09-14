@@ -115,3 +115,38 @@ teste: **acc 0.99800, F1 0.99802, erro 0.1997% (167 erros), best epoca 26**. Com
 
 ### Run 5 concluído — `eixo1_resnet50_s2` (87 min)
 teste: **acc 0.99787, F1 0.99789, erro 0.2129% (178 erros), best epoca 21**. Commit registrado: limpo.
+
+## 2026-09-16 → 18 (qua–sex) — Dias 2–4, eixo 1 fechado
+
+**Concluído:** D0916-1/2, D0917-1/2/3, D0918-1/2/3/5. Fila de 6 runs terminou em 01:32 de 14/09 (9,7 h de GPU, 0 falhas).
+**Bloqueado:** D0918-4 (manual) — publicar a release `v0.2-eixo1` (instrução abaixo).
+**Desvios do plano:** nenhum; o eixo 1 fechou ~4 dias antes do previsto. Poda (D0921-2..5) já antecipada.
+
+### Resultado do eixo 1 (teste, média ± std de 3 seeds)
+```
+DenseNet-121  acc 99,803 ± 0,005 %   F1 99,805 ± 0,005 %   erro 0,1969 ± 0,0048 %   (160, 167, 167 erros)   203 s/época
+ResNet-50     acc 99,793 ± 0,009 %   F1 99,795 ± 0,009 %   erro 0,2073 ± 0,0087 %   (177, 165, 178 erros)   164 s/época
+razão de erro DenseNet/ResNet = 0,95  →  SEM SINAL (|Δ| 0,010 p.p. < 2×std 0,017 p.p.)
+```
+Fonte: `results/eixo1/eixo1_summary.csv`; leitura em `results/eixo1/README.md`.
+
+### Release `v0.2-eixo1` (manual)
+```bash
+git tag -a v0.2-eixo1 -m "Eixo 1: ResNet-50 e DenseNet-121, 3 seeds, 30 épocas"
+export GITHUB_TOKEN=...   # token com escopo repo
+scripts/publish_release.sh v0.2-eixo1 "Eixo 1 — treinos definitivos (2 arquiteturas × 3 seeds)" \
+  runs/eixo1_resnet50_s0/checkpoints/best.pt    runs/eixo1_resnet50_s0/checkpoints/last.pt \
+  runs/eixo1_resnet50_s1/checkpoints/best.pt    runs/eixo1_resnet50_s1/checkpoints/last.pt \
+  runs/eixo1_resnet50_s2/checkpoints/best.pt    runs/eixo1_resnet50_s2/checkpoints/last.pt \
+  runs/eixo1_densenet121_s0/checkpoints/best.pt runs/eixo1_densenet121_s0/checkpoints/last.pt \
+  runs/eixo1_densenet121_s1/checkpoints/best.pt runs/eixo1_densenet121_s1/checkpoints/last.pt \
+  runs/eixo1_densenet121_s2/checkpoints/best.pt runs/eixo1_densenet121_s2/checkpoints/last.pt
+```
+12 assets (6 × 180 MB ResNet, 6 × 54 MB DenseNet ≈ 1,4 GB). Os assets são nomeados `<run>__best.pt` / `<run>__last.pt`.
+
+### Pauta — reunião de 21/09
+1. **Eixo 1 fechado:** arquiteturas equivalentes em erro (0,197% vs 0,207%, sem sinal pelo critério de 2× std); DenseNet com 3,4× menos parâmetros e 30% menos MACs, mas 24% mais lenta por época. Mostrar `eixo1_comparativo.pdf`.
+2. **Níveis de esparsidade da poda:** 50 / 70 / 90% (CLAUDE.md); regra automática já implementada: se a razão de erro em 90% ficar < 2×, estender a 95 e 98%. Pedir: *confirmar*.
+3. **Interpretação do eixo 3:** como não há sinal entre arquiteturas, o benchmark responde "qual técnica de compressão degrada menos, em qual arquitetura" — a pergunta continua bem posta. Informar.
+4. **Poda estruturada em DenseNet:** registrada como limitação (concatenações); poda não-estruturada nas duas. Informar.
+5. Próximo bloco de GPU: varredura de poda (D0922–D0923), ~5 h.
