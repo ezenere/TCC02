@@ -1,0 +1,47 @@
+# Eixo 2 — poda global por magnitude (não-estruturada) + fine-tuning.
+# Parte do best.pt do eixo 1 da MESMA seed; esparsidade e seed vêm da CLI:
+#   python src/train.py --config configs/prune_densenet121.yaml --seed 0 --sparsity 0.5 \
+#       --init-from runs/eixo1_densenet121_s0/checkpoints/best.pt --eval-test
+run_name: "eixo2_prune_{arch}_p{sparsity}_s{seed}"
+seed: 0
+
+data:
+  manifest: data/processed/manifest_v2.csv
+  root: null
+  image_size: 224
+  hflip: true
+  batch_size: 96
+  eval_batch_size: 192
+  workers: 16
+  prefetch_factor: 6
+
+model:
+  arch: densenet121
+  pretrained: false          # pesos vêm de --init-from (best.pt do eixo 1)
+  init_from: null            # ou defina aqui em vez da CLI
+
+prune:
+  sparsity: null             # definido por --sparsity (0.5 / 0.7 / 0.9 / 0.95 / 0.98)
+  scope: global_magnitude    # único método implementado (CLAUDE.md)
+
+optim:
+  name: sgd
+  lr: 0.00375                # 0,1x do lr inicial do eixo 1
+  momentum: 0.9
+  weight_decay: 0.0001
+  nesterov: true
+  label_smoothing: 0.0
+
+sched:
+  name: cosine
+  warmup_epochs: 0
+
+train:
+  epochs: 5
+  amp: fp16
+  channels_last: true
+  cudnn_benchmark: true
+  early_stopping_patience: 0
+
+paths:
+  runs: runs

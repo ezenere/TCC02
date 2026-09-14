@@ -214,3 +214,20 @@ encadeia denso → poda → fine-tuning quando `--sparsity` é dado. `train.py` 
 **Para a pauta:** a fração **100%** entra no eixo 4 como run próprio (30 épocas + early stopping, paciência 5), para que todos os pontos
 da curva tenham a mesma receita — custa ~1,75 h × seed a mais do que reutilizar os runs do eixo 1 (que não tiveram early stopping).
 Alternativa: reutilizar o eixo 1 como ponto 100% e registrar a diferença de receita. Aguardo decisão.
+
+## 2026-09-14 (noite) — poda fechada com 3 seeds (D0923-1, D0924-1)
+
+30 runs (2 arch × 5 níveis × 3 seeds), 0 falhas, ~8,5 h de GPU. Razão de erro vs baseline da mesma seed (média ± std), teste:
+```
+esparsidade   ResNet-50        DenseNet-121     não-nulos R / D     gzip R / D (× baseline)
+50%           0,97 ± 0,03      0,97 ± 0,06      11,8 M / 3,5 M      0,61 / 0,61
+70%           0,98 ± 0,02      0,98 ± 0,05      7,1 M / 2,2 M       0,42 / 0,43
+90%           1,10 ± 0,03      1,03 ± 0,04      2,4 M / 0,77 M      0,21 / 0,22
+95%           1,28 ± 0,07      1,19 ± 0,05      1,2 M / 0,43 M      0,14 / 0,17
+98%           1,90 ± 0,17      1,65 ± 0,05      0,52 M / 0,22 M     0,10 / 0,13
+```
+**Joelho (primeiro nível com razão > 1,5×): 98% nas duas.** Até 90% a degradação está dentro do ruído entre seeds; 95% já é
+visível mas dentro do orçamento de 1,5× do critério do eixo 3. A DenseNet tolera cada nível um pouco melhor que a ResNet
+(1,03 vs 1,10 em 90%; 1,65 vs 1,90 em 98%) apesar de partir de 3,4× menos parâmetros.
+Célula poda+int8 (D0930-1): rodada em 90% e 95% (o último nível dentro do orçamento), não em 98%, onde a poda sozinha já
+excede o critério — registrar a escolha na reunião.

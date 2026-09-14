@@ -1,0 +1,2217 @@
+{
+  "checkpoint": "runs/eixo2_prune_densenet121_p90_s2/checkpoints/best.pt",
+  "arch": "densenet121",
+  "num_classes": 18,
+  "epoch": 5,
+  "params_total": 6972306,
+  "params_nonzero": 772530,
+  "sparsity_global": 0.8892002158252951,
+  "per_layer": [
+    {
+      "name": "features.conv0.weight",
+      "numel": 9408,
+      "nonzero": 5465,
+      "sparsity": 0.4191113945578231
+    },
+    {
+      "name": "features.norm0.weight",
+      "numel": 64,
+      "nonzero": 64,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.norm0.bias",
+      "numel": 64,
+      "nonzero": 64,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock1.denselayer1.norm1.weight",
+      "numel": 64,
+      "nonzero": 64,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock1.denselayer1.norm1.bias",
+      "numel": 64,
+      "nonzero": 64,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock1.denselayer1.conv1.weight",
+      "numel": 8192,
+      "nonzero": 2496,
+      "sparsity": 0.6953125
+    },
+    {
+      "name": "features.denseblock1.denselayer1.norm2.weight",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock1.denselayer1.norm2.bias",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock1.denselayer1.conv2.weight",
+      "numel": 36864,
+      "nonzero": 7361,
+      "sparsity": 0.8003200954861112
+    },
+    {
+      "name": "features.denseblock1.denselayer2.norm1.weight",
+      "numel": 96,
+      "nonzero": 96,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock1.denselayer2.norm1.bias",
+      "numel": 96,
+      "nonzero": 96,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock1.denselayer2.conv1.weight",
+      "numel": 12288,
+      "nonzero": 3399,
+      "sparsity": 0.723388671875
+    },
+    {
+      "name": "features.denseblock1.denselayer2.norm2.weight",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock1.denselayer2.norm2.bias",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock1.denselayer2.conv2.weight",
+      "numel": 36864,
+      "nonzero": 4779,
+      "sparsity": 0.870361328125
+    },
+    {
+      "name": "features.denseblock1.denselayer3.norm1.weight",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock1.denselayer3.norm1.bias",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock1.denselayer3.conv1.weight",
+      "numel": 16384,
+      "nonzero": 4108,
+      "sparsity": 0.749267578125
+    },
+    {
+      "name": "features.denseblock1.denselayer3.norm2.weight",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock1.denselayer3.norm2.bias",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock1.denselayer3.conv2.weight",
+      "numel": 36864,
+      "nonzero": 7325,
+      "sparsity": 0.8012966579861112
+    },
+    {
+      "name": "features.denseblock1.denselayer4.norm1.weight",
+      "numel": 160,
+      "nonzero": 160,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock1.denselayer4.norm1.bias",
+      "numel": 160,
+      "nonzero": 160,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock1.denselayer4.conv1.weight",
+      "numel": 20480,
+      "nonzero": 3990,
+      "sparsity": 0.80517578125
+    },
+    {
+      "name": "features.denseblock1.denselayer4.norm2.weight",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock1.denselayer4.norm2.bias",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock1.denselayer4.conv2.weight",
+      "numel": 36864,
+      "nonzero": 8021,
+      "sparsity": 0.7824164496527778
+    },
+    {
+      "name": "features.denseblock1.denselayer5.norm1.weight",
+      "numel": 192,
+      "nonzero": 192,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock1.denselayer5.norm1.bias",
+      "numel": 192,
+      "nonzero": 192,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock1.denselayer5.conv1.weight",
+      "numel": 24576,
+      "nonzero": 3340,
+      "sparsity": 0.8640950520833334
+    },
+    {
+      "name": "features.denseblock1.denselayer5.norm2.weight",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock1.denselayer5.norm2.bias",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock1.denselayer5.conv2.weight",
+      "numel": 36864,
+      "nonzero": 4593,
+      "sparsity": 0.8754069010416666
+    },
+    {
+      "name": "features.denseblock1.denselayer6.norm1.weight",
+      "numel": 224,
+      "nonzero": 224,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock1.denselayer6.norm1.bias",
+      "numel": 224,
+      "nonzero": 224,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock1.denselayer6.conv1.weight",
+      "numel": 28672,
+      "nonzero": 5004,
+      "sparsity": 0.8254743303571428
+    },
+    {
+      "name": "features.denseblock1.denselayer6.norm2.weight",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock1.denselayer6.norm2.bias",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock1.denselayer6.conv2.weight",
+      "numel": 36864,
+      "nonzero": 7094,
+      "sparsity": 0.8075629340277778
+    },
+    {
+      "name": "features.transition1.norm.weight",
+      "numel": 256,
+      "nonzero": 256,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.transition1.norm.bias",
+      "numel": 256,
+      "nonzero": 256,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.transition1.conv.weight",
+      "numel": 32768,
+      "nonzero": 11063,
+      "sparsity": 0.662384033203125
+    },
+    {
+      "name": "features.denseblock2.denselayer1.norm1.weight",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock2.denselayer1.norm1.bias",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock2.denselayer1.conv1.weight",
+      "numel": 16384,
+      "nonzero": 1278,
+      "sparsity": 0.9219970703125
+    },
+    {
+      "name": "features.denseblock2.denselayer1.norm2.weight",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock2.denselayer1.norm2.bias",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock2.denselayer1.conv2.weight",
+      "numel": 36864,
+      "nonzero": 5080,
+      "sparsity": 0.8621961805555556
+    },
+    {
+      "name": "features.denseblock2.denselayer2.norm1.weight",
+      "numel": 160,
+      "nonzero": 160,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock2.denselayer2.norm1.bias",
+      "numel": 160,
+      "nonzero": 160,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock2.denselayer2.conv1.weight",
+      "numel": 20480,
+      "nonzero": 2898,
+      "sparsity": 0.85849609375
+    },
+    {
+      "name": "features.denseblock2.denselayer2.norm2.weight",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock2.denselayer2.norm2.bias",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock2.denselayer2.conv2.weight",
+      "numel": 36864,
+      "nonzero": 6317,
+      "sparsity": 0.8286404079861112
+    },
+    {
+      "name": "features.denseblock2.denselayer3.norm1.weight",
+      "numel": 192,
+      "nonzero": 192,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock2.denselayer3.norm1.bias",
+      "numel": 192,
+      "nonzero": 192,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock2.denselayer3.conv1.weight",
+      "numel": 24576,
+      "nonzero": 3340,
+      "sparsity": 0.8640950520833334
+    },
+    {
+      "name": "features.denseblock2.denselayer3.norm2.weight",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock2.denselayer3.norm2.bias",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock2.denselayer3.conv2.weight",
+      "numel": 36864,
+      "nonzero": 7170,
+      "sparsity": 0.8055013020833334
+    },
+    {
+      "name": "features.denseblock2.denselayer4.norm1.weight",
+      "numel": 224,
+      "nonzero": 224,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock2.denselayer4.norm1.bias",
+      "numel": 224,
+      "nonzero": 224,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock2.denselayer4.conv1.weight",
+      "numel": 28672,
+      "nonzero": 4354,
+      "sparsity": 0.84814453125
+    },
+    {
+      "name": "features.denseblock2.denselayer4.norm2.weight",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock2.denselayer4.norm2.bias",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock2.denselayer4.conv2.weight",
+      "numel": 36864,
+      "nonzero": 5926,
+      "sparsity": 0.8392469618055556
+    },
+    {
+      "name": "features.denseblock2.denselayer5.norm1.weight",
+      "numel": 256,
+      "nonzero": 256,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock2.denselayer5.norm1.bias",
+      "numel": 256,
+      "nonzero": 256,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock2.denselayer5.conv1.weight",
+      "numel": 32768,
+      "nonzero": 4179,
+      "sparsity": 0.872467041015625
+    },
+    {
+      "name": "features.denseblock2.denselayer5.norm2.weight",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock2.denselayer5.norm2.bias",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock2.denselayer5.conv2.weight",
+      "numel": 36864,
+      "nonzero": 6940,
+      "sparsity": 0.8117404513888888
+    },
+    {
+      "name": "features.denseblock2.denselayer6.norm1.weight",
+      "numel": 288,
+      "nonzero": 288,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock2.denselayer6.norm1.bias",
+      "numel": 288,
+      "nonzero": 288,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock2.denselayer6.conv1.weight",
+      "numel": 36864,
+      "nonzero": 3638,
+      "sparsity": 0.9013129340277778
+    },
+    {
+      "name": "features.denseblock2.denselayer6.norm2.weight",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock2.denselayer6.norm2.bias",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock2.denselayer6.conv2.weight",
+      "numel": 36864,
+      "nonzero": 5771,
+      "sparsity": 0.8434516059027778
+    },
+    {
+      "name": "features.denseblock2.denselayer7.norm1.weight",
+      "numel": 320,
+      "nonzero": 320,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock2.denselayer7.norm1.bias",
+      "numel": 320,
+      "nonzero": 320,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock2.denselayer7.conv1.weight",
+      "numel": 40960,
+      "nonzero": 5519,
+      "sparsity": 0.8652587890625
+    },
+    {
+      "name": "features.denseblock2.denselayer7.norm2.weight",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock2.denselayer7.norm2.bias",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock2.denselayer7.conv2.weight",
+      "numel": 36864,
+      "nonzero": 5065,
+      "sparsity": 0.8626030815972222
+    },
+    {
+      "name": "features.denseblock2.denselayer8.norm1.weight",
+      "numel": 352,
+      "nonzero": 352,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock2.denselayer8.norm1.bias",
+      "numel": 352,
+      "nonzero": 352,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock2.denselayer8.conv1.weight",
+      "numel": 45056,
+      "nonzero": 6389,
+      "sparsity": 0.8581986860795454
+    },
+    {
+      "name": "features.denseblock2.denselayer8.norm2.weight",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock2.denselayer8.norm2.bias",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock2.denselayer8.conv2.weight",
+      "numel": 36864,
+      "nonzero": 7221,
+      "sparsity": 0.8041178385416666
+    },
+    {
+      "name": "features.denseblock2.denselayer9.norm1.weight",
+      "numel": 384,
+      "nonzero": 384,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock2.denselayer9.norm1.bias",
+      "numel": 384,
+      "nonzero": 384,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock2.denselayer9.conv1.weight",
+      "numel": 49152,
+      "nonzero": 5277,
+      "sparsity": 0.89263916015625
+    },
+    {
+      "name": "features.denseblock2.denselayer9.norm2.weight",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock2.denselayer9.norm2.bias",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock2.denselayer9.conv2.weight",
+      "numel": 36864,
+      "nonzero": 5518,
+      "sparsity": 0.8503146701388888
+    },
+    {
+      "name": "features.denseblock2.denselayer10.norm1.weight",
+      "numel": 416,
+      "nonzero": 416,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock2.denselayer10.norm1.bias",
+      "numel": 416,
+      "nonzero": 416,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock2.denselayer10.conv1.weight",
+      "numel": 53248,
+      "nonzero": 6836,
+      "sparsity": 0.8716195913461539
+    },
+    {
+      "name": "features.denseblock2.denselayer10.norm2.weight",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock2.denselayer10.norm2.bias",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock2.denselayer10.conv2.weight",
+      "numel": 36864,
+      "nonzero": 4632,
+      "sparsity": 0.8743489583333334
+    },
+    {
+      "name": "features.denseblock2.denselayer11.norm1.weight",
+      "numel": 448,
+      "nonzero": 448,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock2.denselayer11.norm1.bias",
+      "numel": 448,
+      "nonzero": 448,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock2.denselayer11.conv1.weight",
+      "numel": 57344,
+      "nonzero": 7035,
+      "sparsity": 0.8773193359375
+    },
+    {
+      "name": "features.denseblock2.denselayer11.norm2.weight",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock2.denselayer11.norm2.bias",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock2.denselayer11.conv2.weight",
+      "numel": 36864,
+      "nonzero": 4951,
+      "sparsity": 0.8656955295138888
+    },
+    {
+      "name": "features.denseblock2.denselayer12.norm1.weight",
+      "numel": 480,
+      "nonzero": 480,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock2.denselayer12.norm1.bias",
+      "numel": 480,
+      "nonzero": 480,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock2.denselayer12.conv1.weight",
+      "numel": 61440,
+      "nonzero": 7541,
+      "sparsity": 0.8772623697916666
+    },
+    {
+      "name": "features.denseblock2.denselayer12.norm2.weight",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock2.denselayer12.norm2.bias",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock2.denselayer12.conv2.weight",
+      "numel": 36864,
+      "nonzero": 3915,
+      "sparsity": 0.893798828125
+    },
+    {
+      "name": "features.transition2.norm.weight",
+      "numel": 512,
+      "nonzero": 512,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.transition2.norm.bias",
+      "numel": 512,
+      "nonzero": 512,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.transition2.conv.weight",
+      "numel": 131072,
+      "nonzero": 32709,
+      "sparsity": 0.7504501342773438
+    },
+    {
+      "name": "features.denseblock3.denselayer1.norm1.weight",
+      "numel": 256,
+      "nonzero": 256,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer1.norm1.bias",
+      "numel": 256,
+      "nonzero": 256,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer1.conv1.weight",
+      "numel": 32768,
+      "nonzero": 2920,
+      "sparsity": 0.910888671875
+    },
+    {
+      "name": "features.denseblock3.denselayer1.norm2.weight",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer1.norm2.bias",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer1.conv2.weight",
+      "numel": 36864,
+      "nonzero": 4254,
+      "sparsity": 0.8846028645833334
+    },
+    {
+      "name": "features.denseblock3.denselayer2.norm1.weight",
+      "numel": 288,
+      "nonzero": 288,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer2.norm1.bias",
+      "numel": 288,
+      "nonzero": 288,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer2.conv1.weight",
+      "numel": 36864,
+      "nonzero": 2745,
+      "sparsity": 0.925537109375
+    },
+    {
+      "name": "features.denseblock3.denselayer2.norm2.weight",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer2.norm2.bias",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer2.conv2.weight",
+      "numel": 36864,
+      "nonzero": 4710,
+      "sparsity": 0.8722330729166666
+    },
+    {
+      "name": "features.denseblock3.denselayer3.norm1.weight",
+      "numel": 320,
+      "nonzero": 320,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer3.norm1.bias",
+      "numel": 320,
+      "nonzero": 320,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer3.conv1.weight",
+      "numel": 40960,
+      "nonzero": 3700,
+      "sparsity": 0.90966796875
+    },
+    {
+      "name": "features.denseblock3.denselayer3.norm2.weight",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer3.norm2.bias",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer3.conv2.weight",
+      "numel": 36864,
+      "nonzero": 4366,
+      "sparsity": 0.8815646701388888
+    },
+    {
+      "name": "features.denseblock3.denselayer4.norm1.weight",
+      "numel": 352,
+      "nonzero": 352,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer4.norm1.bias",
+      "numel": 352,
+      "nonzero": 352,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer4.conv1.weight",
+      "numel": 45056,
+      "nonzero": 4184,
+      "sparsity": 0.9071377840909091
+    },
+    {
+      "name": "features.denseblock3.denselayer4.norm2.weight",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer4.norm2.bias",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer4.conv2.weight",
+      "numel": 36864,
+      "nonzero": 5212,
+      "sparsity": 0.8586154513888888
+    },
+    {
+      "name": "features.denseblock3.denselayer5.norm1.weight",
+      "numel": 384,
+      "nonzero": 384,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer5.norm1.bias",
+      "numel": 384,
+      "nonzero": 384,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer5.conv1.weight",
+      "numel": 49152,
+      "nonzero": 4235,
+      "sparsity": 0.9138387044270834
+    },
+    {
+      "name": "features.denseblock3.denselayer5.norm2.weight",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer5.norm2.bias",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer5.conv2.weight",
+      "numel": 36864,
+      "nonzero": 6239,
+      "sparsity": 0.8307562934027778
+    },
+    {
+      "name": "features.denseblock3.denselayer6.norm1.weight",
+      "numel": 416,
+      "nonzero": 416,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer6.norm1.bias",
+      "numel": 416,
+      "nonzero": 416,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer6.conv1.weight",
+      "numel": 53248,
+      "nonzero": 5335,
+      "sparsity": 0.8998084435096154
+    },
+    {
+      "name": "features.denseblock3.denselayer6.norm2.weight",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer6.norm2.bias",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer6.conv2.weight",
+      "numel": 36864,
+      "nonzero": 6035,
+      "sparsity": 0.8362901475694444
+    },
+    {
+      "name": "features.denseblock3.denselayer7.norm1.weight",
+      "numel": 448,
+      "nonzero": 448,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer7.norm1.bias",
+      "numel": 448,
+      "nonzero": 448,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer7.conv1.weight",
+      "numel": 57344,
+      "nonzero": 4570,
+      "sparsity": 0.9203055245535714
+    },
+    {
+      "name": "features.denseblock3.denselayer7.norm2.weight",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer7.norm2.bias",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer7.conv2.weight",
+      "numel": 36864,
+      "nonzero": 6457,
+      "sparsity": 0.8248426649305556
+    },
+    {
+      "name": "features.denseblock3.denselayer8.norm1.weight",
+      "numel": 480,
+      "nonzero": 480,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer8.norm1.bias",
+      "numel": 480,
+      "nonzero": 480,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer8.conv1.weight",
+      "numel": 61440,
+      "nonzero": 6179,
+      "sparsity": 0.8994303385416667
+    },
+    {
+      "name": "features.denseblock3.denselayer8.norm2.weight",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer8.norm2.bias",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer8.conv2.weight",
+      "numel": 36864,
+      "nonzero": 5019,
+      "sparsity": 0.8638509114583334
+    },
+    {
+      "name": "features.denseblock3.denselayer9.norm1.weight",
+      "numel": 512,
+      "nonzero": 512,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer9.norm1.bias",
+      "numel": 512,
+      "nonzero": 512,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer9.conv1.weight",
+      "numel": 65536,
+      "nonzero": 6267,
+      "sparsity": 0.9043731689453125
+    },
+    {
+      "name": "features.denseblock3.denselayer9.norm2.weight",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer9.norm2.bias",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer9.conv2.weight",
+      "numel": 36864,
+      "nonzero": 5227,
+      "sparsity": 0.8582085503472222
+    },
+    {
+      "name": "features.denseblock3.denselayer10.norm1.weight",
+      "numel": 544,
+      "nonzero": 544,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer10.norm1.bias",
+      "numel": 544,
+      "nonzero": 544,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer10.conv1.weight",
+      "numel": 69632,
+      "nonzero": 5079,
+      "sparsity": 0.9270593979779411
+    },
+    {
+      "name": "features.denseblock3.denselayer10.norm2.weight",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer10.norm2.bias",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer10.conv2.weight",
+      "numel": 36864,
+      "nonzero": 5751,
+      "sparsity": 0.843994140625
+    },
+    {
+      "name": "features.denseblock3.denselayer11.norm1.weight",
+      "numel": 576,
+      "nonzero": 576,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer11.norm1.bias",
+      "numel": 576,
+      "nonzero": 576,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer11.conv1.weight",
+      "numel": 73728,
+      "nonzero": 5840,
+      "sparsity": 0.9207899305555556
+    },
+    {
+      "name": "features.denseblock3.denselayer11.norm2.weight",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer11.norm2.bias",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer11.conv2.weight",
+      "numel": 36864,
+      "nonzero": 6324,
+      "sparsity": 0.8284505208333334
+    },
+    {
+      "name": "features.denseblock3.denselayer12.norm1.weight",
+      "numel": 608,
+      "nonzero": 608,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer12.norm1.bias",
+      "numel": 608,
+      "nonzero": 608,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer12.conv1.weight",
+      "numel": 77824,
+      "nonzero": 6330,
+      "sparsity": 0.9186626233552632
+    },
+    {
+      "name": "features.denseblock3.denselayer12.norm2.weight",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer12.norm2.bias",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer12.conv2.weight",
+      "numel": 36864,
+      "nonzero": 5036,
+      "sparsity": 0.8633897569444444
+    },
+    {
+      "name": "features.denseblock3.denselayer13.norm1.weight",
+      "numel": 640,
+      "nonzero": 640,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer13.norm1.bias",
+      "numel": 640,
+      "nonzero": 640,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer13.conv1.weight",
+      "numel": 81920,
+      "nonzero": 6989,
+      "sparsity": 0.91468505859375
+    },
+    {
+      "name": "features.denseblock3.denselayer13.norm2.weight",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer13.norm2.bias",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer13.conv2.weight",
+      "numel": 36864,
+      "nonzero": 7514,
+      "sparsity": 0.7961697048611112
+    },
+    {
+      "name": "features.denseblock3.denselayer14.norm1.weight",
+      "numel": 672,
+      "nonzero": 672,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer14.norm1.bias",
+      "numel": 672,
+      "nonzero": 672,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer14.conv1.weight",
+      "numel": 86016,
+      "nonzero": 6131,
+      "sparsity": 0.9287225632440477
+    },
+    {
+      "name": "features.denseblock3.denselayer14.norm2.weight",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer14.norm2.bias",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer14.conv2.weight",
+      "numel": 36864,
+      "nonzero": 6798,
+      "sparsity": 0.8155924479166666
+    },
+    {
+      "name": "features.denseblock3.denselayer15.norm1.weight",
+      "numel": 704,
+      "nonzero": 704,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer15.norm1.bias",
+      "numel": 704,
+      "nonzero": 704,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer15.conv1.weight",
+      "numel": 90112,
+      "nonzero": 7632,
+      "sparsity": 0.9153053977272727
+    },
+    {
+      "name": "features.denseblock3.denselayer15.norm2.weight",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer15.norm2.bias",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer15.conv2.weight",
+      "numel": 36864,
+      "nonzero": 5186,
+      "sparsity": 0.8593207465277778
+    },
+    {
+      "name": "features.denseblock3.denselayer16.norm1.weight",
+      "numel": 736,
+      "nonzero": 736,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer16.norm1.bias",
+      "numel": 736,
+      "nonzero": 736,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer16.conv1.weight",
+      "numel": 94208,
+      "nonzero": 6081,
+      "sparsity": 0.9354513417119565
+    },
+    {
+      "name": "features.denseblock3.denselayer16.norm2.weight",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer16.norm2.bias",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer16.conv2.weight",
+      "numel": 36864,
+      "nonzero": 3538,
+      "sparsity": 0.9040256076388888
+    },
+    {
+      "name": "features.denseblock3.denselayer17.norm1.weight",
+      "numel": 768,
+      "nonzero": 768,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer17.norm1.bias",
+      "numel": 768,
+      "nonzero": 768,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer17.conv1.weight",
+      "numel": 98304,
+      "nonzero": 7575,
+      "sparsity": 0.922943115234375
+    },
+    {
+      "name": "features.denseblock3.denselayer17.norm2.weight",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer17.norm2.bias",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer17.conv2.weight",
+      "numel": 36864,
+      "nonzero": 3707,
+      "sparsity": 0.8994411892361112
+    },
+    {
+      "name": "features.denseblock3.denselayer18.norm1.weight",
+      "numel": 800,
+      "nonzero": 800,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer18.norm1.bias",
+      "numel": 800,
+      "nonzero": 800,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer18.conv1.weight",
+      "numel": 102400,
+      "nonzero": 7615,
+      "sparsity": 0.925634765625
+    },
+    {
+      "name": "features.denseblock3.denselayer18.norm2.weight",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer18.norm2.bias",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer18.conv2.weight",
+      "numel": 36864,
+      "nonzero": 4526,
+      "sparsity": 0.8772243923611112
+    },
+    {
+      "name": "features.denseblock3.denselayer19.norm1.weight",
+      "numel": 832,
+      "nonzero": 832,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer19.norm1.bias",
+      "numel": 832,
+      "nonzero": 832,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer19.conv1.weight",
+      "numel": 106496,
+      "nonzero": 7906,
+      "sparsity": 0.9257624699519231
+    },
+    {
+      "name": "features.denseblock3.denselayer19.norm2.weight",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer19.norm2.bias",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer19.conv2.weight",
+      "numel": 36864,
+      "nonzero": 3889,
+      "sparsity": 0.8945041232638888
+    },
+    {
+      "name": "features.denseblock3.denselayer20.norm1.weight",
+      "numel": 864,
+      "nonzero": 864,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer20.norm1.bias",
+      "numel": 864,
+      "nonzero": 864,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer20.conv1.weight",
+      "numel": 110592,
+      "nonzero": 7408,
+      "sparsity": 0.9330150462962963
+    },
+    {
+      "name": "features.denseblock3.denselayer20.norm2.weight",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer20.norm2.bias",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer20.conv2.weight",
+      "numel": 36864,
+      "nonzero": 3162,
+      "sparsity": 0.9142252604166666
+    },
+    {
+      "name": "features.denseblock3.denselayer21.norm1.weight",
+      "numel": 896,
+      "nonzero": 896,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer21.norm1.bias",
+      "numel": 896,
+      "nonzero": 896,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer21.conv1.weight",
+      "numel": 114688,
+      "nonzero": 8778,
+      "sparsity": 0.9234619140625
+    },
+    {
+      "name": "features.denseblock3.denselayer21.norm2.weight",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer21.norm2.bias",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer21.conv2.weight",
+      "numel": 36864,
+      "nonzero": 3848,
+      "sparsity": 0.8956163194444444
+    },
+    {
+      "name": "features.denseblock3.denselayer22.norm1.weight",
+      "numel": 928,
+      "nonzero": 928,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer22.norm1.bias",
+      "numel": 928,
+      "nonzero": 928,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer22.conv1.weight",
+      "numel": 118784,
+      "nonzero": 6258,
+      "sparsity": 0.9473161368534483
+    },
+    {
+      "name": "features.denseblock3.denselayer22.norm2.weight",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer22.norm2.bias",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer22.conv2.weight",
+      "numel": 36864,
+      "nonzero": 3112,
+      "sparsity": 0.9155815972222222
+    },
+    {
+      "name": "features.denseblock3.denselayer23.norm1.weight",
+      "numel": 960,
+      "nonzero": 960,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer23.norm1.bias",
+      "numel": 960,
+      "nonzero": 960,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer23.conv1.weight",
+      "numel": 122880,
+      "nonzero": 8100,
+      "sparsity": 0.93408203125
+    },
+    {
+      "name": "features.denseblock3.denselayer23.norm2.weight",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer23.norm2.bias",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer23.conv2.weight",
+      "numel": 36864,
+      "nonzero": 3027,
+      "sparsity": 0.9178873697916666
+    },
+    {
+      "name": "features.denseblock3.denselayer24.norm1.weight",
+      "numel": 992,
+      "nonzero": 992,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer24.norm1.bias",
+      "numel": 992,
+      "nonzero": 992,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer24.conv1.weight",
+      "numel": 126976,
+      "nonzero": 7247,
+      "sparsity": 0.9429262222782258
+    },
+    {
+      "name": "features.denseblock3.denselayer24.norm2.weight",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer24.norm2.bias",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock3.denselayer24.conv2.weight",
+      "numel": 36864,
+      "nonzero": 2578,
+      "sparsity": 0.9300672743055556
+    },
+    {
+      "name": "features.transition3.norm.weight",
+      "numel": 1024,
+      "nonzero": 1024,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.transition3.norm.bias",
+      "numel": 1024,
+      "nonzero": 1024,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.transition3.conv.weight",
+      "numel": 524288,
+      "nonzero": 66676,
+      "sparsity": 0.8728256225585938
+    },
+    {
+      "name": "features.denseblock4.denselayer1.norm1.weight",
+      "numel": 512,
+      "nonzero": 512,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock4.denselayer1.norm1.bias",
+      "numel": 512,
+      "nonzero": 512,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock4.denselayer1.conv1.weight",
+      "numel": 65536,
+      "nonzero": 6379,
+      "sparsity": 0.9026641845703125
+    },
+    {
+      "name": "features.denseblock4.denselayer1.norm2.weight",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock4.denselayer1.norm2.bias",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock4.denselayer1.conv2.weight",
+      "numel": 36864,
+      "nonzero": 2990,
+      "sparsity": 0.9188910590277778
+    },
+    {
+      "name": "features.denseblock4.denselayer2.norm1.weight",
+      "numel": 544,
+      "nonzero": 544,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock4.denselayer2.norm1.bias",
+      "numel": 544,
+      "nonzero": 544,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock4.denselayer2.conv1.weight",
+      "numel": 69632,
+      "nonzero": 6294,
+      "sparsity": 0.9096105238970589
+    },
+    {
+      "name": "features.denseblock4.denselayer2.norm2.weight",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock4.denselayer2.norm2.bias",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock4.denselayer2.conv2.weight",
+      "numel": 36864,
+      "nonzero": 1737,
+      "sparsity": 0.952880859375
+    },
+    {
+      "name": "features.denseblock4.denselayer3.norm1.weight",
+      "numel": 576,
+      "nonzero": 576,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock4.denselayer3.norm1.bias",
+      "numel": 576,
+      "nonzero": 576,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock4.denselayer3.conv1.weight",
+      "numel": 73728,
+      "nonzero": 6437,
+      "sparsity": 0.9126925998263888
+    },
+    {
+      "name": "features.denseblock4.denselayer3.norm2.weight",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock4.denselayer3.norm2.bias",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock4.denselayer3.conv2.weight",
+      "numel": 36864,
+      "nonzero": 2561,
+      "sparsity": 0.9305284288194444
+    },
+    {
+      "name": "features.denseblock4.denselayer4.norm1.weight",
+      "numel": 608,
+      "nonzero": 608,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock4.denselayer4.norm1.bias",
+      "numel": 608,
+      "nonzero": 608,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock4.denselayer4.conv1.weight",
+      "numel": 77824,
+      "nonzero": 5771,
+      "sparsity": 0.9258454975328947
+    },
+    {
+      "name": "features.denseblock4.denselayer4.norm2.weight",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock4.denselayer4.norm2.bias",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock4.denselayer4.conv2.weight",
+      "numel": 36864,
+      "nonzero": 2239,
+      "sparsity": 0.9392632378472222
+    },
+    {
+      "name": "features.denseblock4.denselayer5.norm1.weight",
+      "numel": 640,
+      "nonzero": 640,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock4.denselayer5.norm1.bias",
+      "numel": 640,
+      "nonzero": 640,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock4.denselayer5.conv1.weight",
+      "numel": 81920,
+      "nonzero": 5490,
+      "sparsity": 0.9329833984375
+    },
+    {
+      "name": "features.denseblock4.denselayer5.norm2.weight",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock4.denselayer5.norm2.bias",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock4.denselayer5.conv2.weight",
+      "numel": 36864,
+      "nonzero": 1390,
+      "sparsity": 0.9622938368055556
+    },
+    {
+      "name": "features.denseblock4.denselayer6.norm1.weight",
+      "numel": 672,
+      "nonzero": 672,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock4.denselayer6.norm1.bias",
+      "numel": 672,
+      "nonzero": 672,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock4.denselayer6.conv1.weight",
+      "numel": 86016,
+      "nonzero": 6550,
+      "sparsity": 0.9238513764880952
+    },
+    {
+      "name": "features.denseblock4.denselayer6.norm2.weight",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock4.denselayer6.norm2.bias",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock4.denselayer6.conv2.weight",
+      "numel": 36864,
+      "nonzero": 1574,
+      "sparsity": 0.9573025173611112
+    },
+    {
+      "name": "features.denseblock4.denselayer7.norm1.weight",
+      "numel": 704,
+      "nonzero": 704,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock4.denselayer7.norm1.bias",
+      "numel": 704,
+      "nonzero": 704,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock4.denselayer7.conv1.weight",
+      "numel": 90112,
+      "nonzero": 5251,
+      "sparsity": 0.9417280717329546
+    },
+    {
+      "name": "features.denseblock4.denselayer7.norm2.weight",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock4.denselayer7.norm2.bias",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock4.denselayer7.conv2.weight",
+      "numel": 36864,
+      "nonzero": 1267,
+      "sparsity": 0.9656304253472222
+    },
+    {
+      "name": "features.denseblock4.denselayer8.norm1.weight",
+      "numel": 736,
+      "nonzero": 736,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock4.denselayer8.norm1.bias",
+      "numel": 736,
+      "nonzero": 736,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock4.denselayer8.conv1.weight",
+      "numel": 94208,
+      "nonzero": 5257,
+      "sparsity": 0.944197944972826
+    },
+    {
+      "name": "features.denseblock4.denselayer8.norm2.weight",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock4.denselayer8.norm2.bias",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock4.denselayer8.conv2.weight",
+      "numel": 36864,
+      "nonzero": 1299,
+      "sparsity": 0.9647623697916666
+    },
+    {
+      "name": "features.denseblock4.denselayer9.norm1.weight",
+      "numel": 768,
+      "nonzero": 768,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock4.denselayer9.norm1.bias",
+      "numel": 768,
+      "nonzero": 768,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock4.denselayer9.conv1.weight",
+      "numel": 98304,
+      "nonzero": 5214,
+      "sparsity": 0.94696044921875
+    },
+    {
+      "name": "features.denseblock4.denselayer9.norm2.weight",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock4.denselayer9.norm2.bias",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock4.denselayer9.conv2.weight",
+      "numel": 36864,
+      "nonzero": 1184,
+      "sparsity": 0.9678819444444444
+    },
+    {
+      "name": "features.denseblock4.denselayer10.norm1.weight",
+      "numel": 800,
+      "nonzero": 800,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock4.denselayer10.norm1.bias",
+      "numel": 800,
+      "nonzero": 800,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock4.denselayer10.conv1.weight",
+      "numel": 102400,
+      "nonzero": 5377,
+      "sparsity": 0.947490234375
+    },
+    {
+      "name": "features.denseblock4.denselayer10.norm2.weight",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock4.denselayer10.norm2.bias",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock4.denselayer10.conv2.weight",
+      "numel": 36864,
+      "nonzero": 1125,
+      "sparsity": 0.969482421875
+    },
+    {
+      "name": "features.denseblock4.denselayer11.norm1.weight",
+      "numel": 832,
+      "nonzero": 832,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock4.denselayer11.norm1.bias",
+      "numel": 832,
+      "nonzero": 832,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock4.denselayer11.conv1.weight",
+      "numel": 106496,
+      "nonzero": 5463,
+      "sparsity": 0.9487022986778846
+    },
+    {
+      "name": "features.denseblock4.denselayer11.norm2.weight",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock4.denselayer11.norm2.bias",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock4.denselayer11.conv2.weight",
+      "numel": 36864,
+      "nonzero": 1212,
+      "sparsity": 0.9671223958333334
+    },
+    {
+      "name": "features.denseblock4.denselayer12.norm1.weight",
+      "numel": 864,
+      "nonzero": 864,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock4.denselayer12.norm1.bias",
+      "numel": 864,
+      "nonzero": 864,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock4.denselayer12.conv1.weight",
+      "numel": 110592,
+      "nonzero": 5593,
+      "sparsity": 0.9494267216435185
+    },
+    {
+      "name": "features.denseblock4.denselayer12.norm2.weight",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock4.denselayer12.norm2.bias",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock4.denselayer12.conv2.weight",
+      "numel": 36864,
+      "nonzero": 1202,
+      "sparsity": 0.9673936631944444
+    },
+    {
+      "name": "features.denseblock4.denselayer13.norm1.weight",
+      "numel": 896,
+      "nonzero": 896,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock4.denselayer13.norm1.bias",
+      "numel": 896,
+      "nonzero": 896,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock4.denselayer13.conv1.weight",
+      "numel": 114688,
+      "nonzero": 5760,
+      "sparsity": 0.9497767857142857
+    },
+    {
+      "name": "features.denseblock4.denselayer13.norm2.weight",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock4.denselayer13.norm2.bias",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock4.denselayer13.conv2.weight",
+      "numel": 36864,
+      "nonzero": 1164,
+      "sparsity": 0.9684244791666666
+    },
+    {
+      "name": "features.denseblock4.denselayer14.norm1.weight",
+      "numel": 928,
+      "nonzero": 928,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock4.denselayer14.norm1.bias",
+      "numel": 928,
+      "nonzero": 928,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock4.denselayer14.conv1.weight",
+      "numel": 118784,
+      "nonzero": 5481,
+      "sparsity": 0.953857421875
+    },
+    {
+      "name": "features.denseblock4.denselayer14.norm2.weight",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock4.denselayer14.norm2.bias",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock4.denselayer14.conv2.weight",
+      "numel": 36864,
+      "nonzero": 1189,
+      "sparsity": 0.9677463107638888
+    },
+    {
+      "name": "features.denseblock4.denselayer15.norm1.weight",
+      "numel": 960,
+      "nonzero": 960,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock4.denselayer15.norm1.bias",
+      "numel": 960,
+      "nonzero": 960,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock4.denselayer15.conv1.weight",
+      "numel": 122880,
+      "nonzero": 5586,
+      "sparsity": 0.954541015625
+    },
+    {
+      "name": "features.denseblock4.denselayer15.norm2.weight",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock4.denselayer15.norm2.bias",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock4.denselayer15.conv2.weight",
+      "numel": 36864,
+      "nonzero": 1200,
+      "sparsity": 0.9674479166666666
+    },
+    {
+      "name": "features.denseblock4.denselayer16.norm1.weight",
+      "numel": 992,
+      "nonzero": 992,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock4.denselayer16.norm1.bias",
+      "numel": 992,
+      "nonzero": 992,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock4.denselayer16.conv1.weight",
+      "numel": 126976,
+      "nonzero": 6252,
+      "sparsity": 0.9507623487903226
+    },
+    {
+      "name": "features.denseblock4.denselayer16.norm2.weight",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock4.denselayer16.norm2.bias",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.denseblock4.denselayer16.conv2.weight",
+      "numel": 36864,
+      "nonzero": 1219,
+      "sparsity": 0.9669325086805556
+    },
+    {
+      "name": "features.norm5.weight",
+      "numel": 1024,
+      "nonzero": 1024,
+      "sparsity": 0.0
+    },
+    {
+      "name": "features.norm5.bias",
+      "numel": 1024,
+      "nonzero": 1024,
+      "sparsity": 0.0
+    },
+    {
+      "name": "classifier.weight",
+      "numel": 18432,
+      "nonzero": 7325,
+      "sparsity": 0.6025933159722222
+    },
+    {
+      "name": "classifier.bias",
+      "numel": 18,
+      "nonzero": 18,
+      "sparsity": 0.0
+    }
+  ],
+  "macs": 2864541184,
+  "macs_input": [
+    1,
+    3,
+    224,
+    224
+  ],
+  "macs_by_module_top": {
+    "": 2864541184,
+    "features": 2864472576,
+    "features.denseblock1": 1050685440,
+    "features.denseblock2": 721029120,
+    "features.denseblock3": 556200960,
+    "features.denseblock1.denselayer6": 207728640,
+    "features.denseblock1.denselayer5": 194682880,
+    "features.denseblock1.denselayer4": 181637120,
+    "features.denseblock1.denselayer3": 168591360,
+    "features.denseblock1.denselayer2": 155545600
+  },
+  "state_dict_fp32_bytes": 28483729,
+  "state_dict_fp32_gzip_bytes": 5946071,
+  "measured_at": "2026-09-14T18:52:57"
+}

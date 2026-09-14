@@ -1,0 +1,999 @@
+{
+  "checkpoint": "runs/eixo2_prune_resnet50_p98_s2/checkpoints/best.pt",
+  "arch": "resnet50",
+  "num_classes": 18,
+  "epoch": 5,
+  "params_total": 23544914,
+  "params_nonzero": 522974,
+  "sparsity_global": 0.9777882391076052,
+  "per_layer": [
+    {
+      "name": "conv1.weight",
+      "numel": 9408,
+      "nonzero": 4451,
+      "sparsity": 0.5268920068027211
+    },
+    {
+      "name": "bn1.weight",
+      "numel": 64,
+      "nonzero": 64,
+      "sparsity": 0.0
+    },
+    {
+      "name": "bn1.bias",
+      "numel": 64,
+      "nonzero": 64,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer1.0.conv1.weight",
+      "numel": 4096,
+      "nonzero": 1450,
+      "sparsity": 0.64599609375
+    },
+    {
+      "name": "layer1.0.bn1.weight",
+      "numel": 64,
+      "nonzero": 64,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer1.0.bn1.bias",
+      "numel": 64,
+      "nonzero": 64,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer1.0.conv2.weight",
+      "numel": 36864,
+      "nonzero": 5404,
+      "sparsity": 0.8534071180555556
+    },
+    {
+      "name": "layer1.0.bn2.weight",
+      "numel": 64,
+      "nonzero": 64,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer1.0.bn2.bias",
+      "numel": 64,
+      "nonzero": 64,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer1.0.conv3.weight",
+      "numel": 16384,
+      "nonzero": 4062,
+      "sparsity": 0.7520751953125
+    },
+    {
+      "name": "layer1.0.bn3.weight",
+      "numel": 256,
+      "nonzero": 256,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer1.0.bn3.bias",
+      "numel": 256,
+      "nonzero": 256,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer1.0.downsample.0.weight",
+      "numel": 16384,
+      "nonzero": 4994,
+      "sparsity": 0.6951904296875
+    },
+    {
+      "name": "layer1.0.downsample.1.weight",
+      "numel": 256,
+      "nonzero": 256,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer1.0.downsample.1.bias",
+      "numel": 256,
+      "nonzero": 256,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer1.1.conv1.weight",
+      "numel": 16384,
+      "nonzero": 4009,
+      "sparsity": 0.75531005859375
+    },
+    {
+      "name": "layer1.1.bn1.weight",
+      "numel": 64,
+      "nonzero": 64,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer1.1.bn1.bias",
+      "numel": 64,
+      "nonzero": 64,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer1.1.conv2.weight",
+      "numel": 36864,
+      "nonzero": 6545,
+      "sparsity": 0.8224555121527778
+    },
+    {
+      "name": "layer1.1.bn2.weight",
+      "numel": 64,
+      "nonzero": 64,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer1.1.bn2.bias",
+      "numel": 64,
+      "nonzero": 64,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer1.1.conv3.weight",
+      "numel": 16384,
+      "nonzero": 4093,
+      "sparsity": 0.75018310546875
+    },
+    {
+      "name": "layer1.1.bn3.weight",
+      "numel": 256,
+      "nonzero": 256,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer1.1.bn3.bias",
+      "numel": 256,
+      "nonzero": 256,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer1.2.conv1.weight",
+      "numel": 16384,
+      "nonzero": 4061,
+      "sparsity": 0.75213623046875
+    },
+    {
+      "name": "layer1.2.bn1.weight",
+      "numel": 64,
+      "nonzero": 64,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer1.2.bn1.bias",
+      "numel": 64,
+      "nonzero": 64,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer1.2.conv2.weight",
+      "numel": 36864,
+      "nonzero": 7280,
+      "sparsity": 0.8025173611111112
+    },
+    {
+      "name": "layer1.2.bn2.weight",
+      "numel": 64,
+      "nonzero": 64,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer1.2.bn2.bias",
+      "numel": 64,
+      "nonzero": 64,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer1.2.conv3.weight",
+      "numel": 16384,
+      "nonzero": 3682,
+      "sparsity": 0.7752685546875
+    },
+    {
+      "name": "layer1.2.bn3.weight",
+      "numel": 256,
+      "nonzero": 256,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer1.2.bn3.bias",
+      "numel": 256,
+      "nonzero": 256,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer2.0.conv1.weight",
+      "numel": 32768,
+      "nonzero": 8137,
+      "sparsity": 0.751678466796875
+    },
+    {
+      "name": "layer2.0.bn1.weight",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer2.0.bn1.bias",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer2.0.conv2.weight",
+      "numel": 147456,
+      "nonzero": 12132,
+      "sparsity": 0.917724609375
+    },
+    {
+      "name": "layer2.0.bn2.weight",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer2.0.bn2.bias",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer2.0.conv3.weight",
+      "numel": 65536,
+      "nonzero": 9233,
+      "sparsity": 0.8591156005859375
+    },
+    {
+      "name": "layer2.0.bn3.weight",
+      "numel": 512,
+      "nonzero": 512,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer2.0.bn3.bias",
+      "numel": 512,
+      "nonzero": 512,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer2.0.downsample.0.weight",
+      "numel": 131072,
+      "nonzero": 7582,
+      "sparsity": 0.9421539306640625
+    },
+    {
+      "name": "layer2.0.downsample.1.weight",
+      "numel": 512,
+      "nonzero": 512,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer2.0.downsample.1.bias",
+      "numel": 512,
+      "nonzero": 512,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer2.1.conv1.weight",
+      "numel": 65536,
+      "nonzero": 4810,
+      "sparsity": 0.926605224609375
+    },
+    {
+      "name": "layer2.1.bn1.weight",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer2.1.bn1.bias",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer2.1.conv2.weight",
+      "numel": 147456,
+      "nonzero": 10015,
+      "sparsity": 0.9320814344618056
+    },
+    {
+      "name": "layer2.1.bn2.weight",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer2.1.bn2.bias",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer2.1.conv3.weight",
+      "numel": 65536,
+      "nonzero": 6643,
+      "sparsity": 0.8986358642578125
+    },
+    {
+      "name": "layer2.1.bn3.weight",
+      "numel": 512,
+      "nonzero": 512,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer2.1.bn3.bias",
+      "numel": 512,
+      "nonzero": 512,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer2.2.conv1.weight",
+      "numel": 65536,
+      "nonzero": 6206,
+      "sparsity": 0.905303955078125
+    },
+    {
+      "name": "layer2.2.bn1.weight",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer2.2.bn1.bias",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer2.2.conv2.weight",
+      "numel": 147456,
+      "nonzero": 9906,
+      "sparsity": 0.9328206380208334
+    },
+    {
+      "name": "layer2.2.bn2.weight",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer2.2.bn2.bias",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer2.2.conv3.weight",
+      "numel": 65536,
+      "nonzero": 6048,
+      "sparsity": 0.90771484375
+    },
+    {
+      "name": "layer2.2.bn3.weight",
+      "numel": 512,
+      "nonzero": 512,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer2.2.bn3.bias",
+      "numel": 512,
+      "nonzero": 512,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer2.3.conv1.weight",
+      "numel": 65536,
+      "nonzero": 6880,
+      "sparsity": 0.89501953125
+    },
+    {
+      "name": "layer2.3.bn1.weight",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer2.3.bn1.bias",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer2.3.conv2.weight",
+      "numel": 147456,
+      "nonzero": 9727,
+      "sparsity": 0.9340345594618056
+    },
+    {
+      "name": "layer2.3.bn2.weight",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer2.3.bn2.bias",
+      "numel": 128,
+      "nonzero": 128,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer2.3.conv3.weight",
+      "numel": 65536,
+      "nonzero": 6545,
+      "sparsity": 0.9001312255859375
+    },
+    {
+      "name": "layer2.3.bn3.weight",
+      "numel": 512,
+      "nonzero": 512,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer2.3.bn3.bias",
+      "numel": 512,
+      "nonzero": 512,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer3.0.conv1.weight",
+      "numel": 131072,
+      "nonzero": 17785,
+      "sparsity": 0.8643112182617188
+    },
+    {
+      "name": "layer3.0.bn1.weight",
+      "numel": 256,
+      "nonzero": 256,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer3.0.bn1.bias",
+      "numel": 256,
+      "nonzero": 256,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer3.0.conv2.weight",
+      "numel": 589824,
+      "nonzero": 15139,
+      "sparsity": 0.9743330213758681
+    },
+    {
+      "name": "layer3.0.bn2.weight",
+      "numel": 256,
+      "nonzero": 256,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer3.0.bn2.bias",
+      "numel": 256,
+      "nonzero": 256,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer3.0.conv3.weight",
+      "numel": 262144,
+      "nonzero": 19326,
+      "sparsity": 0.9262771606445312
+    },
+    {
+      "name": "layer3.0.bn3.weight",
+      "numel": 1024,
+      "nonzero": 1024,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer3.0.bn3.bias",
+      "numel": 1024,
+      "nonzero": 1024,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer3.0.downsample.0.weight",
+      "numel": 524288,
+      "nonzero": 8689,
+      "sparsity": 0.9834270477294922
+    },
+    {
+      "name": "layer3.0.downsample.1.weight",
+      "numel": 1024,
+      "nonzero": 1024,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer3.0.downsample.1.bias",
+      "numel": 1024,
+      "nonzero": 1024,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer3.1.conv1.weight",
+      "numel": 262144,
+      "nonzero": 5803,
+      "sparsity": 0.9778633117675781
+    },
+    {
+      "name": "layer3.1.bn1.weight",
+      "numel": 256,
+      "nonzero": 256,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer3.1.bn1.bias",
+      "numel": 256,
+      "nonzero": 256,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer3.1.conv2.weight",
+      "numel": 589824,
+      "nonzero": 11089,
+      "sparsity": 0.9811994764539931
+    },
+    {
+      "name": "layer3.1.bn2.weight",
+      "numel": 256,
+      "nonzero": 256,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer3.1.bn2.bias",
+      "numel": 256,
+      "nonzero": 256,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer3.1.conv3.weight",
+      "numel": 262144,
+      "nonzero": 9812,
+      "sparsity": 0.9625701904296875
+    },
+    {
+      "name": "layer3.1.bn3.weight",
+      "numel": 1024,
+      "nonzero": 1024,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer3.1.bn3.bias",
+      "numel": 1024,
+      "nonzero": 1024,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer3.2.conv1.weight",
+      "numel": 262144,
+      "nonzero": 5949,
+      "sparsity": 0.9773063659667969
+    },
+    {
+      "name": "layer3.2.bn1.weight",
+      "numel": 256,
+      "nonzero": 256,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer3.2.bn1.bias",
+      "numel": 256,
+      "nonzero": 256,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer3.2.conv2.weight",
+      "numel": 589824,
+      "nonzero": 10494,
+      "sparsity": 0.982208251953125
+    },
+    {
+      "name": "layer3.2.bn2.weight",
+      "numel": 256,
+      "nonzero": 256,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer3.2.bn2.bias",
+      "numel": 256,
+      "nonzero": 256,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer3.2.conv3.weight",
+      "numel": 262144,
+      "nonzero": 8859,
+      "sparsity": 0.9662055969238281
+    },
+    {
+      "name": "layer3.2.bn3.weight",
+      "numel": 1024,
+      "nonzero": 1024,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer3.2.bn3.bias",
+      "numel": 1024,
+      "nonzero": 1024,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer3.3.conv1.weight",
+      "numel": 262144,
+      "nonzero": 7419,
+      "sparsity": 0.9716987609863281
+    },
+    {
+      "name": "layer3.3.bn1.weight",
+      "numel": 256,
+      "nonzero": 256,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer3.3.bn1.bias",
+      "numel": 256,
+      "nonzero": 256,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer3.3.conv2.weight",
+      "numel": 589824,
+      "nonzero": 9105,
+      "sparsity": 0.9845631917317709
+    },
+    {
+      "name": "layer3.3.bn2.weight",
+      "numel": 256,
+      "nonzero": 256,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer3.3.bn2.bias",
+      "numel": 256,
+      "nonzero": 256,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer3.3.conv3.weight",
+      "numel": 262144,
+      "nonzero": 7732,
+      "sparsity": 0.9705047607421875
+    },
+    {
+      "name": "layer3.3.bn3.weight",
+      "numel": 1024,
+      "nonzero": 1024,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer3.3.bn3.bias",
+      "numel": 1024,
+      "nonzero": 1024,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer3.4.conv1.weight",
+      "numel": 262144,
+      "nonzero": 7993,
+      "sparsity": 0.9695091247558594
+    },
+    {
+      "name": "layer3.4.bn1.weight",
+      "numel": 256,
+      "nonzero": 256,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer3.4.bn1.bias",
+      "numel": 256,
+      "nonzero": 256,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer3.4.conv2.weight",
+      "numel": 589824,
+      "nonzero": 8935,
+      "sparsity": 0.9848514133029513
+    },
+    {
+      "name": "layer3.4.bn2.weight",
+      "numel": 256,
+      "nonzero": 256,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer3.4.bn2.bias",
+      "numel": 256,
+      "nonzero": 256,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer3.4.conv3.weight",
+      "numel": 262144,
+      "nonzero": 9322,
+      "sparsity": 0.9644393920898438
+    },
+    {
+      "name": "layer3.4.bn3.weight",
+      "numel": 1024,
+      "nonzero": 1024,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer3.4.bn3.bias",
+      "numel": 1024,
+      "nonzero": 1024,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer3.5.conv1.weight",
+      "numel": 262144,
+      "nonzero": 9140,
+      "sparsity": 0.9651336669921875
+    },
+    {
+      "name": "layer3.5.bn1.weight",
+      "numel": 256,
+      "nonzero": 256,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer3.5.bn1.bias",
+      "numel": 256,
+      "nonzero": 256,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer3.5.conv2.weight",
+      "numel": 589824,
+      "nonzero": 6514,
+      "sparsity": 0.9889560275607638
+    },
+    {
+      "name": "layer3.5.bn2.weight",
+      "numel": 256,
+      "nonzero": 256,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer3.5.bn2.bias",
+      "numel": 256,
+      "nonzero": 256,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer3.5.conv3.weight",
+      "numel": 262144,
+      "nonzero": 9555,
+      "sparsity": 0.9635505676269531
+    },
+    {
+      "name": "layer3.5.bn3.weight",
+      "numel": 1024,
+      "nonzero": 1024,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer3.5.bn3.bias",
+      "numel": 1024,
+      "nonzero": 1024,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer4.0.conv1.weight",
+      "numel": 524288,
+      "nonzero": 27401,
+      "sparsity": 0.9477367401123047
+    },
+    {
+      "name": "layer4.0.bn1.weight",
+      "numel": 512,
+      "nonzero": 512,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer4.0.bn1.bias",
+      "numel": 512,
+      "nonzero": 512,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer4.0.conv2.weight",
+      "numel": 2359296,
+      "nonzero": 4249,
+      "sparsity": 0.9981990390353732
+    },
+    {
+      "name": "layer4.0.bn2.weight",
+      "numel": 512,
+      "nonzero": 512,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer4.0.bn2.bias",
+      "numel": 512,
+      "nonzero": 512,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer4.0.conv3.weight",
+      "numel": 1048576,
+      "nonzero": 24317,
+      "sparsity": 0.9768095016479492
+    },
+    {
+      "name": "layer4.0.bn3.weight",
+      "numel": 2048,
+      "nonzero": 2048,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer4.0.bn3.bias",
+      "numel": 2048,
+      "nonzero": 2048,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer4.0.downsample.0.weight",
+      "numel": 2097152,
+      "nonzero": 8366,
+      "sparsity": 0.9960107803344727
+    },
+    {
+      "name": "layer4.0.downsample.1.weight",
+      "numel": 2048,
+      "nonzero": 2048,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer4.0.downsample.1.bias",
+      "numel": 2048,
+      "nonzero": 2048,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer4.1.conv1.weight",
+      "numel": 1048576,
+      "nonzero": 9463,
+      "sparsity": 0.9909753799438477
+    },
+    {
+      "name": "layer4.1.bn1.weight",
+      "numel": 512,
+      "nonzero": 512,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer4.1.bn1.bias",
+      "numel": 512,
+      "nonzero": 512,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer4.1.conv2.weight",
+      "numel": 2359296,
+      "nonzero": 5832,
+      "sparsity": 0.997528076171875
+    },
+    {
+      "name": "layer4.1.bn2.weight",
+      "numel": 512,
+      "nonzero": 512,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer4.1.bn2.bias",
+      "numel": 512,
+      "nonzero": 512,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer4.1.conv3.weight",
+      "numel": 1048576,
+      "nonzero": 15667,
+      "sparsity": 0.9850587844848633
+    },
+    {
+      "name": "layer4.1.bn3.weight",
+      "numel": 2048,
+      "nonzero": 2048,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer4.1.bn3.bias",
+      "numel": 2048,
+      "nonzero": 2048,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer4.2.conv1.weight",
+      "numel": 1048576,
+      "nonzero": 12178,
+      "sparsity": 0.9883861541748047
+    },
+    {
+      "name": "layer4.2.bn1.weight",
+      "numel": 512,
+      "nonzero": 512,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer4.2.bn1.bias",
+      "numel": 512,
+      "nonzero": 512,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer4.2.conv2.weight",
+      "numel": 2359296,
+      "nonzero": 4653,
+      "sparsity": 0.9980278015136719
+    },
+    {
+      "name": "layer4.2.bn2.weight",
+      "numel": 512,
+      "nonzero": 512,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer4.2.bn2.bias",
+      "numel": 512,
+      "nonzero": 512,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer4.2.conv3.weight",
+      "numel": 1048576,
+      "nonzero": 9929,
+      "sparsity": 0.9905309677124023
+    },
+    {
+      "name": "layer4.2.bn3.weight",
+      "numel": 2048,
+      "nonzero": 2048,
+      "sparsity": 0.0
+    },
+    {
+      "name": "layer4.2.bn3.bias",
+      "numel": 2048,
+      "nonzero": 2048,
+      "sparsity": 0.0
+    },
+    {
+      "name": "fc.weight",
+      "numel": 36864,
+      "nonzero": 5226,
+      "sparsity": 0.8582356770833334
+    },
+    {
+      "name": "fc.bias",
+      "numel": 18,
+      "nonzero": 18,
+      "sparsity": 0.0
+    }
+  ],
+  "macs": 4109501440,
+  "macs_input": [
+    1,
+    3,
+    224,
+    224
+  ],
+  "macs_by_module_top": {
+    "": 4109501440,
+    "layer3": 1468651520,
+    "layer2": 1033826304,
+    "layer4": 810492928,
+    "layer1": 676773888,
+    "layer2.0": 375115776,
+    "layer3.0": 373811200,
+    "layer4.0": 373158912,
+    "layer1.0": 235225088,
+    "layer1.1": 220774400
+  },
+  "state_dict_fp32_bytes": 94492735,
+  "state_dict_fp32_gzip_bytes": 9180652,
+  "measured_at": "2026-09-14T19:41:15"
+}

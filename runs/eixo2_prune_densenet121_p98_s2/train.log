@@ -1,0 +1,23 @@
+poda global por magnitude: alvo 98.00% -> obtida 98.0000% dos pesos podáveis (0.22 M não-nulos de 6.97 M)
+run       : eixo2_prune_densenet121_p98_s2
+arch      : densenet121 (pretrained=False)  seed=2
+manifesto : v2 ed5c1eb749ec9e72...  mask=None
+fit/val/test: 175,591 / 19,511 / 83,613 imgs  (11,805 / 2,268 / 6,044 sujeitos)
+batch 96 | steps/epoch 1,829 | epochs 5 | warmup 0 ep | early stop patience off
+epoch 1/5:   0%|          | 0/1829 [00:00<?, ?it/s]/home/ezenere/Documents/Faculdade/TCC/src/train.py:128: UserWarning: Detected call of `lr_scheduler.step()` before `optimizer.step()`. In PyTorch 1.1.0 and later, you should call them in the opposite order: `optimizer.step()` before `lr_scheduler.step()`.  Failure to do this will result in PyTorch skipping the first value of the learning rate schedule. See more details at https://pytorch.org/docs/stable/optim.html#how-to-adjust-learning-rate
+  scheduler.step()
+val 1/5:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 1/5: train 0.0741/0.9853 | val loss 0.0246 acc 0.9940 f1 0.9940 err 0.5997% * | 211s 833 img/s
+val 2/5:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 2/5: train 0.0193/0.9957 | val loss 0.0219 acc 0.9944 f1 0.9944 err 0.5587% * | 198s 887 img/s
+val 3/5:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 3/5: train 0.0136/0.9968 | val loss 0.0174 acc 0.9953 f1 0.9954 err 0.4664% * | 198s 888 img/s
+val 4/5:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 4/5: train 0.0105/0.9976 | val loss 0.0176 acc 0.9957 f1 0.9957 err 0.4305% * | 198s 888 img/s
+val 5/5:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 5/5: train 0.0092/0.9980 | val loss 0.0168 acc 0.9958 f1 0.9959 err 0.4152% * | 198s 888 img/s
+test:   0%|          | 0/436 [00:00<?, ?it/s]
+TESTE (best.pt, epoca 5): acc 0.9968  f1 0.9968  erro 0.3217% (269 / 83613)
+-> runs/eixo2_prune_densenet121_p98_s2/metrics.json
+densenet121: params 6.97 M (nao-nulos 0.22 M, esparsidade 96.8%) | MACs 2.86 G @ 224px | FP32 27.2 MiB, gzip 3.2 MiB [0.7s]
+-> runs/eixo2_prune_densenet121_p98_s2/cost.json

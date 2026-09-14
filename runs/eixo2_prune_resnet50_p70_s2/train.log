@@ -1,0 +1,21 @@
+poda global por magnitude: alvo 70.00% -> obtida 70.0000% dos pesos podáveis (7.10 M não-nulos de 23.54 M)
+run       : eixo2_prune_resnet50_p70_s2
+arch      : resnet50 (pretrained=False)  seed=2
+manifesto : v2 ed5c1eb749ec9e72...  mask=None
+fit/val/test: 175,591 / 19,511 / 83,613 imgs  (11,805 / 2,268 / 6,044 sujeitos)
+batch 96 | steps/epoch 1,829 | epochs 5 | warmup 0 ep | early stop patience off
+val 1/5:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 1/5: train 0.0019/0.9997 | val loss 0.0131 acc 0.9972 f1 0.9972 err 0.2819% * | 168s 1044 img/s
+val 2/5:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 2/5: train 0.0012/0.9997 | val loss 0.0131 acc 0.9970 f1 0.9970 err 0.3024%  | 160s 1094 img/s
+val 3/5:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 3/5: train 0.0010/0.9998 | val loss 0.0128 acc 0.9972 f1 0.9972 err 0.2768% * | 161s 1094 img/s
+val 4/5:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 4/5: train 0.0010/0.9998 | val loss 0.0129 acc 0.9972 f1 0.9972 err 0.2768%  | 161s 1094 img/s
+val 5/5:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 5/5: train 0.0010/0.9998 | val loss 0.0128 acc 0.9972 f1 0.9972 err 0.2768%  | 161s 1093 img/s
+test:   0%|          | 0/436 [00:00<?, ?it/s]
+TESTE (best.pt, epoca 3): acc 0.9980  f1 0.9980  erro 0.2045% (171 / 83613)
+-> runs/eixo2_prune_resnet50_p70_s2/metrics.json
+resnet50: params 23.54 M (nao-nulos 7.10 M, esparsidade 69.8%) | MACs 4.11 G @ 224px | FP32 90.1 MiB, gzip 34.8 MiB [3.0s]
+-> runs/eixo2_prune_resnet50_p70_s2/cost.json

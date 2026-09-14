@@ -18,3 +18,51 @@
 2026-09-14 03:35:23  start eixo2_prune_densenet121_p95_s0
 2026-09-14 03:54:40  end   eixo2_prune_densenet121_p95_s0 rc=0  19 min
 2026-09-14 03:54:43  start eixo2_prune_resnet50_p98_s0
+2026-09-14 13:48:19  === poda: seeds [0] niveis [0.98] ===
+2026-09-14 13:48:19  start eixo2_prune_resnet50_p98_s0
+2026-09-14 14:00:49  end   eixo2_prune_resnet50_p98_s0 rc=0  12 min
+2026-09-14 14:00:53  start eixo2_prune_densenet121_p98_s0
+2026-09-14 14:19:25  end   eixo2_prune_densenet121_p98_s0 rc=0  18 min
+2026-09-14 14:19:28  === poda concluida: seeds [0] niveis [0.98] ===
+2026-09-14 14:19:28  === poda: seeds [1 2] niveis [0.5 0.7 0.9 0.95 0.98] ===
+2026-09-14 14:19:28  start eixo2_prune_resnet50_p50_s1
+2026-09-14 14:34:52  end   eixo2_prune_resnet50_p50_s1 rc=0  15 min
+2026-09-14 14:34:57  start eixo2_prune_densenet121_p50_s1
+2026-09-14 14:53:59  end   eixo2_prune_densenet121_p50_s1 rc=0  19 min
+2026-09-14 14:54:02  start eixo2_prune_resnet50_p70_s1
+2026-09-14 15:09:22  end   eixo2_prune_resnet50_p70_s1 rc=0  15 min
+2026-09-14 15:09:28  start eixo2_prune_densenet121_p70_s1
+2026-09-14 15:28:37  end   eixo2_prune_densenet121_p70_s1 rc=0  19 min
+2026-09-14 15:28:41  start eixo2_prune_resnet50_p90_s1
+2026-09-14 15:44:04  end   eixo2_prune_resnet50_p90_s1 rc=0  15 min
+2026-09-14 15:44:09  start eixo2_prune_densenet121_p90_s1
+2026-09-14 16:03:19  end   eixo2_prune_densenet121_p90_s1 rc=0  19 min
+2026-09-14 16:03:22  start eixo2_prune_resnet50_p95_s1
+2026-09-14 16:18:45  end   eixo2_prune_resnet50_p95_s1 rc=0  15 min
+2026-09-14 16:18:49  start eixo2_prune_densenet121_p95_s1
+2026-09-14 16:37:56  end   eixo2_prune_densenet121_p95_s1 rc=0  19 min
+2026-09-14 16:37:59  start eixo2_prune_resnet50_p98_s1
+2026-09-14 16:53:09  end   eixo2_prune_resnet50_p98_s1 rc=0  15 min
+2026-09-14 16:53:13  start eixo2_prune_densenet121_p98_s1
+2026-09-14 17:12:09  end   eixo2_prune_densenet121_p98_s1 rc=0  18 min
+2026-09-14 17:12:11  start eixo2_prune_resnet50_p50_s2
+2026-09-14 17:27:09  end   eixo2_prune_resnet50_p50_s2 rc=0  14 min
+2026-09-14 17:27:14  start eixo2_prune_densenet121_p50_s2
+2026-09-14 17:45:50  end   eixo2_prune_densenet121_p50_s2 rc=0  18 min
+2026-09-14 17:45:53  start eixo2_prune_resnet50_p70_s2
+2026-09-14 18:00:48  end   eixo2_prune_resnet50_p70_s2 rc=0  14 min
+2026-09-14 18:00:53  start eixo2_prune_densenet121_p70_s2
+2026-09-14 18:19:26  end   eixo2_prune_densenet121_p70_s2 rc=0  18 min
+2026-09-14 18:19:29  start eixo2_prune_resnet50_p90_s2
+2026-09-14 18:34:20  end   eixo2_prune_resnet50_p90_s2 rc=0  14 min
+2026-09-14 18:34:24  start eixo2_prune_densenet121_p90_s2
+2026-09-14 18:52:55  end   eixo2_prune_densenet121_p90_s2 rc=0  18 min
+2026-09-14 18:52:57  start eixo2_prune_resnet50_p95_s2
+2026-09-14 19:07:48  end   eixo2_prune_resnet50_p95_s2 rc=0  14 min
+2026-09-14 19:07:52  start eixo2_prune_densenet121_p95_s2
+2026-09-14 19:26:19  end   eixo2_prune_densenet121_p95_s2 rc=0  18 min
+2026-09-14 19:26:22  start eixo2_prune_resnet50_p98_s2
+2026-09-14 19:41:12  end   eixo2_prune_resnet50_p98_s2 rc=0  14 min
+2026-09-14 19:41:16  start eixo2_prune_densenet121_p98_s2
+2026-09-14 19:59:50  end   eixo2_prune_densenet121_p98_s2 rc=0  18 min
+2026-09-14 19:59:52  === poda concluida: seeds [1 2] niveis [0.5 0.7 0.9 0.95 0.98] ===
