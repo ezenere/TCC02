@@ -255,3 +255,25 @@ arquitetura, não do backend; (2) a engine int8 da DenseNet é **mais lenta que 
 e as conversões Q/DQ em torno das concatenações custam mais do que os kernels int8 economizam; na ResNet a int8 é 1,4× a FP16;
 (3) a acurácia difere entre backends (ResNet 180 vs 170 erros; DenseNet 190 vs 210), como o CLAUDE.md previa — reportar por backend.
 **Em andamento:** fila TensorRT das seeds 1–2 (FP32/FP16/INT8) e poda@90/95 + INT8 TRT (seed 0) — `runs/queue_trt.log`.
+
+## 2026-09-14 (madrugada de 15/09) — TensorRT com 3 seeds e poda+int8 (D0929-2, D0930-1)
+
+Fila `scripts/queue_trt.sh`: 8 lotes, 0 falhas. Teste, razão de erro vs PyTorch da mesma seed (média ± std, 3 seeds):
+```
+                 TRT FP32          TRT FP16          TRT INT8          int8 CPU        img/s TRT fp16 / int8 (lote 32, c/ dataloader)
+ResNet-50        1,00 ± 0,01       1,00 ± 0,01       1,08 ± 0,08       1,04 ± 0,07     5.068 / 6.189
+DenseNet-121     1,00 ± 0,00       1,00 ± 0,00       1,19 ± 0,08       1,24 ± 0,07     3.198 / 1.753
+```
+Poda + int8 (seed 0; razão vs baseline):
+```
+                 poda só    +int8 CPU   +int8 TRT
+ResNet-50 90%    1,07       1,14        1,42
+ResNet-50 95%    1,30       1,34        1,48
+DenseNet 90%     1,02       1,37        1,51
+DenseNet 95%     1,21       1,58        1,92
+```
+**Achados:** a int8 do TensorRT sobre modelos podados degrada mais que a de CPU (ResNet 90%: 1,42 vs 1,14) — a calibração por entropia
+sobre pesos 90% esparsos produz escalas piores que o observador por histograma do FX; hipótese a registrar. As duas técnicas compõem de
+forma aproximadamente aditiva na ResNet; na DenseNet a int8 domina e 95%+int8 sai do orçamento de 1,5× nos dois backends.
+**Em andamento (background):** latência CPU de todas as células (`scripts/measure_cpu_latency.sh`, máquina ociosa) e, na sequência,
+GPU **preliminar** com a sessão gráfica aberta (`NOTE` registra isso; a medição válida é a tua em TTY, que sobrescreve os JSONs).

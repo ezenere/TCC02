@@ -1,0 +1,34 @@
+{
+  "engine": "runs/eixo1_densenet121_s1/trt/model_fp16.engine",
+  "engine_bytes": 15720924,
+  "precision": "fp16",
+  "strongly_typed": true,
+  "tf32": true,
+  "build_time_s": 192.8,
+  "onnx": "runs/eixo1_densenet121_s1/model_fp16.onnx",
+  "onnx_bytes": 14248618,
+  "opt_profile": {
+    "min": 1,
+    "opt": 32,
+    "max": 32
+  },
+  "workspace_gib": 4,
+  "inspector": {
+    "n_layers": 767,
+    "output_datatype_histogram": {
+      "Half": 765,
+      "?": 1,
+      "Float": 1
+    }
+  },
+  "calibration": null,
+  "tensorrt": "11.3.0.99",
+  "python": "3.11.15",
+  "torch": "2.11.0+cu128",
+  "torchvision": "0.26.0+cu128",
+  "cuda": "12.8",
+  "cudnn": 91900,
+  "gpu": "NVIDIA GeForce RTX 3080 Ti",
+  "hostname": "EZenereArch",
+  "built_at": "2026-09-14T21:01:49"
+}

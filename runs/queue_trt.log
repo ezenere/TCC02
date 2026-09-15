@@ -1,0 +1,18 @@
+2026-09-14 20:50:12  start runs/eixo1_resnet50_s1 [fp32 fp16 int8]
+2026-09-14 20:54:17  end   runs/eixo1_resnet50_s1
+2026-09-14 20:54:17  start runs/eixo1_densenet121_s1 [fp32 fp16 int8]
+2026-09-14 21:06:50  end   runs/eixo1_densenet121_s1
+2026-09-14 21:06:50  start runs/eixo1_resnet50_s2 [fp32 fp16 int8]
+2026-09-14 21:10:56  end   runs/eixo1_resnet50_s2
+2026-09-14 21:10:56  start runs/eixo1_densenet121_s2 [fp32 fp16 int8]
+2026-09-14 21:23:40  end   runs/eixo1_densenet121_s2
+2026-09-14 21:23:40  === fila trt concluida ===
+2026-09-14 21:23:40  start runs/eixo2_prune_resnet50_p90_s0 [int8]
+2026-09-14 21:26:17  end   runs/eixo2_prune_resnet50_p90_s0
+2026-09-14 21:26:17  start runs/eixo2_prune_resnet50_p95_s0 [int8]
+2026-09-14 21:28:53  end   runs/eixo2_prune_resnet50_p95_s0
+2026-09-14 21:28:53  start runs/eixo2_prune_densenet121_p90_s0 [int8]
+2026-09-14 21:35:48  end   runs/eixo2_prune_densenet121_p90_s0
+2026-09-14 21:35:48  start runs/eixo2_prune_densenet121_p95_s0 [int8]
+2026-09-14 21:42:44  end   runs/eixo2_prune_densenet121_p95_s0
+2026-09-14 21:42:44  === fila trt concluida ===

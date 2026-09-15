@@ -35,13 +35,13 @@ rede fortemente tipada, ONNX Q/DQ com calibração por entropia (escolhida em `v
 | arquitetura | backend | precisão | seeds | razão de erro | erros / baseline (por seed) | artefato (× FP32) | img/s (aval.) |
 |---|---|---|---|---|---|---|---|
 | DenseNet-121 | cpu-fbgemm | int8 | 3 | 1.24 ± 0.07 | 210/160, 203/167, 198/167 | 7.7 MiB (0.28) | 476 |
-| DenseNet-121 | gpu-tensorrt | fp16 | 1 | 1.00 | 160/160 | 14.9 MiB (0.55) | 3183 |
-| DenseNet-121 | gpu-tensorrt | fp32 | 1 | 1.00 | 160/160 | 34.3 MiB (1.26) | 1665 |
-| DenseNet-121 | gpu-tensorrt | int8 | 1 | 1.19 | 190/160 | 14.5 MiB (0.53) | 1763 |
+| DenseNet-121 | gpu-tensorrt | fp16 | 3 | 1.00 ± 0.00 | 160/160, 166/167, 167/167 | 15.0 MiB (0.55) | 3198 |
+| DenseNet-121 | gpu-tensorrt | fp32 | 3 | 1.00 ± 0.00 | 160/160, 167/167, 168/167 | 34.3 MiB (1.26) | 1670 |
+| DenseNet-121 | gpu-tensorrt | int8 | 3 | 1.19 ± 0.08 | 190/160, 213/167, 185/167 | 14.5 MiB (0.53) | 1753 |
 | ResNet-50 | cpu-fbgemm | int8 | 3 | 1.04 ± 0.07 | 170/177, 174/165, 196/178 | 23.0 MiB (0.26) | 452 |
-| ResNet-50 | gpu-tensorrt | fp16 | 1 | 0.99 | 176/177 | 45.5 MiB (0.51) | 4488 |
-| ResNet-50 | gpu-tensorrt | fp32 | 1 | 0.99 | 176/177 | 100.8 MiB (1.12) | 1945 |
-| ResNet-50 | gpu-tensorrt | int8 | 1 | 1.02 | 180/177 | 23.9 MiB (0.27) | 6227 |
+| ResNet-50 | gpu-tensorrt | fp16 | 3 | 1.00 ± 0.01 | 176/177, 166/165, 179/178 | 45.5 MiB (0.51) | 5068 |
+| ResNet-50 | gpu-tensorrt | fp32 | 3 | 1.00 ± 0.01 | 176/177, 163/165, 179/178 | 100.8 MiB (1.12) | 1965 |
+| ResNet-50 | gpu-tensorrt | int8 | 3 | 1.08 ± 0.08 | 180/177, 174/165, 209/178 | 23.9 MiB (0.27) | 6189 |
 <!-- eixo2:quant:end -->
 
 **Leitura.** A int8 não custa nada à ResNet-50 em nenhum backend, mas degrada a DenseNet-121 nos dois (CPU 1,24×, TensorRT ≈1,2×): o efeito
