@@ -297,3 +297,8 @@ quase idênticas a imagens de treino. Removendo todos os usuários suspeitos: er
 - `README.md` da raiz, `docs/RUNBOOK.md`, `Makefile` (alvos por eixo) e `scripts/smoke.sh` — `make smoke` verde (treino → poda → custo → int8 → latência → ONNX em ~2 min).
 - `docs/METODOLOGIA.md`: § 2.1b (poda antes do treino) e § 5 (auditoria). `eval.py --save-preds`. 24 testes de CPU verdes.
 - Decisão tomada por padrão (pendente de objeção): a fração 100% do eixo 4 é um run próprio com a mesma receita (early stopping), como já implementado em `reduce_data.py`.
+
+## 2026-09-20 (dom)
+**Concluído:** release **`v0.2-eixo1`** publicada (tag em `bcafa82`, 12 assets, 1,4 GiB) — https://github.com/ezenere/TCC02/releases/tag/v0.2-eixo1.
+**Em andamento:** `[GPU]` eixo 2b seed 0 — 3/10 runs às 03:00 (p90 das duas, p95 ResNet), 0 falhas, ETA ≈ 14 h de 20/09.
+**Parcial eixo 2b (razão de erro, seed 0; antes × depois):** ResNet 90% 1,08 × 1,10; ResNet 95% 1,15 × 1,28; DenseNet 90% 1,11 × 1,03.

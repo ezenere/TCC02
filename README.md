@@ -67,7 +67,7 @@ Hardware de referência: RTX 3080 Ti (12 GB), Ryzen 9 9950X, PyTorch 2.11 + CUDA
 | release | conteúdo |
 |---|---|
 | `ResNet` | baseline de evidência (ResNet-50, 5 épocas): `best.pt`, `last.pt` |
-| `v0.2-eixo1` | eixo 1: 6 × `best.pt` + 6 × `last.pt` _(a publicar)_ |
+| [`v0.2-eixo1`](https://github.com/ezenere/TCC02/releases/tag/v0.2-eixo1) | eixo 1: 6 × `best.pt` + 6 × `last.pt`, nomeados `<run>__best.pt` / `<run>__last.pt` (1,4 GiB) |
 
 ## Demo
 
