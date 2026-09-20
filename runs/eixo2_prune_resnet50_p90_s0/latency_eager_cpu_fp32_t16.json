@@ -1,0 +1,34 @@
+{
+  "artifact": "runs/eixo2_prune_resnet50_p90_s0/checkpoints/best.pt",
+  "artifact_bytes": 212204922,
+  "kind": "eager",
+  "device": "cpu",
+  "precision": "fp32",
+  "threads": 16,
+  "arch": "resnet50",
+  "input_size": 224,
+  "cpu": "AMD Ryzen 9 9950X 16-Core Processor",
+  "note": "sistema em repouso (GPU ociosa, sem treino)",
+  "measured_at": "2026-09-20T14:18:23",
+  "python": "3.11.15",
+  "torch": "2.11.0+cu128",
+  "torchvision": "0.26.0+cu128",
+  "cuda": "12.8",
+  "cudnn": 91900,
+  "gpu": "NVIDIA GeForce RTX 3080 Ti",
+  "hostname": "EZenereArch",
+  "onnxruntime": null,
+  "results": {
+    "batch_1": {
+      "p50_ms": 10.855025524506345,
+      "p95_ms": 11.168348489445634,
+      "mean_ms": 10.894091961090453,
+      "std_ms": 0.16737411846159356,
+      "min_ms": 10.6855159974657,
+      "iters": 100,
+      "warmup": 50,
+      "img_s_p50": 92.12322879779475,
+      "img_s_mean": 91.79287301517364
+    }
+  }
+}

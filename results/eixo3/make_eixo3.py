@@ -25,6 +25,7 @@ ROOT = Path(__file__).resolve().parents[2]
 OUT = Path(__file__).resolve().parent
 LABEL = {"resnet50": "ResNet-50", "densenet121": "DenseNet-121"}
 P_BASE = re.compile(r"eixo1_(?P<arch>\w+?)_s(?P<seed>\d+)$")
+LAT_TOL, SIZE_TOL = 0.05, 0.01
 P_PRUNE = re.compile(r"eixo2_prune_(?P<arch>\w+?)_p(?P<pct>\d+)_s(?P<seed>\d+)$")
 
 
@@ -130,15 +131,35 @@ def decide(s: pd.DataFrame, thr: float) -> str:
                      .sort_values(["arch", "error_ratio_mean"]).to_markdown(index=False))
         return "\n".join(lines)
     ok = ok.dropna(subset=["lat_gpu_trt_b1_mean"]).sort_values(["lat_gpu_trt_b1_mean", "artifact_bytes_mean"])
-    win = ok.iloc[0]
-    lines.append(f"## Vencedora: **{LABEL.get(win.arch, win.arch)} — {win.cell}**\n")
-    lines.append(f"razão de erro {win.error_ratio_mean:.2f}× · latência TRT b1 {win.lat_gpu_trt_b1_mean:.3f} ms · "
+    literal = ok.iloc[0]
+    # Refinement (proposal): latencies within LAT_TOL of the fastest are a tie — that is the
+    # run-to-run stability the harness itself guarantees (tests/test_latency.py). Tie-break as in the
+    # criterion (smaller artifact); artifacts within SIZE_TOL are again a tie -> lower error ratio.
+    tied = ok[ok.lat_gpu_trt_b1_mean <= literal.lat_gpu_trt_b1_mean * (1 + LAT_TOL)]
+    tied = tied[tied.artifact_bytes_mean <= tied.artifact_bytes_mean.min() * (1 + SIZE_TOL)]
+    win = tied.sort_values("error_ratio_mean").iloc[0]
+    name = lambda r: f"{LABEL.get(r.arch, r.arch)} — {r.cell}"
+    lines.append(f"## Vencedora: **{name(win)}**\n")
+    lines.append(f"razão de erro {win.error_ratio_mean:.2f}× · latência TRT lote 1 {win.lat_gpu_trt_b1_mean:.3f} ms · "
                  f"artefato {win.artifact_bytes_mean / 2**20:.1f} MiB\n")
+    if name(literal) != name(win):
+        lines.append(f"**Leitura literal do critério:** {name(literal)} ({literal.lat_gpu_trt_b1_mean:.3f} ms, razão "
+                     f"{literal.error_ratio_mean:.2f}×). A diferença de latência para a vencedora acima é de "
+                     f"{100 * (win.lat_gpu_trt_b1_mean / literal.lat_gpu_trt_b1_mean - 1):.1f}%, abaixo da tolerância de "
+                     f"estabilidade do harness ({100 * LAT_TOL:.0f}%): as duas células rodam o mesmo grafo int8 (a poda "
+                     "não-estruturada não acelera kernels densos). **Refinamento proposto, pendente de confirmação:** latências "
+                     f"dentro de {100 * LAT_TOL:.0f}% contam como empate; desempate por artefato (o do critério); artefatos dentro "
+                     f"de {100 * SIZE_TOL:.0f}% também empatam e vence a menor razão de erro.\n")
+    archs = set(tied.arch) | {literal.arch}
+    lines.append(f"Arquitetura em todas as leituras: **{', '.join(LABEL.get(a, a) for a in sorted(archs))}** — o treino denso do "
+                 "eixo 4 é o mesmo em qualquer desfecho.\n")
     lines.append("## Finalistas\n")
-    lines.append(ok.head(4)[["arch", "cell", "error_ratio_mean", "lat_gpu_trt_b1_mean", "artifact_bytes_mean"]]
+    lines.append(ok.head(5)[["arch", "cell", "n_seeds", "error_ratio_mean", "lat_gpu_trt_b1_mean", "artifact_bytes_mean"]]
                  .to_markdown(index=False))
     lines.append("\n## Excluídas pela razão de erro\n")
     lines.append(s[s.error_ratio_mean > thr][["arch", "cell", "error_ratio_mean"]].to_markdown(index=False))
+    notes = sorted({json.loads(f.read_text()).get("note", "") for f in (ROOT / "runs").glob("*/latency_trt_*.json")})
+    lines.append("\n## Condições da medição de latência GPU\n\n" + "\n".join(f"- {n}" for n in notes))
     return "\n".join(lines)
 
 

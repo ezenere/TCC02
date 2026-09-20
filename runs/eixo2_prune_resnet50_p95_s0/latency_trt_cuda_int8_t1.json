@@ -1,0 +1,34 @@
+{
+  "artifact": "runs/eixo2_prune_resnet50_p95_s0/trt/model_int8.engine",
+  "artifact_bytes": 25111716,
+  "kind": "trt",
+  "device": "cuda",
+  "precision": "int8",
+  "threads": null,
+  "arch": null,
+  "input_size": 224,
+  "cpu": "AMD Ryzen 9 9950X 16-Core Processor",
+  "note": "PRELIMINAR: sessão gráfica ABERTA (KDE); refazer em TTY",
+  "measured_at": "2026-09-20T14:37:19",
+  "python": "3.11.15",
+  "torch": "2.11.0+cu128",
+  "torchvision": "0.26.0+cu128",
+  "cuda": "12.8",
+  "cudnn": 91900,
+  "gpu": "NVIDIA GeForce RTX 3080 Ti",
+  "hostname": "EZenereArch",
+  "onnxruntime": null,
+  "results": {
+    "batch_1": {
+      "p50_ms": 0.9300509991589934,
+      "p95_ms": 0.9781410015420988,
+      "mean_ms": 0.8948626233420024,
+      "std_ms": 0.06670749352590478,
+      "min_ms": 0.7872970309108496,
+      "iters": 300,
+      "warmup": 50,
+      "img_s_p50": 1075.2098550555386,
+      "img_s_mean": 1117.489963169258
+    }
+  }
+}

@@ -1,0 +1,44 @@
+name, driver_version, clocks.current.sm [MHz], clocks.current.memory [MHz], temperature.gpu
+NVIDIA GeForce RTX 3080 Ti, 615.71.09, 210 MHz, 405 MHz, 34
+batch   1: p50    1.810 ms  p95    2.066 ms  mean    1.852 ms  ->    552.5 img/s (p50)
+batch  32: p50   20.353 ms  p95   20.441 ms  mean   20.356 ms  ->   1572.3 img/s (p50)
+-> runs/eixo1_resnet50_s0/latency_eager_cuda_fp32_t1.json
+batch   1: p50    1.439 ms  p95    1.650 ms  mean    1.507 ms  ->    695.2 img/s (p50)
+batch  32: p50   10.359 ms  p95   10.392 ms  mean   10.361 ms  ->   3089.1 img/s (p50)
+-> runs/eixo1_resnet50_s0/latency_eager_cuda_fp16_t1.json
+[09/20/2026-14:32:42] [TRT] [W] Using an engine plan file across different models of devices is not supported and is likely to affect performance or even cause errors or deadlock.
+[09/20/2026-14:32:42] [TRT] [W] Using default stream in enqueueV3() may lead to performance issues due to additional calls to cudaStreamSynchronize() by TensorRT to ensure correct synchronization. Please use non-default stream instead.
+batch   1: p50    2.655 ms  p95    2.714 ms  mean    2.671 ms  ->    376.7 img/s (p50)
+batch  32: p50   14.490 ms  p95   14.597 ms  mean   14.496 ms  ->   2208.3 img/s (p50)
+-> runs/eixo1_resnet50_s0/trt/latency_trt_cuda_fp32_t1.json
+[09/20/2026-14:32:50] [TRT] [W] Using an engine plan file across different models of devices is not supported and is likely to affect performance or even cause errors or deadlock.
+[09/20/2026-14:32:50] [TRT] [W] Using default stream in enqueueV3() may lead to performance issues due to additional calls to cudaStreamSynchronize() by TensorRT to ensure correct synchronization. Please use non-default stream instead.
+batch   1: p50    0.881 ms  p95    0.947 ms  mean    0.884 ms  ->   1135.5 img/s (p50)
+batch  32: p50    4.059 ms  p95    4.105 ms  mean    4.061 ms  ->   7883.3 img/s (p50)
+-> runs/eixo1_resnet50_s0/trt/latency_trt_cuda_fp16_t1.json
+[09/20/2026-14:32:54] [TRT] [W] Using an engine plan file across different models of devices is not supported and is likely to affect performance or even cause errors or deadlock.
+[09/20/2026-14:32:54] [TRT] [W] Using default stream in enqueueV3() may lead to performance issues due to additional calls to cudaStreamSynchronize() by TensorRT to ensure correct synchronization. Please use non-default stream instead.
+batch   1: p50    0.916 ms  p95    0.932 ms  mean    0.862 ms  ->   1091.2 img/s (p50)
+batch  32: p50    3.040 ms  p95    3.060 ms  mean    3.044 ms  ->  10525.3 img/s (p50)
+-> runs/eixo1_resnet50_s0/trt/latency_trt_cuda_int8_t1.json
+batch   1: p50    3.519 ms  p95    3.563 ms  mean    3.533 ms  ->    284.2 img/s (p50)
+batch  32: p50   25.239 ms  p95   25.301 ms  mean   25.232 ms  ->   1267.9 img/s (p50)
+-> runs/eixo1_densenet121_s0/latency_eager_cuda_fp32_t1.json
+batch   1: p50    3.152 ms  p95    3.719 ms  mean    3.251 ms  ->    317.2 img/s (p50)
+batch  32: p50   13.056 ms  p95   13.123 ms  mean   13.062 ms  ->   2451.1 img/s (p50)
+-> runs/eixo1_densenet121_s0/latency_eager_cuda_fp16_t1.json
+[09/20/2026-14:34:05] [TRT] [W] Using an engine plan file across different models of devices is not supported and is likely to affect performance or even cause errors or deadlock.
+[09/20/2026-14:34:05] [TRT] [W] Using default stream in enqueueV3() may lead to performance issues due to additional calls to cudaStreamSynchronize() by TensorRT to ensure correct synchronization. Please use non-default stream instead.
+batch   1: p50    4.208 ms  p95    4.250 ms  mean    4.212 ms  ->    237.6 img/s (p50)
+batch  32: p50   17.870 ms  p95   17.926 ms  mean   17.876 ms  ->   1790.7 img/s (p50)
+-> runs/eixo1_densenet121_s0/trt/latency_trt_cuda_fp32_t1.json
+[09/20/2026-14:34:15] [TRT] [W] Using an engine plan file across different models of devices is not supported and is likely to affect performance or even cause errors or deadlock.
+[09/20/2026-14:34:15] [TRT] [W] Using default stream in enqueueV3() may lead to performance issues due to additional calls to cudaStreamSynchronize() by TensorRT to ensure correct synchronization. Please use non-default stream instead.
+batch   1: p50    2.760 ms  p95    3.205 ms  mean    2.814 ms  ->    362.3 img/s (p50)
+batch  32: p50    8.404 ms  p95    8.447 ms  mean    8.407 ms  ->   3807.5 img/s (p50)
+-> runs/eixo1_densenet121_s0/trt/latency_trt_cuda_fp16_t1.json
+[09/20/2026-14:34:21] [TRT] [W] Using an engine plan file across different models of devices is not supported and is likely to affect performance or even cause errors or deadlock.
+[09/20/2026-14:34:21] [TRT] [W] Using default stream in enqueueV3() may lead to performance issues due to additional calls to cudaStreamSynchronize() by TensorRT to ensure correct synchronization. Please use non-default stream instead.
+batch   1: p50    3.140 ms  p95    3.182 ms  mean    3.155 ms  ->    318.5 img/s (p50)
+batch  32: p50   16.866 ms  p95   16.929 ms  mean   16.872 ms  ->   1897.3 img/s (p50)
+-> runs/eixo1_densenet121_s0/trt/latency_trt_cuda_int8_t1.json

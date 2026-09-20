@@ -1,0 +1,56 @@
+batch   1: p50   51.736 ms  p95   54.044 ms  mean   52.112 ms  ->     19.3 img/s (p50)
+batch  32: p50 1265.597 ms  p95 1278.191 ms  mean 1266.003 ms  ->     25.3 img/s (p50)
+-> runs/eixo1_resnet50_s0/latency_eager_cpu_fp32_t1.json
+batch   1: p50    7.995 ms  p95    8.203 ms  mean    8.018 ms  ->    125.1 img/s (p50)
+batch  32: p50  250.404 ms  p95  255.050 ms  mean  250.922 ms  ->    127.8 img/s (p50)
+-> runs/eixo1_resnet50_s0/latency_torchscript_cpu_int8_t1.json
+batch   1: p50    5.891 ms  p95    8.837 ms  mean    6.390 ms  ->    169.7 img/s (p50)
+batch  32: p50  104.088 ms  p95  145.350 ms  mean  111.690 ms  ->    307.4 img/s (p50)
+-> runs/eixo1_resnet50_s0/latency_onnx_cpu_fp32_t1.json
+batch   1: p50   10.748 ms  p95   12.493 ms  mean   11.007 ms  ->     93.0 img/s (p50)
+batch  32: p50  374.539 ms  p95  393.345 ms  mean  376.757 ms  ->     85.4 img/s (p50)
+-> runs/eixo1_resnet50_s0/latency_eager_cpu_fp32_t16.json
+batch   1: p50    1.385 ms  p95    1.653 ms  mean    1.418 ms  ->    722.1 img/s (p50)
+batch  32: p50   33.337 ms  p95   37.313 ms  mean   33.913 ms  ->    959.9 img/s (p50)
+-> runs/eixo1_resnet50_s0/latency_torchscript_cpu_int8_t16.json
+batch   1: p50    5.861 ms  p95    7.541 ms  mean    6.106 ms  ->    170.6 img/s (p50)
+batch  32: p50  104.463 ms  p95  148.762 ms  mean  113.723 ms  ->    306.3 img/s (p50)
+-> runs/eixo1_resnet50_s0/latency_onnx_cpu_fp32_t16.json
+batch   1: p50   11.025 ms  p95   12.495 ms  mean   11.188 ms  ->     90.7 img/s (p50)
+-> runs/eixo2_prune_resnet50_p50_s0/latency_eager_cpu_fp32_t16.json
+batch   1: p50   11.281 ms  p95   12.900 ms  mean   11.531 ms  ->     88.6 img/s (p50)
+-> runs/eixo2_prune_resnet50_p70_s0/latency_eager_cpu_fp32_t16.json
+batch   1: p50   10.855 ms  p95   11.168 ms  mean   10.894 ms  ->     92.1 img/s (p50)
+-> runs/eixo2_prune_resnet50_p90_s0/latency_eager_cpu_fp32_t16.json
+batch   1: p50   11.392 ms  p95   11.898 ms  mean   11.474 ms  ->     87.8 img/s (p50)
+-> runs/eixo2_prune_resnet50_p95_s0/latency_eager_cpu_fp32_t16.json
+batch   1: p50   11.343 ms  p95   13.118 ms  mean   11.577 ms  ->     88.2 img/s (p50)
+-> runs/eixo2_prune_resnet50_p98_s0/latency_eager_cpu_fp32_t16.json
+batch   1: p50   41.252 ms  p95   42.621 ms  mean   41.331 ms  ->     24.2 img/s (p50)
+batch  32: p50 1101.710 ms  p95 1115.952 ms  mean 1101.667 ms  ->     29.0 img/s (p50)
+-> runs/eixo1_densenet121_s0/latency_eager_cpu_fp32_t1.json
+batch   1: p50    7.229 ms  p95    7.542 ms  mean    7.254 ms  ->    138.3 img/s (p50)
+batch  32: p50  216.062 ms  p95  221.206 ms  mean  216.632 ms  ->    148.1 img/s (p50)
+-> runs/eixo1_densenet121_s0/latency_torchscript_cpu_int8_t1.json
+batch   1: p50    9.810 ms  p95   13.258 ms  mean   10.534 ms  ->    101.9 img/s (p50)
+batch  32: p50  192.241 ms  p95  252.823 ms  mean  203.865 ms  ->    166.5 img/s (p50)
+-> runs/eixo1_densenet121_s0/latency_onnx_cpu_fp32_t1.json
+batch   1: p50   16.635 ms  p95   18.636 ms  mean   16.877 ms  ->     60.1 img/s (p50)
+batch  32: p50  377.056 ms  p95  403.972 ms  mean  381.209 ms  ->     84.9 img/s (p50)
+-> runs/eixo1_densenet121_s0/latency_eager_cpu_fp32_t16.json
+batch   1: p50    2.855 ms  p95    3.043 ms  mean    2.875 ms  ->    350.2 img/s (p50)
+batch  32: p50   31.483 ms  p95   34.763 ms  mean   31.684 ms  ->   1016.4 img/s (p50)
+-> runs/eixo1_densenet121_s0/latency_torchscript_cpu_int8_t16.json
+batch   1: p50    9.695 ms  p95   12.835 ms  mean   10.216 ms  ->    103.1 img/s (p50)
+batch  32: p50  190.938 ms  p95  249.025 ms  mean  201.470 ms  ->    167.6 img/s (p50)
+-> runs/eixo1_densenet121_s0/latency_onnx_cpu_fp32_t16.json
+batch   1: p50   15.912 ms  p95   16.528 ms  mean   15.979 ms  ->     62.8 img/s (p50)
+-> runs/eixo2_prune_densenet121_p50_s0/latency_eager_cpu_fp32_t16.json
+batch   1: p50   15.788 ms  p95   16.239 ms  mean   15.835 ms  ->     63.3 img/s (p50)
+-> runs/eixo2_prune_densenet121_p70_s0/latency_eager_cpu_fp32_t16.json
+batch   1: p50   16.511 ms  p95   18.307 ms  mean   16.754 ms  ->     60.6 img/s (p50)
+-> runs/eixo2_prune_densenet121_p90_s0/latency_eager_cpu_fp32_t16.json
+batch   1: p50   16.236 ms  p95   24.477 ms  mean   17.391 ms  ->     61.6 img/s (p50)
+-> runs/eixo2_prune_densenet121_p95_s0/latency_eager_cpu_fp32_t16.json
+batch   1: p50   16.543 ms  p95   18.951 ms  mean   16.820 ms  ->     60.4 img/s (p50)
+-> runs/eixo2_prune_densenet121_p98_s0/latency_eager_cpu_fp32_t16.json

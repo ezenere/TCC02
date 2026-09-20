@@ -321,3 +321,25 @@ Na DenseNet-121, podar antes é levemente pior até 95% e empata a 98%. **Confus
 *orçamento de treino* da rede esparsa (30 épocas × 5). Controle previsto: podar depois com fine-tuning de 30 épocas em 95% e 98% (4 runs, ≈ 6 h),
 depois do eixo 4. Seeds 1–2 do eixo 2b (≈ 30 h) ficam por último.
 **Em andamento:** latência CPU (máquina ociosa) → GPU preliminar → decisão do eixo 3 → eixo 4.
+
+## 2026-09-20 (tarde) — latência e decisão preliminar do eixo 3
+
+**Latência CPU** (Ryzen 9 9950X, máquina em repouso; p50, lote 1): ResNet-50 FP32 eager 51,7 ms (1 thr) / 10,7 ms (16 thr); int8 fbgemm 8,0 / **1,38 ms**;
+DenseNet-121 FP32 41,3 / 16,6 ms; int8 7,2 / **2,86 ms**. ONNX Runtime FP32: 5,9 ms (ResNet) e 9,8 ms (DenseNet), sem ganho com 16 threads.
+Modelos podados (16 thr): 10,9–11,4 ms (ResNet) e 15,8–16,5 ms (DenseNet) — **iguais ao baseline**: esparsidade não-estruturada não acelera kernels densos.
+**Latência GPU, PRELIMINAR (sessão gráfica aberta; refazer em TTY)**, TensorRT, p50 lote 1 / lote 32:
+```
+               FP32 (TF32 off)     FP16              INT8
+ResNet-50      2,65 / 14,4 ms      0,94 / 4,05 ms    0,80 / 3,04 ms
+DenseNet-121   4,23 / 18,0 ms      2,76 / 8,43 ms    3,17 / 16,9 ms     <- int8 mais lenta que fp16
+```
+PyTorch eager na GPU: ResNet 1,81 (fp32) / 1,44 ms (fp16); DenseNet 3,52 / 3,15 ms. `trt_runtime.py` passou a usar um stream CUDA dedicado
+(o stream padrão forçava sincronizações extras); acurácia conferida inalterada. Aviso do TensorRT ao carregar as engines ("engine plan file across
+different models of devices"): reconstruir com `make trt` antes da medição final em TTY.
+
+**Decisão do eixo 3 (`results/eixo3/decision.md`) — preliminar.** Leitura literal do critério: ResNet-50 **poda 90% + int8 TRT** (0,793 ms, razão 1,42×),
+por 0,9% de latência sobre **ResNet-50 int8 TRT** (0,800 ms, razão 1,08×) — diferença dentro do ruído; são o mesmo grafo int8.
+**Refinamento proposto (pendente de confirmação):** latências dentro de 5% (tolerância do harness) = empate; desempate por artefato; artefatos dentro de 1%
+= empate → menor razão de erro. Com ele vence **ResNet-50 int8 TensorRT**. Em todas as leituras a arquitetura é ResNet-50, então o treino denso do eixo 4
+é o mesmo; a quantização de cada ponto da curva é aplicada depois.
+**Em andamento:** `[GPU][NOITE]` eixo 4 — `src/reduce_data.py --config configs/train_resnet50.yaml --seeds 0 1 2` (18 runs, ETA ≈ 14 h). Log: `runs/queue_eixo4_resnet50.log`.

@@ -1,0 +1,34 @@
+{
+  "artifact": "runs/eixo2_prune_densenet121_p90_s0/checkpoints/best.pt",
+  "artifact_bytes": 63352021,
+  "kind": "eager",
+  "device": "cpu",
+  "precision": "fp32",
+  "threads": 16,
+  "arch": "densenet121",
+  "input_size": 224,
+  "cpu": "AMD Ryzen 9 9950X 16-Core Processor",
+  "note": "sistema em repouso (GPU ociosa, sem treino)",
+  "measured_at": "2026-09-20T14:31:55",
+  "python": "3.11.15",
+  "torch": "2.11.0+cu128",
+  "torchvision": "0.26.0+cu128",
+  "cuda": "12.8",
+  "cudnn": 91900,
+  "gpu": "NVIDIA GeForce RTX 3080 Ti",
+  "hostname": "EZenereArch",
+  "onnxruntime": null,
+  "results": {
+    "batch_1": {
+      "p50_ms": 16.510757501237094,
+      "p95_ms": 18.30714094976429,
+      "mean_ms": 16.754014311009087,
+      "std_ms": 0.6710237314781673,
+      "min_ms": 16.235388990025967,
+      "iters": 100,
+      "warmup": 50,
+      "img_s_p50": 60.566573031253924,
+      "img_s_mean": 59.68718788445218
+    }
+  }
+}

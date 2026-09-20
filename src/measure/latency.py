@@ -154,7 +154,7 @@ def main() -> int:
                "measured_at": time.strftime("%Y-%m-%dT%H:%M:%S"), **env_info(),
                "onnxruntime": __import__("onnxruntime").__version__ if args.kind == "onnx" else None,
                "results": results}
-    run_dir = args.artifact.parent.parent if args.artifact.parent.name == "checkpoints" else args.artifact.parent
+    run_dir = args.artifact.parent.parent if args.artifact.parent.name in ("checkpoints", "trt") else args.artifact.parent
     out = args.out or (run_dir / f"latency_{args.kind}_{args.device}_{args.precision}_t{args.threads}.json")
     write_json(out, payload)
     print(f"-> {out}")
