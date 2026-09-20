@@ -26,6 +26,19 @@ orçamento de 1,5× do critério do eixo 3; o joelho está em 98%. A DenseNet-12
 partir de 3,4× menos parâmetros. MACs e latência **não** mudam com poda não-estruturada (kernels densos calculam os zeros); o que cai é
 o artefato comprimido, para ~21% em 90%. Poda estruturada, que reduziria MACs, é limitada na DenseNet pelas concatenações (ver METODOLOGIA § 2.1).
 
+## Eixo 2b — podar antes ou depois do treino? (pedido do orientador)
+
+**Depois** (protocolo original): treino completo de 30 épocas → poda global por magnitude → fine-tuning de 5 épocas.
+**Antes**: poda global por magnitude sobre os pesos **ImageNet** (cabeça nova fica densa) → treino completo de 30 épocas com as
+máscaras fixas. Mesma receita de otimização, mesmas seeds, mesma métrica. O custo de GPU por modelo podado é parecido quando se conta
+o treino denso de origem (≈ 100 min), mas "antes" precisa de um treino completo **por nível** de esparsidade, enquanto "depois"
+reaproveita um único treino denso para todos os níveis.
+
+<!-- eixo2:compare:start -->
+<!-- eixo2:compare:end -->
+
+Figura: `figures/prune_compare.{pdf,png}` (`make_prune_compare.py`).
+
 ## Quantização int8 pós-treinamento
 
 Calibração com as mesmas 1.024 imagens de `fit` nas duas rotas. CPU: FX graph mode, backend x86/fbgemm, artefato TorchScript. GPU: TensorRT 11,
