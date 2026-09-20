@@ -34,7 +34,7 @@ UPLOAD="https://uploads.github.com/repos/$SLUG/releases/$ID/assets"
 
 for f in "$@"; do
   [ -f "$f" ] || { echo "asset ausente: $f" >&2; exit 1; }
-  run="$(basename "$(dirname "$(dirname "$f")")")"       # runs/<run>/checkpoints/x.pt -> <run>
+  run="$(printf '%s' "$f" | sed -E 's#^(.*/)?runs/([^/]+)/.*#\2#')"   # runs/<run>/... -> <run>
   asset="${run}__$(basename "$f")"
   echo "upload $asset ($(du -h "$f" | cut -f1))"
   curl -sS "${AUTH[@]}" -H "Content-Type: application/octet-stream" \
