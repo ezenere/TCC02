@@ -88,3 +88,15 @@ def test_zero_sparsity_is_identity():
 def test_invalid_sparsity():
     with pytest.raises(ValueError):
         global_magnitude_masks(tiny_model(), 1.0)
+
+
+def test_exclude_keeps_the_head_dense():
+    m = tiny_model()
+    head = "7"                                   # the Linear layer of tiny_model()
+    masks = global_magnitude_masks(m, 0.8, exclude=(head,))
+    assert f"{head}.weight" not in masks
+    before = m[7].weight.clone()
+    apply_masks(m, masks)
+    assert torch.equal(before, m[7].weight)      # untouched
+    rep = sparsity_report(m, masks, exclude=(head,))
+    assert abs(rep["sparsity_prunable"] - 0.8) < 1e-3   # target holds over the pruned scope

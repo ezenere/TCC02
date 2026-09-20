@@ -40,6 +40,7 @@ def main() -> int:
     ap.add_argument("--out", type=Path, default=None)
     ap.add_argument("--batch-size", type=int, default=None)
     ap.add_argument("--workers", type=int, default=None)
+    ap.add_argument("--save-preds", type=Path, default=None, help="CSV with image_path,label,pred,confidence")
     args = ap.parse_args()
 
     ck = torch.load(args.checkpoint, map_location="cuda", weights_only=False)
@@ -64,8 +65,14 @@ def main() -> int:
     torch.backends.cudnn.benchmark = True
 
     t0 = time.perf_counter()
-    m = evaluate(model, loader, device, amp_dtype, nn.CrossEntropyLoss(), meta["classes"],
-                 desc=f"eval {args.split}")
+    m, pred_idx, conf = evaluate(model, loader, device, amp_dtype, nn.CrossEntropyLoss(), meta["classes"],
+                                 desc=f"eval {args.split}", return_preds=True)
+    if args.save_preds:
+        import pandas as pd
+        ds = loader.dataset
+        pd.DataFrame({"image_path": ds.paths, "label": [meta["classes"][t] for t in ds.targets],
+                      "pred": [meta["classes"][i] for i in pred_idx], "confidence": conf.round(4)}
+                     ).to_csv(args.save_preds, index=False)
     dt = time.perf_counter() - t0
 
     payload = {"split": args.split, "checkpoint": str(args.checkpoint),

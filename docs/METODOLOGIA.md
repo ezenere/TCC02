@@ -112,6 +112,18 @@ limiar global (esparsidade difere entre camadas); os pesos removidos são os de 
 magnitude; máscaras sobrevivem a passos do otimizador com momentum e weight decay;
 round-trip por checkpoint preserva máscaras e saídas.
 
+### 2.1b Poda antes do treino (eixo 2b)
+
+**Pergunta.** A ordem importa? No protocolo de 2.1 a rede é treinada densa e depois podada, com um fine-tuning curto. A alternativa
+testada aqui poda **antes**: a poda global por magnitude é calculada sobre os pesos **ImageNet**, e só então vem o treino completo do
+eixo 1 (30 épocas, mesma receita, mesmas seeds) com as máscaras fixas e reaplicadas a cada passo. A cabeça de 18 classes fica densa
+(`prune.exclude_head`): ela é inicializada aleatoriamente, de modo que a magnitude dos seus pesos não carrega informação; representa
+0,15% dos parâmetros da ResNet-50. Níveis, métrica (razão de erro vs o baseline denso da mesma seed) e avaliação são os de 2.1.
+Interpretação: a poda "antes" escolhe a sub-rede pelo que importa para o ImageNet e dá a ela o orçamento inteiro de treino; a poda
+"depois" escolhe a sub-rede pelo que importa para os gestos e dá a ela 5 épocas. Custo: "antes" exige um treino completo por nível de
+esparsidade; "depois" reaproveita um único treino denso. Configs `configs/prune_first_<arch>.yaml`; consolidação
+`results/eixo2/make_prune_compare.py`.
+
 ### 2.2 Quantização
 
 **Duas rotas, um artefato por backend.** A quantização é medida em dois runtimes distintos, porque
@@ -235,3 +247,25 @@ early stopping atua mais cedo nas frações pequenas); F1 por classe nas fraçõ
 degradam primeiro). Análise complementar: ajuste de lei de potência `erro ∝ N^-α` sobre a curva média
 (Hestness et al., 2017), reportando α e R² por arquitetura. Registra-se no texto que a curva mede a
 redução de dados **no regime de fine-tuning** a partir de pesos ImageNet.
+
+
+## 5. Auditoria de vazamento
+
+Motivada pela acurácia de ~99,8%. Relatório completo e reprodução em `results/audit/README.md`.
+
+**Verificações de manifesto** (`scripts/audit_leakage.py`): sujeitos disjuntos entre `fit`, `val` e `test`; unicidade de imagens;
+re-derivação independente a partir dos JSONs brutos do HaGRID (100% das 278.715 linhas com `user_id` e classe idênticos); nenhum
+`user_id` em dois splits oficiais do dataset. **Verificações de conteúdo:** md5 dos JPEGs processados (0 duplicatas exatas) e busca de
+quase-duplicatas entre treino e teste por dHash de 64 bits (distância de Hamming ≤ 3, com banding 4×16 bits) seguida de verificação por
+pixel (diferença média absoluta de miniaturas 32×32; o hash sozinho gera milhares de colisões em recortes de fundo liso).
+**Controles comportamentais:** treino com rótulos de `fit` permutados e teste intacto (4,9% de acerto; acaso = 5,6%), e avaliação dos
+seis modelos do eixo 1 num **holdout externo** de 278.702 imagens de 19.042 sujeitos que nunca entraram em nenhuma versão do manifesto.
+
+**Achado.** O `user_id` do HaGRID não é uma identidade perfeita: 87 imagens de teste (0,10%) são quase idênticas a imagens de treino
+registradas sob outro `user_id`. O impacto foi limitado de forma conservadora removendo **todas** as imagens de todo usuário de teste
+com ao menos uma quase-duplicata (`scripts/audit_multiaccount.py`): no critério estrito (52 usuários) o erro não muda (0,2125% vs
+0,2117%); no critério frouxo (292 usuários, 42% do teste, com falsos positivos) sobe para 0,28% — pior caso de 99,72% de acurácia.
+No holdout externo o erro é 0,235 ± 0,008% (ResNet-50) e 0,216 ± 0,005% (DenseNet-121), contra 0,207% e 0,197% no teste do projeto.
+Conclusão: o número é uma propriedade da tarefa neste formato (recorte apertado da mão, 18 classes distintas, 175 mil imagens, pesos
+ImageNet), não um artefato do pipeline; o vazamento por contas duplicadas do dataset explica no máximo 0,07 p.p. e é declarado como
+limitação.

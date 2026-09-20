@@ -1,0 +1,9 @@
+{
+  "errors_resnet50": 177,
+  "errors_densenet121": 160,
+  "errors_in_both": 117,
+  "share_of_resnet_errors_shared": 0.661,
+  "share_of_densenet_errors_shared": 0.731,
+  "shared_errors_with_same_wrong_class": 109,
+  "errors_union": 220
+}

@@ -81,3 +81,22 @@ def test_real_manifest_v2_is_subject_disjoint():
     assert not (set(fit.user_id) & set(val.user_id))
     assert not (set(fit.user_id) & set(test.user_id))
     assert not (set(val.user_id) & set(test.user_id))
+
+
+def test_shuffle_labels_permutes_only_fit(tmp_path):
+    """Negative-control flag: fit labels are permuted, val/test labels are untouched."""
+    import numpy as np
+    from PIL import Image
+    from datamodule import build_dataloaders
+    df = synthetic_manifest()
+    for p in df.image_path:
+        Image.fromarray(np.zeros((256, 256, 3), dtype=np.uint8)).save(tmp_path / p)
+    df.to_csv(tmp_path / "manifest_v2.csv", index=False)
+    cfg = {"seed": 0, "data": {"manifest": str(tmp_path / "manifest_v2.csv"), "root": str(tmp_path), "image_size": 224,
+                               "hflip": True, "batch_size": 8, "workers": 0}}
+    a = build_dataloaders(cfg)
+    b = build_dataloaders(cfg, shuffle_labels=True)
+    assert a[0].dataset.targets != b[0].dataset.targets                 # fit permuted
+    assert sorted(a[0].dataset.targets) == sorted(b[0].dataset.targets)  # same multiset
+    assert a[1].dataset.targets == b[1].dataset.targets                 # val untouched
+    assert a[2].dataset.targets == b[2].dataset.targets                 # test untouched

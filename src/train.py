@@ -92,9 +92,9 @@ def to_device(images, labels, device):
 
 
 @torch.no_grad()
-def evaluate(model, loader, device, amp_dtype, criterion, classes, desc="eval"):
+def evaluate(model, loader, device, amp_dtype, criterion, classes, desc="eval", return_preds=False):
     model.eval()
-    preds, targets = [], []
+    preds, targets, confs = [], [], []
     loss_sum, n = 0.0, 0
     for images, labels in tqdm(loader, desc=desc, leave=False, smoothing=0.02):
         images, labels = to_device(images, labels, device)
@@ -105,8 +105,12 @@ def evaluate(model, loader, device, amp_dtype, criterion, classes, desc="eval"):
         n += labels.size(0)
         preds.append(logits.argmax(1).cpu())
         targets.append(labels.cpu())
+        if return_preds:
+            confs.append(logits.float().softmax(1).max(1).values.cpu())
     m = compute_metrics(torch.cat(targets).numpy(), torch.cat(preds).numpy(), classes)
     m["loss"] = loss_sum / max(1, n)
+    if return_preds:
+        return m, torch.cat(preds).numpy(), torch.cat(confs).numpy()
     return m
 
 
