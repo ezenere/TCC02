@@ -27,7 +27,8 @@ from torch.utils.data import DataLoader
 from tqdm import tqdm
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from datamodule import ManifestDataset, build_transforms, class_names, frame_for_split, read_manifest  # noqa: E402
+from datamodule import (ManifestDataset, as_bool, build_transforms, class_names, frame_for_split,  # noqa: E402
+                        read_manifest, run_mask_column)
 from metrics import compute_metrics, write_json                                                     # noqa: E402
 from runinfo import env_info, git_info                                                              # noqa: E402
 from train import build_model                                                                       # noqa: E402
@@ -82,7 +83,11 @@ def main() -> int:
     model.eval()
 
     # --- calibration set: N images of fit, deterministic ----------------------
-    calib_df = frame_for_split(df, "fit").sample(n=args.calib_n, random_state=args.calib_seed)
+    fit_df = frame_for_split(df, "fit")
+    mask = run_mask_column(run_dir)
+    if mask:                                   # axis 4: calibrate only on the run's data fraction
+        fit_df = fit_df[as_bool(fit_df[mask])]
+    calib_df = fit_df.sample(n=min(args.calib_n, len(fit_df)), random_state=args.calib_seed)
     calib_loader = loader_for(calib_df, cfg, classes, args.batch, args.workers)
     test_df = frame_for_split(df, "test")
     if args.limit_test:
@@ -115,7 +120,7 @@ def main() -> int:
                "fp32_state_dict_bytes": fp32_size,
                "size_ratio_vs_fp32": (size / fp32_size) if fp32_size else None,
                "method": "PTQ static int8, FX graph mode", "backend": torch.backends.quantized.engine,
-               "qconfig": args.backend, "calibration": {"split": "fit", "n": args.calib_n, "seed": args.calib_seed},
+               "qconfig": args.backend, "calibration": {"split": "fit", "n": len(calib_df), "seed": args.calib_seed, "mask_column": mask},
                "quantize_time_s": round(t_quant, 1), "threads": args.threads,
                "limit_test": args.limit_test, "checkpoint": str(args.checkpoint),
                "arch": cfg["model"]["arch"], "seed": ck.get("seed"),

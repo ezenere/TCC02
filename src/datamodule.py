@@ -99,6 +99,15 @@ def frame_for_split(df: pd.DataFrame, split: str) -> pd.DataFrame:
     return out
 
 
+def run_mask_column(run_dir) -> str | None:
+    """Data-fraction mask of an axis-4 run (run_meta.json), or None. Calibration must only
+    see the images that run was allowed to train on."""
+    import json as _json
+    from pathlib import Path as _Path
+    meta = _Path(run_dir) / "run_meta.json"
+    return _json.loads(meta.read_text()).get("frac_column") if meta.exists() else None
+
+
 class ManifestDataset(Dataset):
     def __init__(self, df: pd.DataFrame, classes: list[str], transform,
                  root: str | Path | None = None):

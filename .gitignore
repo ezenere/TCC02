@@ -1,5 +1,6 @@
 data/raw/
 data/processed/*
+data/holdout_unused/
 !data/processed/MANIFESTS.md
 __pycache__/
 *.pyc

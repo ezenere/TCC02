@@ -35,7 +35,8 @@ from onnxruntime.quantization.shape_inference import quant_pre_process
 from torch.utils.data import DataLoader
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from datamodule import ManifestDataset, build_transforms, class_names, frame_for_split, read_manifest  # noqa: E402
+from datamodule import (ManifestDataset, as_bool, build_transforms, class_names, frame_for_split,  # noqa: E402
+                        read_manifest, run_mask_column)
 from metrics import write_json                                                                     # noqa: E402
 from runinfo import env_info                                                                       # noqa: E402
 
@@ -93,10 +94,13 @@ class Reader(CalibrationDataReader):
         return {self.name: images.numpy()}
 
 
-def loader_for(cfg: dict, split: str, n: int, seed: int, batch: int, workers: int):
+def loader_for(cfg: dict, split: str, n: int, seed: int, batch: int, workers: int, mask: str | None = None):
     df = read_manifest(cfg["data"]["manifest"])
     classes = class_names(df)
-    frame = frame_for_split(df, split).sample(n=n, random_state=seed)
+    frame = frame_for_split(df, split)
+    if mask and split == "fit":                # axis 4: calibrate only on the run's data fraction
+        frame = frame[as_bool(frame[mask])]
+    frame = frame.sample(n=min(n, len(frame)), random_state=seed)
     _, eval_tf = build_transforms(cfg)
     return DataLoader(ManifestDataset(frame, classes, eval_tf, cfg["data"].get("root")),
                       batch_size=batch, shuffle=False, num_workers=workers), classes
@@ -133,7 +137,8 @@ def main() -> int:
     # has no int8 implementation for the fused input-Q + conv + relu + maxpool block.
     stem = next(n.name for n in graph.node if n.op_type == "Conv")
     exclude = [stem]
-    calib_loader, classes = loader_for(cfg, "fit", args.calib_n, args.calib_seed, args.batch, args.workers)
+    mask = run_mask_column(args.run)
+    calib_loader, classes = loader_for(cfg, "fit", args.calib_n, args.calib_seed, args.batch, args.workers, mask)
     quantize_static(
         model_input=str(pre), model_output=str(out), calibration_data_reader=Reader(calib_loader, input_name),
         quant_format=QuantFormat.QDQ, activation_type=QuantType.QInt8, weight_type=QuantType.QInt8,
@@ -167,7 +172,7 @@ def main() -> int:
     info = {"onnx_qdq": str(out), "onnx_bytes": out.stat().st_size, "source_onnx": str(src),
             "method": f"onnxruntime quantize_static, QDQ, {args.method} calibration (incremental), symmetric int8, per-channel weights",
             "calibration_method": args.method,
-            "calibration": {"split": "fit", "n": args.calib_n, "seed": args.calib_seed, "batch": args.batch,
+            "calibration": {"split": "fit", "n": len(calib_loader.dataset), "seed": args.calib_seed, "batch": args.batch, "mask_column": mask,
                             "max_intermediate_outputs": args.calib_flush},
             "quantize_linear_nodes": n_q, "nodes_excluded": exclude, "time_s": round(dt, 1),
             "smoke": {"split": "val", "n": seen, "acc_qdq_ort_cpu": correct / seen, "acc_fp32_ort_cpu": correct_ref / seen},
