@@ -1,0 +1,13 @@
+modelo,conjunto,n,erros,erro_%
+resnet50,teste completo,83613,177,0.2117
+resnet50,sem usuários suspeitos (MAD<10),78126,166,0.2125
+resnet50,só usuários suspeitos (MAD<10),5487,11,0.2005
+resnet50,sem usuários suspeitos (MAD<20),48630,137,0.2817
+resnet50,só usuários suspeitos (MAD<20),34983,40,0.1143
+resnet50,holdout externo (19.042 sujeitos nunca usados),278702,674,0.2418
+densenet121,teste completo,83613,160,0.1914
+densenet121,sem usuários suspeitos (MAD<10),78126,152,0.1946
+densenet121,só usuários suspeitos (MAD<10),5487,8,0.1458
+densenet121,sem usuários suspeitos (MAD<20),48630,126,0.2591
+densenet121,só usuários suspeitos (MAD<20),34983,34,0.0972
+densenet121,holdout externo (19.042 sujeitos nunca usados),278702,585,0.2099

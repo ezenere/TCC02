@@ -19,18 +19,21 @@ import torch.nn as nn
 PRUNABLE = (nn.Conv2d, nn.Linear)
 
 
-def prunable_weights(model: nn.Module) -> dict[str, torch.Tensor]:
-    """{param_name: weight} for every Conv2d / Linear weight, in module order."""
+def prunable_weights(model: nn.Module, exclude: tuple[str, ...] = ()) -> dict[str, torch.Tensor]:
+    """{param_name: weight} for every Conv2d / Linear weight, in module order.
+    `exclude` lists module names left dense (e.g. a randomly initialised head,
+    whose magnitudes carry no information)."""
     return {f"{name}.weight": m.weight for name, m in model.named_modules()
-            if isinstance(m, PRUNABLE)}
+            if isinstance(m, PRUNABLE) and name not in exclude}
 
 
-def global_magnitude_masks(model: nn.Module, sparsity: float) -> dict[str, torch.Tensor]:
+def global_magnitude_masks(model: nn.Module, sparsity: float,
+                           exclude: tuple[str, ...] = ()) -> dict[str, torch.Tensor]:
     """Masks that zero the `sparsity` fraction of smallest-|w| prunable weights,
     with one global threshold across all layers (L1 magnitude)."""
     if not 0.0 <= sparsity < 1.0:
         raise ValueError(f"sparsity must be in [0, 1), got {sparsity}")
-    weights = prunable_weights(model)
+    weights = prunable_weights(model, exclude)
     if sparsity == 0.0:
         return {k: torch.ones_like(w, dtype=torch.bool) for k, w in weights.items()}
 
@@ -59,10 +62,11 @@ def apply_masks(model: nn.Module, masks: dict[str, torch.Tensor]) -> None:
         p.mul_(mask.to(p.device, p.dtype))
 
 
-def sparsity_report(model: nn.Module, masks: dict[str, torch.Tensor] | None = None) -> dict:
+def sparsity_report(model: nn.Module, masks: dict[str, torch.Tensor] | None = None,
+                    exclude: tuple[str, ...] = ()) -> dict:
     """Achieved sparsity from the actual zeros in the weights (not the masks),
     globally over prunable weights, over all parameters, and per layer."""
-    weights = prunable_weights(model)
+    weights = prunable_weights(model, exclude)
     per_layer, zeros, total = [], 0, 0
     for name, w in weights.items():
         n = w.numel()

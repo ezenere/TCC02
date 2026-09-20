@@ -205,6 +205,8 @@ def main() -> int:
                     help="global magnitude pruning target applied before training (axis 2)")
     ap.add_argument("--manifest", type=str, default=None, help="override data.manifest (e.g. manifest_v3.csv)")
     ap.add_argument("--patience", type=int, default=None, help="override train.early_stopping_patience")
+    ap.add_argument("--shuffle-labels", action="store_true",
+                    help="negative control: train on permuted labels (expects chance accuracy on test)")
     ap.add_argument("--sanity", type=int, default=0)
     ap.add_argument("--limit-fit", type=int, default=None, help="smoke tests only")
     ap.add_argument("--limit-val", type=int, default=None, help="smoke tests only")
@@ -241,7 +243,7 @@ def main() -> int:
     amp_dtype = {"fp16": torch.float16, "bf16": torch.bfloat16}[cfg["train"]["amp"]]
 
     fit_loader, val_loader, test_loader, meta, generator = build_dataloaders(
-        cfg, args.frac_column, args.limit_fit, args.limit_val)
+        cfg, args.frac_column, args.limit_fit, args.limit_val, shuffle_labels=args.shuffle_labels)
     classes = meta["classes"]
     if val_loader is None and not args.sanity:
         raise SystemExit("definitive runs need a v2+ manifest with inner_split (val)")
@@ -254,10 +256,14 @@ def main() -> int:
         if src_ck.get("classes") and src_ck["classes"] != classes:
             raise SystemExit("init_from checkpoint has a different class list")
     masks = None
+    # prune.exclude_head: keep the classifier dense. Needed when pruning happens BEFORE
+    # training (eixo 2b): the new 18-class head is random, its magnitudes mean nothing.
+    head = "fc" if cfg["model"]["arch"] == "resnet50" else "classifier"
+    prune_exclude = (head,) if prune_cfg.get("exclude_head", False) else ()
     if sparsity is not None:
-        masks = global_magnitude_masks(model, sparsity)
+        masks = global_magnitude_masks(model, sparsity, prune_exclude)
         apply_masks(model, masks)
-        rep0 = sparsity_report(model, masks)
+        rep0 = sparsity_report(model, masks, prune_exclude)
         print(f"poda global por magnitude: alvo {sparsity:.2%} -> obtida "
               f"{rep0['sparsity_prunable']:.4%} dos pesos podáveis "
               f"({rep0['params_nonzero'] / 1e6:.2f} M não-nulos de {rep0['params_total'] / 1e6:.2f} M)")
@@ -315,6 +321,7 @@ def main() -> int:
                      "arch": cfg["model"]["arch"], "epochs": epochs,
                      "batch_size": cfg["data"]["batch_size"], "frac_column": args.frac_column,
                      "init_from": init_from, "prune_sparsity": sparsity,
+                     "prune_exclude": list(prune_exclude), "prune_when": (prune_cfg.get("when") if sparsity is not None else None),
                      "cudnn_benchmark": bench,
                      "started_at": run_meta.get("started_at") or time.strftime("%Y-%m-%dT%H:%M:%S"),
                      **git_info(), **env_info(),
@@ -379,7 +386,7 @@ def main() -> int:
     writer.close()
 
     if masks:
-        final_rep = sparsity_report(model, masks)
+        final_rep = sparsity_report(model, masks, prune_exclude)
         run_meta["sparsity_achieved"] = final_rep["sparsity_prunable"]
         run_meta["params_nonzero"] = final_rep["params_nonzero"]
         assert abs(final_rep["sparsity_prunable"] - sparsity) < 1e-3, \

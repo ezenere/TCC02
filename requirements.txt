@@ -105,8 +105,10 @@ onnx-ir==1.0.0
 onnxconverter-common==1.16.0
 onnxruntime==1.30.0
 onnxscript==0.7.2
+opencv-python==5.0.0.93
 overrides==7.7.0
 packaging==26.2
+paho-mqtt==2.1.0
 pandas==3.0.5
 pandocfilters==1.5.0
 parso==0.8.7

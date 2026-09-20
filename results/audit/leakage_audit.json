@@ -1,0 +1,66 @@
+{
+  "manifest": "data/processed/manifest_v3.csv",
+  "n_images": 278715,
+  "A1_subject_overlap": {
+    "fit∩test": 0,
+    "val∩test": 0,
+    "fit∩val": 0,
+    "n_users": {
+      "fit": 11805,
+      "val": 2268,
+      "test": 6044
+    }
+  },
+  "A2_keys": {
+    "duplicate_image_paths": 0,
+    "keys_in_more_than_one_split": 0,
+    "duplicate_keys_total": 0
+  },
+  "A3_raw_crosscheck": {
+    "rows_found_in_raw": 278715,
+    "user_id_matches": 278715,
+    "label_matches": 278715,
+    "n_rows": 278715
+  },
+  "A4_multi_class_keys": {
+    "raw_keys_in_2+_class_jsons": 0,
+    "of_which_in_manifest": 0
+  },
+  "A5_ours_vs_official_split": {
+    "test": {
+      "fit": 26481,
+      "test": 12012,
+      "val": 2166
+    },
+    "train": {
+      "fit": 133695,
+      "test": 63692,
+      "val": 16124
+    },
+    "val": {
+      "fit": 15415,
+      "test": 7909,
+      "val": 1221
+    }
+  },
+  "A5_users_in_2+_official_splits": 0,
+  "B1_exact_duplicates": {
+    "md5_groups_with_2+_files": 0,
+    "groups_spanning_train_and_test": 0,
+    "groups_spanning_fit_and_val": 0,
+    "groups_with_2+_user_ids": 0
+  },
+  "B2_near_duplicates_dhash<=3": {
+    "test_vs_train_pairs": 29616,
+    "distinct_test_images": 4955,
+    "share_of_test": 0.05926111968234605,
+    "pairs_by_hamming": {
+      "0": 233,
+      "1": 1442,
+      "2": 6546,
+      "3": 21395
+    },
+    "pairs_with_same_label": 9559,
+    "val_vs_fit_pairs": 5701
+  }
+}

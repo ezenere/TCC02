@@ -147,7 +147,8 @@ def _loader_kwargs(cfg: dict) -> dict:
 
 
 def build_dataloaders(cfg: dict, mask_column: str | None = None,
-                      limit_fit: int | None = None, limit_val: int | None = None):
+                      limit_fit: int | None = None, limit_val: int | None = None,
+                      shuffle_labels: bool = False):
     """(fit_loader, val_loader | None, test_loader, meta, generator).
 
     `generator` drives the fit shuffle; re-seed it per epoch so a resumed run
@@ -163,6 +164,12 @@ def build_dataloaders(cfg: dict, mask_column: str | None = None,
         fit = fit.sample(n=min(limit_fit, len(fit)), random_state=seed)
     if limit_val and val is not None:
         val = val.sample(n=min(limit_val, len(val)), random_state=seed)
+
+    if shuffle_labels:
+        # Negative control: permute the fit labels. A pipeline without label leakage
+        # must then score at chance (1/18) on the untouched test split.
+        fit = fit.copy()
+        fit["label"] = fit["label"].sample(frac=1.0, random_state=seed).to_numpy()
 
     train_tf, eval_tf = build_transforms(cfg)
     root = cfg["data"].get("root")
@@ -190,7 +197,7 @@ def build_dataloaders(cfg: dict, mask_column: str | None = None,
         "n_users_fit": fit["user_id"].nunique(),
         "n_users_val": 0 if val is None else val["user_id"].nunique(),
         "n_users_test": test["user_id"].nunique(),
-        "limit_fit": limit_fit, "limit_val": limit_val,
+        "limit_fit": limit_fit, "limit_val": limit_val, "shuffle_labels": shuffle_labels,
     }
     return fit_loader, val_loader, test_loader, meta, generator
 
