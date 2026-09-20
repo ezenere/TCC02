@@ -1,0 +1,3 @@
+mad_thr,pairs,test_images_duplicated,suspect_test_users,suspect_test_images,share_of_test,train_users_involved
+10,436,87,52,5487,0.06562376663915898,93
+20,1425,610,292,34983,0.4183918768612536,375

@@ -277,3 +277,17 @@ sobre pesos 90% esparsos produz escalas piores que o observador por histograma d
 forma aproximadamente aditiva na ResNet; na DenseNet a int8 domina e 95%+int8 sai do orçamento de 1,5× nos dois backends.
 **Em andamento (background):** latência CPU de todas as células (`scripts/measure_cpu_latency.sh`, máquina ociosa) e, na sequência,
 GPU **preliminar** com a sessão gráfica aberta (`NOTE` registra isso; a medição válida é a tua em TTY, que sobrescreve os JSONs).
+
+## 2026-09-19 (sáb) — pedidos do orientador: auditoria, poda antes do treino, app de webcam
+
+**Concluído:** auditoria de vazamento completa (`results/audit/README.md`); app `app/webcam_demo.py` (4 backends, 18/18 no teste headless);
+código e configs do eixo 2b; `.gitignore` corrigido (as linhas `TODO` e `*.onnx` estavam coladas — `TODO/` nunca chegou a ser commitado).
+**Em andamento:** `[GPU]` fila `scripts/queue_prune_first.sh "0" "0.9 0.95 0.98 0.7 0.5"` — 10 runs de 30 épocas, ETA ≈ 16 h. Log: `runs/queue_eixo2b_prune_first.log`.
+**Pendente (máquina ociosa):** latência CPU — a medição de 15/09 foi interrompida na metade (ResNet completa; DenseNet só 1 thread); GPU em TTY (manual).
+**Bloqueado (decisão):** fração 100% do eixo 4; release `v0.2-eixo1`; seeds 1–2 do eixo 2b (+32 h de GPU) dependem do resultado da seed 0.
+
+### Auditoria — resumo
+Sujeitos disjuntos, manifesto = JSONs brutos em 100% das linhas, 0 duplicatas exatas, controle de rótulos embaralhados = 4,9% (acaso).
+**Achado:** o `user_id` do HaGRID não é identidade perfeita — a mesma pessoa aparece sob contas diferentes; 87 imagens de teste (0,10%) são
+quase idênticas a imagens de treino. Removendo todos os usuários suspeitos: erro inalterado no critério estrito (0,2125% vs 0,2117%),
+0,28% no critério frouxo (pior caso 99,72%). Holdout externo (278.702 imagens, 19.042 sujeitos nunca usados): erro 0,235% ResNet / 0,216% DenseNet.
