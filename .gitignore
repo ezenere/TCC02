@@ -9,6 +9,7 @@ __pycache__/
 # TODO: Publicar last.pt como release/anexo e referenciar no README.
 runs/**/checkpoints/
 *.pt
-TODO*.onnx
+TODO
+*.onnx
 *.engine
 *.plan
