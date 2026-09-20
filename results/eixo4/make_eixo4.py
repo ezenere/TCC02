@@ -43,6 +43,12 @@ def collect(runs_dir: Path) -> pd.DataFrame:
                      "stopped_early": meta.get("stopped_early"), "acc": d["acc"], "f1_macro": d["f1_macro"],
                      "error_rate": d["error_rate"], "n_errors": d["n_errors"],
                      "per_class": {c["label"]: c["f1"] for c in d["per_class"]}})
+        t = m.parent / "metrics_trt_int8.json"          # winner of axis 3: int8 TensorRT of the same run
+        if t.exists():
+            q = json.loads(t.read_text())
+            rows.append({**rows[-1], "stage": rows[-1]["stage"] + "+trt-int8", "acc": q["acc"], "f1_macro": q["f1_macro"],
+                         "error_rate": q["error_rate"], "n_errors": q["n_errors"],
+                         "per_class": {c["label"]: c["f1"] for c in q["per_class"]}})
     df = pd.DataFrame(rows)
     if df.empty:
         return df

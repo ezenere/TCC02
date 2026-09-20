@@ -189,6 +189,30 @@ def pareto_figs(s: pd.DataFrame) -> None:
         plt.close(fig)
 
 
+ORDER = ["baseline", "prune-50", "prune-70", "prune-90", "prune-95", "prune-98", "int8-cpu", "trt-fp32", "trt-fp16",
+         "trt-int8", "prune-90+int8-cpu", "prune-95+int8-cpu", "prune-90+trt-int8", "prune-95+trt-int8"]
+
+
+def render_readme(s: pd.DataFrame) -> None:
+    """Main cross table of README.md, between the markers."""
+    readme = OUT / "README.md"
+    if not readme.exists():
+        return
+    f = lambda v, nd=2: "—" if pd.isna(v) else f"{v:.{nd}f}"
+    lines = ["| arquitetura | célula | seeds | razão de erro | não-nulos (M) | MACs (G) | artefato (MiB) | CPU 16 thr, lote 1 (ms) | GPU TRT, lote 1 (ms) |",
+             "|---|---|---|---|---|---|---|---|---|"]
+    s = s.assign(_o=s.cell.map({c: i for i, c in enumerate(ORDER)}).fillna(99)).sort_values(["arch", "_o"])
+    for r in s.itertuples():
+        ratio = f(r.error_ratio_mean) + (f" ± {r.error_ratio_std:.2f}" if pd.notna(r.error_ratio_std) and r.cell != "baseline" else "")
+        lines.append(f"| {LABEL.get(r.arch, r.arch)} | {r.cell} | {int(r.n_seeds)} | {ratio} | {f(r.params_nonzero_mean / 1e6)} | "
+                     f"{f(r.macs_mean / 1e9)} | {f(r.artifact_bytes_mean / 2**20, 1)} | {f(r.lat_cpu_t16_b1_mean)} | {f(r.lat_gpu_trt_b1_mean, 3)} |")
+    txt = readme.read_text()
+    a, b = "<!-- eixo3:table:start -->", "<!-- eixo3:table:end -->"
+    if a in txt and b in txt:
+        pre, rest = txt.split(a, 1)
+        readme.write_text(pre + a + "\n" + "\n".join(lines) + "\n" + b + rest.split(b, 1)[1])
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--runs", type=Path, default=ROOT / "runs")
@@ -207,6 +231,7 @@ def main() -> int:
     cols = ["arch", "cell", "n_seeds", "error_ratio_mean", "error_ratio_std", "params_nonzero_mean",
             "artifact_bytes_mean", "lat_cpu_t16_b1_mean", "lat_gpu_trt_b1_mean"]
     print(s[cols].sort_values(["arch", "cell"]).to_string(index=False))
+    render_readme(s)
     if args.decide:
         (OUT / "decision.md").write_text(decide(s, args.knee) + "\n")
         print(f"\n-> {OUT / 'decision.md'}")

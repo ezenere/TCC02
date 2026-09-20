@@ -211,7 +211,10 @@ exploram esparsidade não-estruturada (latência ≈ baseline).
 **Decisão** (`results/eixo3/make_eixo3.py --decide`, critério fixado em 2026-09-14 antes dos
 resultados): entre as células com razão de erro média ≤ 1,5×, vence a de **menor latência p50 em GPU
 (TensorRT, lote 1)**; empate → menor artefato em disco. A configuração vencedora alimenta o eixo 4;
-`results/eixo3/decision.md` lista as finalistas e o motivo de cada derrota.
+`results/eixo3/decision.md` lista as finalistas e o motivo de cada derrota. Na aplicação, as duas primeiras colocadas ficaram a 0,9% de
+latência uma da outra (mesmo grafo int8, com e sem poda); como isso está abaixo da estabilidade do harness (5%), a regra
+trata latências dentro de 5% como empate, desempata por artefato e, com artefatos a menos de 1%, pela menor razão de erro —
+refinamento registrado como proposta em `decision.md`, ao lado da leitura literal.
 
 **Figuras.** Fronteiras de Pareto razão de erro × latência (CPU e GPU em painéis separados), × tamanho
 em disco e × MACs, com barras de erro entre seeds.
