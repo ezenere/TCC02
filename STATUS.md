@@ -303,3 +303,21 @@ quase idênticas a imagens de treino. Removendo todos os usuários suspeitos: er
 **Em andamento:** `[GPU]` eixo 2b seed 0 — 3/10 runs às 03:00 (p90 das duas, p95 ResNet), 0 falhas, ETA ≈ 14 h de 20/09.
 **Parcial eixo 2b (razão de erro, seed 0; antes × depois):** ResNet 90% 1,08 × 1,10; ResNet 95% 1,15 × 1,28; DenseNet 90% 1,11 × 1,03.
 **Release `v0.3-eixo2`** publicada em 20/09 (tag em `edf3eed`): 30 modelos podados + 10 artefatos int8 CPU, 40 assets, 4,0 GiB — https://github.com/ezenere/TCC02/releases/tag/v0.3-eixo2.
+
+## 2026-09-20 (tarde) — eixo 2b, seed 0 concluído (10 runs, 0 falhas, ≈ 15 h de GPU)
+
+Razão de erro vs baseline denso da mesma seed (teste), **podar antes** (pesos ImageNet → treino de 30 épocas) × **podar depois** (treino → poda → 5 épocas):
+```
+esparsidade   ResNet-50  antes / depois      DenseNet-121  antes / depois
+50%                      0,99 / 0,97                       1,06 / 0,97
+70%                      1,12 / 0,98                       1,07 / 0,98
+90%                      1,08 / 1,10                       1,11 / 1,03
+95%                      1,15 / 1,28                       1,26 / 1,19
+98%                      1,36 / 1,90                       1,64 / 1,65
+```
+("depois" = média de 3 seeds; "antes" = seed 0; desvio entre seeds típico 0,03–0,07, 0,17 na ResNet a 98%.)
+**Leitura:** na ResNet-50, podar antes ganha nas esparsidades extremas — a 98% a razão cai de 1,90 para 1,36 e o joelho (> 1,5×) desaparece.
+Na DenseNet-121, podar antes é levemente pior até 95% e empata a 98%. **Confusão a declarar:** a comparação mistura a *ordem* da poda com o
+*orçamento de treino* da rede esparsa (30 épocas × 5). Controle previsto: podar depois com fine-tuning de 30 épocas em 95% e 98% (4 runs, ≈ 6 h),
+depois do eixo 4. Seeds 1–2 do eixo 2b (≈ 30 h) ficam por último.
+**Em andamento:** latência CPU (máquina ociosa) → GPU preliminar → decisão do eixo 3 → eixo 4.
