@@ -302,3 +302,4 @@ quase idênticas a imagens de treino. Removendo todos os usuários suspeitos: er
 **Concluído:** release **`v0.2-eixo1`** publicada (tag em `bcafa82`, 12 assets, 1,4 GiB) — https://github.com/ezenere/TCC02/releases/tag/v0.2-eixo1.
 **Em andamento:** `[GPU]` eixo 2b seed 0 — 3/10 runs às 03:00 (p90 das duas, p95 ResNet), 0 falhas, ETA ≈ 14 h de 20/09.
 **Parcial eixo 2b (razão de erro, seed 0; antes × depois):** ResNet 90% 1,08 × 1,10; ResNet 95% 1,15 × 1,28; DenseNet 90% 1,11 × 1,03.
+**Release `v0.3-eixo2`** publicada em 20/09 (tag em `edf3eed`): 30 modelos podados + 10 artefatos int8 CPU, 40 assets, 4,0 GiB — https://github.com/ezenere/TCC02/releases/tag/v0.3-eixo2.

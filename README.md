@@ -68,6 +68,7 @@ Hardware de referência: RTX 3080 Ti (12 GB), Ryzen 9 9950X, PyTorch 2.11 + CUDA
 |---|---|
 | `ResNet` | baseline de evidência (ResNet-50, 5 épocas): `best.pt`, `last.pt` |
 | [`v0.2-eixo1`](https://github.com/ezenere/TCC02/releases/tag/v0.2-eixo1) | eixo 1: 6 × `best.pt` + 6 × `last.pt`, nomeados `<run>__best.pt` / `<run>__last.pt` (1,4 GiB) |
+| [`v0.3-eixo2`](https://github.com/ezenere/TCC02/releases/tag/v0.3-eixo2) | eixo 2: 30 modelos podados (`eixo2_prune_<arch>_p<NN>_s<k>__best.pt`, máscaras incluídas) e 10 artefatos int8 de CPU (`<run>__model_int8_fbgemm.pt`), 4,0 GiB. As engines TensorRT não são publicadas: são específicas da GPU e da versão do TensorRT e se reconstroem com `make trt`. |
 
 ## Demo
 
