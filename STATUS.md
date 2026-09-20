@@ -291,3 +291,9 @@ Sujeitos disjuntos, manifesto = JSONs brutos em 100% das linhas, 0 duplicatas ex
 **Achado:** o `user_id` do HaGRID não é identidade perfeita — a mesma pessoa aparece sob contas diferentes; 87 imagens de teste (0,10%) são
 quase idênticas a imagens de treino. Removendo todos os usuários suspeitos: erro inalterado no critério estrito (0,2125% vs 0,2117%),
 0,28% no critério frouxo (pior caso 99,72%). Holdout externo (278.702 imagens, 19.042 sujeitos nunca usados): erro 0,235% ResNet / 0,216% DenseNet.
+
+### 19/09 (noite) — trabalho de CPU durante a bateria do eixo 2b
+- `results/analise/`: 117 das ~170 imagens erradas são erradas pelas **duas** arquiteturas, 109 com a mesma predição → piso de ruído de rótulo do HaGRID; `stop`↔`palm` = 36% dos erros.
+- `README.md` da raiz, `docs/RUNBOOK.md`, `Makefile` (alvos por eixo) e `scripts/smoke.sh` — `make smoke` verde (treino → poda → custo → int8 → latência → ONNX em ~2 min).
+- `docs/METODOLOGIA.md`: § 2.1b (poda antes do treino) e § 5 (auditoria). `eval.py --save-preds`. 24 testes de CPU verdes.
+- Decisão tomada por padrão (pendente de objeção): a fração 100% do eixo 4 é um run próprio com a mesma receita (early stopping), como já implementado em `reduce_data.py`.
