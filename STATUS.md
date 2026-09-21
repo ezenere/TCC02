@@ -379,3 +379,15 @@ eixo 4, 75% s0            438 → 193 erros (denso 183)
 (2) "a int8 sobre modelos podados degrada mais no TensorRT" → era artefato da calibração por entropia. Mantém-se: a engine int8 da DenseNet é mais lenta que a FP16.
 **Eixo 4 em int8** acompanha a curva densa: 75% 1,07 · 50% 1,31 · 25% 1,49 · 10% 2,45 · 5% 3,30; erro ∝ N^-0,40 (R² 0,98).
 **Decisão do eixo 3 (preliminar, latência com sessão gráfica aberta):** ResNet-50 int8 TensorRT — razão 1,01×, 0,80 ms, 23,9 MiB.
+
+### 21/09 (tarde) — eixo 2c, controle por LR rewinding (seed 0, 4 runs, 0 falhas)
+```
+razão de erro            depois, 5 ép.   antes, 30 ép.   depois, 30 ép. (controle)
+ResNet-50    95%         1,28            1,15            1,18
+ResNet-50    98%         1,90            1,36            1,10
+DenseNet-121 95%         1,19            1,26            1,27
+DenseNet-121 98%         1,65            1,64            1,33
+```
+**Conclusão (uma seed):** o fator dominante é o orçamento de retreino, não a ordem da poda; com 30 épocas após a poda o joelho de 98% desaparece
+nas duas arquiteturas, e podar depois do treino é igual ou melhor que podar antes. O "joelho em 98%" do eixo 2 vale para o protocolo de 5 épocas.
+**Em andamento:** seeds 1–2 em 95% e 98% para os dois métodos de 30 épocas (`queue_rewind.sh` e `queue_prune_first.sh`, 16 runs ≈ 26 h, com `gpu_wait`).

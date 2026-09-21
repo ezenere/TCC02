@@ -35,21 +35,28 @@ o treino denso de origem (≈ 100 min), mas "antes" precisa de um treino complet
 reaproveita um único treino denso para todos os níveis.
 
 <!-- eixo2:compare:start -->
-| arquitetura | esparsidade | poda depois: razão (erros) | poda antes: razão (erros) | min de GPU depois / antes |
-|---|---|---|---|---|
-| DenseNet-121 | 50% | 0.97 ± 0.06 (159, 168, 151) | 1.06 (170) | 17 / 99 |
-| DenseNet-121 | 70% | 0.98 ± 0.05 (158, 171, 156) | 1.07 (171) | 17 / 99 |
-| DenseNet-121 | 90% | 1.03 ± 0.04 (163, 178, 166) | 1.11 (178) | 17 / 101 |
-| DenseNet-121 | 95% | 1.19 ± 0.05 (193, 206, 190) | 1.26 (202) | 17 / 101 |
-| DenseNet-121 | 98% | 1.65 ± 0.05 (262, 285, 269) | 1.64 (263) | 17 / 99 |
-| ResNet-50 | 50% | 0.97 ± 0.03 (166, 164, 174) | 0.99 (176) | 14 / 81 |
-| ResNet-50 | 70% | 0.98 ± 0.02 (175, 163, 171) | 1.12 (199) | 14 / 81 |
-| ResNet-50 | 90% | 1.10 ± 0.03 (190, 187, 192) | 1.08 (191) | 14 / 85 |
-| ResNet-50 | 95% | 1.28 ± 0.07 (230, 221, 214) | 1.15 (203) | 14 / 82 |
-| ResNet-50 | 98% | 1.90 ± 0.17 (323, 345, 316) | 1.36 (241) | 14 / 81 |
+| arquitetura | esparsidade | poda depois, 5 ép.: razão (erros) | poda antes, 30 ép.: razão (erros) | controle: poda depois, 30 ép. (erros) | min de GPU |
+|---|---|---|---|---|---|
+| DenseNet-121 | 50% | 0.97 ± 0.06 (159, 168, 151) | 1.06 (170) | — | 17 / 99 / — |
+| DenseNet-121 | 70% | 0.98 ± 0.05 (158, 171, 156) | 1.07 (171) | — | 17 / 99 / — |
+| DenseNet-121 | 90% | 1.03 ± 0.04 (163, 178, 166) | 1.11 (178) | — | 17 / 101 / — |
+| DenseNet-121 | 95% | 1.19 ± 0.05 (193, 206, 190) | 1.26 (202) | 1.27 (204) | 17 / 101 / 99 |
+| DenseNet-121 | 98% | 1.65 ± 0.05 (262, 285, 269) | 1.64 (263) | 1.33 (213) | 17 / 99 / 113 |
+| ResNet-50 | 50% | 0.97 ± 0.03 (166, 164, 174) | 0.99 (176) | — | 14 / 81 / — |
+| ResNet-50 | 70% | 0.98 ± 0.02 (175, 163, 171) | 1.12 (199) | — | 14 / 81 / — |
+| ResNet-50 | 90% | 1.10 ± 0.03 (190, 187, 192) | 1.08 (191) | — | 14 / 85 / — |
+| ResNet-50 | 95% | 1.28 ± 0.07 (230, 221, 214) | 1.15 (203) | 1.18 (208) | 14 / 82 / 88 |
+| ResNet-50 | 98% | 1.90 ± 0.17 (323, 345, 316) | 1.36 (241) | 1.10 (194) | 14 / 81 / 92 |
 <!-- eixo2:compare:end -->
 
 Figura: `figures/prune_compare.{pdf,png}` (`make_prune_compare.py`).
+
+**Leitura (seed 0; seeds 1–2 em 95% e 98% em andamento).** A comparação "antes × depois" original confunde a *ordem* da poda com o *orçamento*
+de retreino (30 épocas × 5). O **controle** — podar o modelo treinado e retreinar com a agenda completa de 30 épocas (LR rewinding) — separa
+os dois: a 98%, o controle dá **1,10× na ResNet-50 e 1,33× na DenseNet-121**, melhor que podar antes (1,36× / 1,64×) e muito melhor que o
+fine-tuning de 5 épocas (1,90× / 1,65×). Ou seja: **o que decide é o orçamento de retreino, não a ordem**; com orçamento igual, podar depois
+do treino é igual ou melhor. O joelho de 98% reportado acima é uma propriedade do protocolo de 5 épocas, não das redes. A 95% os três
+métodos ficam dentro do ruído entre seeds (1,15–1,28).
 
 ## Quantização int8 pós-treinamento
 

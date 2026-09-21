@@ -1,0 +1,12 @@
+2026-09-21 03:58:44  === rewind: seeds [0] niveis [0.98 0.95] ===
+2026-09-21 04:39:48  start eixo2c_rewind_resnet50_p98_s0
+2026-09-21 06:17:25  end   eixo2c_rewind_resnet50_p98_s0 rc=0  97 min
+gpu_wait: esperou 180s pela GPU
+2026-09-21 06:20:29  start eixo2c_rewind_densenet121_p98_s0
+2026-09-21 08:19:40  end   eixo2c_rewind_densenet121_p98_s0 rc=0  119 min
+gpu_wait: esperou 80s pela GPU
+2026-09-21 08:21:03  start eixo2c_rewind_resnet50_p95_s0
+2026-09-21 09:53:49  end   eixo2c_rewind_resnet50_p95_s0 rc=0  92 min
+2026-09-21 09:54:34  start eixo2c_rewind_densenet121_p95_s0
+2026-09-21 11:39:23  end   eixo2c_rewind_densenet121_p95_s0 rc=0  104 min
+2026-09-21 11:39:26  === rewind concluido ===

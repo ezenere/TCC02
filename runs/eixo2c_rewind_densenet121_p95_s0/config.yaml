@@ -1,0 +1,50 @@
+# Eixo 2c — controle do eixo 2b: poda DEPOIS do treino, mas com o MESMO orçamento e a mesma agenda
+# do treino completo (30 épocas, lr 0,0375, warmup 2 + cosine): "learning-rate rewinding"
+# (Renda et al., 2020). Parte do best.pt do eixo 1 da mesma seed. Isola ORDEM da poda de ORÇAMENTO.
+# eixo 2: treino -> poda -> 5 épocas a lr 0,1x | eixo 2b: poda ImageNet -> 30 épocas | eixo 2c: treino -> poda -> 30 épocas
+#   python src/train.py --config configs/prune_rewind_densenet121.yaml --seed 0 --sparsity 0.98 --init-from runs/eixo1_densenet121_s0/checkpoints/best.pt --eval-test
+run_name: "eixo2c_rewind_{arch}_p{sparsity}_s{seed}"
+seed: 0
+
+data:
+  manifest: data/processed/manifest_v2.csv
+  root: null
+  image_size: 224
+  hflip: true
+  batch_size: 96
+  eval_batch_size: 192
+  workers: 16
+  prefetch_factor: 6
+
+model:
+  arch: densenet121
+  pretrained: false          # pesos vêm de --init-from (best.pt do eixo 1)
+  init_from: null
+
+prune:
+  sparsity: null             # --sparsity
+  scope: global_magnitude
+  when: after_training_lr_rewind
+  exclude_head: false        # cabeça já treinada: podável, como no eixo 2
+
+optim:
+  name: sgd
+  lr: 0.0375
+  momentum: 0.9
+  weight_decay: 0.0001
+  nesterov: true
+  label_smoothing: 0.0
+
+sched:
+  name: cosine
+  warmup_epochs: 2
+
+train:
+  epochs: 30
+  amp: fp16
+  channels_last: true
+  cudnn_benchmark: true
+  early_stopping_patience: 0
+
+paths:
+  runs: runs
