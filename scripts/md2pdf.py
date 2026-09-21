@@ -29,6 +29,10 @@ th, td { border: 1px solid #d9d8d3; padding: 4.5pt 7pt; vertical-align: top; }
 tr:nth-child(even) td { background: #fafaf8; }
 img { display: block; max-width: 100%; max-height: 68mm; margin: 8pt auto 10pt; break-inside: avoid; }
 img[src$='gestos.jpg'] { max-height: 66mm; }
+thead { display: table-header-group; }
+tr { break-inside: avoid; }
+.long table { break-inside: auto; font-size: 9.2pt; }   /* long appendix tables may span pages */
+.long td, .long th { padding: 3.2pt 6pt; }
 strong { font-weight: 650; }
 code { font-family: 'DejaVu Sans Mono', monospace; font-size: 9pt; background: #f2f1ee; padding: 0 3pt; border-radius: 3px; }
 """
@@ -37,7 +41,7 @@ code { font-family: 'DejaVu Sans Mono', monospace; font-size: 9pt; background: #
 def main() -> int:
     src = Path(sys.argv[1]).resolve()
     out = Path(sys.argv[2]).resolve() if len(sys.argv) > 2 else src.with_suffix(".pdf")
-    body = markdown.markdown(src.read_text(encoding="utf-8"), extensions=["tables", "fenced_code", "sane_lists"])
+    body = markdown.markdown(src.read_text(encoding="utf-8"), extensions=["tables", "fenced_code", "sane_lists", "md_in_html"])
     html = (f"<!doctype html><html lang='pt-BR'><head><meta charset='utf-8'><base href='{src.parent.as_uri()}/'>"
             f"<title>{src.stem}</title><style>{CSS}</style></head><body>{body}</body></html>")
     with tempfile.NamedTemporaryFile("w", suffix=".html", delete=False, dir=src.parent, encoding="utf-8") as fh:

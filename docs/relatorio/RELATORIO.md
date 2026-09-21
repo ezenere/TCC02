@@ -141,7 +141,7 @@ Com um quarto das fotos, o erro sobe 41%. O ponto de virada fica entre 25% e 10%
 
 | Item | Situação |
 |---|---|
-| Repetições do experimento "antes ou depois" com 95% e 98% apagados | Rodando: 3 de 16 treinos concluídos, cerca de 21 horas restantes |
+| Repetições do experimento "antes ou depois" com 95% e 98% apagados | Rodando: 4 de 16 treinos concluídos, cerca de 20 horas restantes |
 | Medição final de velocidade na placa de vídeo | Pendente: precisa ser feita com a tela gráfica fechada. Os tempos de placa de vídeo deste relatório são preliminares |
 | Confirmar com o orientador dois ajustes feitos no caminho | Pendente: a retirada da parada antecipada e o critério de desempate quando duas versões têm praticamente a mesma velocidade |
 | Artigo e pôster | A partir de 1º de novembro |
@@ -152,3 +152,76 @@ Com um quarto das fotos, o erro sobe 41%. O ponto de virada fica entre 25% e 10%
 - **Modelos publicados** para download: os 6 modelos da etapa 1 e os 40 modelos reduzidos da etapa 2.
 - **Aplicativo de demonstração** que usa a webcam: escolhe-se um dos modelos e ele reconhece o gesto feito dentro de um quadrado na tela.
 - **Documentos:** metodologia, guia de reprodução, relatório da auditoria e análise dos erros.
+
+## Anexo — todos os acertos medidos
+
+<!-- tabela:start -->
+<div class="long" markdown="1">
+
+Prova final: 83.613 fotos. "Ajuste curto" = 5 rodadas de treino depois de apagar; "compacto" = números guardados em 8 bits. "—" = não executado ou ainda rodando.
+
+| ResNet-50 | Acerto médio | Rep. 1 | Rep. 2 | Rep. 3 | Erros (média) |
+|---|---|---|---|---|---|
+| Modelo original | **99,793%** | 99,788% | 99,803% | 99,787% | 173 |
+| Apagar 50% + ajuste curto | **99,799%** | 99,801% | 99,804% | 99,792% | 168 |
+| Apagar 70% + ajuste curto | **99,797%** | 99,791% | 99,805% | 99,795% | 170 |
+| Apagar 90% + ajuste curto | **99,773%** | 99,773% | 99,776% | 99,770% | 190 |
+| Apagar 95% + ajuste curto | **99,735%** | 99,725% | 99,736% | 99,744% | 222 |
+| Apagar 98% + ajuste curto | **99,608%** | 99,614% | 99,587% | 99,622% | 328 |
+| Apagar 50% antes de treinar (30 rodadas) | **99,790%** | 99,790% | — | — | 176 |
+| Apagar 70% antes de treinar (30 rodadas) | **99,762%** | 99,762% | — | — | 199 |
+| Apagar 90% antes de treinar (30 rodadas) | **99,772%** | 99,772% | — | — | 191 |
+| Apagar 95% antes de treinar (30 rodadas) | **99,757%** | 99,757% | — | — | 203 |
+| Apagar 98% antes de treinar (30 rodadas) | **99,712%** | 99,712% | — | — | 241 |
+| Apagar 95% e treinar tudo de novo (30 rodadas) | **99,758%** | 99,751% | 99,764% | — | 202 |
+| Apagar 98% e treinar tudo de novo (30 rodadas) | **99,773%** | 99,768% | 99,778% | — | 190 |
+| Compacto, no processador | **99,785%** | 99,797% | 99,792% | 99,766% | 180 |
+| Placa de vídeo, precisão total | **99,793%** | 99,790% | 99,805% | 99,786% | 173 |
+| Placa de vídeo, meia precisão | **99,792%** | 99,790% | 99,801% | 99,786% | 174 |
+| Compacto, na placa de vídeo | **99,791%** | 99,793% | 99,801% | 99,780% | 174 |
+| Apagar 90% + compacto (processador) | **99,758%** | 99,758% | — | — | 202 |
+| Apagar 95% + compacto (processador) | **99,715%** | 99,715% | — | — | 238 |
+| Apagar 90% + compacto (placa de vídeo) | **99,767%** | 99,767% | — | — | 195 |
+| Apagar 95% + compacto (placa de vídeo) | **99,719%** | 99,719% | — | — | 235 |
+
+| DenseNet-121 | Acerto médio | Rep. 1 | Rep. 2 | Rep. 3 | Erros (média) |
+|---|---|---|---|---|---|
+| Modelo original | **99,803%** | 99,809% | 99,800% | 99,800% | 165 |
+| Apagar 50% + ajuste curto | **99,809%** | 99,810% | 99,799% | 99,819% | 159 |
+| Apagar 70% + ajuste curto | **99,807%** | 99,811% | 99,795% | 99,813% | 162 |
+| Apagar 90% + ajuste curto | **99,798%** | 99,805% | 99,787% | 99,801% | 169 |
+| Apagar 95% + ajuste curto | **99,765%** | 99,769% | 99,754% | 99,773% | 196 |
+| Apagar 98% + ajuste curto | **99,675%** | 99,687% | 99,659% | 99,678% | 272 |
+| Apagar 50% antes de treinar (30 rodadas) | **99,797%** | 99,797% | — | — | 170 |
+| Apagar 70% antes de treinar (30 rodadas) | **99,795%** | 99,795% | — | — | 171 |
+| Apagar 90% antes de treinar (30 rodadas) | **99,787%** | 99,787% | — | — | 178 |
+| Apagar 95% antes de treinar (30 rodadas) | **99,758%** | 99,758% | — | — | 202 |
+| Apagar 98% antes de treinar (30 rodadas) | **99,685%** | 99,685% | — | — | 263 |
+| Apagar 95% e treinar tudo de novo (30 rodadas) | **99,756%** | 99,756% | — | — | 204 |
+| Apagar 98% e treinar tudo de novo (30 rodadas) | **99,754%** | 99,745% | 99,763% | — | 206 |
+| Compacto, no processador | **99,756%** | 99,749% | 99,757% | 99,763% | 204 |
+| Placa de vídeo, precisão total | **99,803%** | 99,809% | 99,800% | 99,799% | 165 |
+| Placa de vídeo, meia precisão | **99,803%** | 99,809% | 99,801% | 99,800% | 164 |
+| Compacto, na placa de vídeo | **99,790%** | 99,791% | 99,792% | 99,788% | 175 |
+| Apagar 90% + compacto (processador) | **99,737%** | 99,737% | — | — | 220 |
+| Apagar 95% + compacto (processador) | **99,697%** | 99,697% | — | — | 253 |
+| Apagar 90% + compacto (placa de vídeo) | **99,779%** | 99,779% | — | — | 185 |
+| Apagar 95% + compacto (placa de vídeo) | **99,752%** | 99,752% | — | — | 207 |
+
+| ResNet-50 com menos fotos (etapa 4) | Acerto médio | Rep. 1 | Rep. 2 | Rep. 3 | Erros (média) |
+|---|---|---|---|---|---|
+| 100% das fotos (175.591 imagens), modelo original | **99,795%** | 99,788% | 99,794% | 99,803% | 171 |
+| 75% das fotos (131.693 imagens), modelo original | **99,785%** | 99,781% | 99,774% | 99,800% | 180 |
+| 50% das fotos (87.798 imagens), modelo original | **99,738%** | 99,760% | 99,701% | 99,754% | 219 |
+| 25% das fotos (43.898 imagens), modelo original | **99,711%** | 99,723% | 99,700% | 99,711% | 242 |
+| 10% das fotos (17.561 imagens), modelo original | **99,522%** | 99,518% | 99,540% | 99,510% | 399 |
+| 5% das fotos (8.782 imagens), modelo original | **99,359%** | 99,389% | 99,331% | 99,357% | 536 |
+| 100% das fotos (175.591 imagens), modelo compacto | **99,799%** | 99,793% | 99,797% | 99,809% | 168 |
+| 75% das fotos (131.693 imagens), modelo compacto | **99,785%** | 99,769% | 99,782% | 99,804% | 180 |
+| 50% das fotos (87.798 imagens), modelo compacto | **99,738%** | 99,764% | 99,696% | 99,752% | 219 |
+| 25% das fotos (43.898 imagens), modelo compacto | **99,703%** | 99,714% | 99,691% | 99,702% | 249 |
+| 10% das fotos (17.561 imagens), modelo compacto | **99,510%** | 99,501% | 99,524% | 99,505% | 410 |
+| 5% das fotos (8.782 imagens), modelo compacto | **99,340%** | 99,367% | 99,315% | 99,337% | 552 |
+
+</div>
+<!-- tabela:end -->

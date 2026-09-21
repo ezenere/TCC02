@@ -44,6 +44,7 @@ figures: results ## idem (as figuras saem dos mesmos scripts)
 	$(PY) scripts/plot_curves.py --prefix eixo1
 relatorio:       ## relatório em linguagem simples: figuras + PDF (docs/relatorio/)
 	$(PY) docs/relatorio/make_figuras.py
+	$(PY) docs/relatorio/make_tabela.py
 	$(PY) scripts/md2pdf.py docs/relatorio/RELATORIO.md
 freeze:          ## regenera requirements.txt a partir do env
 	scripts/freeze.sh
