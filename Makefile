@@ -2,7 +2,7 @@
 PY ?= /home/ezenere/miniconda3/envs/tcc/bin/python
 export PYTHONPATH := src
 
-.PHONY: help test smoke verify audit eixo1 eixo2 eixo2b trt eixo3 eixo4 results figures latency-cpu latency-gpu freeze
+.PHONY: relatorio help test smoke verify audit eixo1 eixo2 eixo2b trt eixo3 eixo4 results figures latency-cpu latency-gpu freeze
 
 help:            ## lista os alvos
 	@grep -E '^[a-z0-9-]+:.*##' $(MAKEFILE_LIST) | awk -F':.*## ' '{printf "  %-14s %s\n", $$1, $$2}'
@@ -42,5 +42,8 @@ results:         ## regenera todos os CSVs, tabelas de README e figuras a partir
 	$(PY) results/analise/make_erros.py
 figures: results ## idem (as figuras saem dos mesmos scripts)
 	$(PY) scripts/plot_curves.py --prefix eixo1
+relatorio:       ## relatório em linguagem simples: figuras + PDF (docs/relatorio/)
+	$(PY) docs/relatorio/make_figuras.py
+	$(PY) scripts/md2pdf.py docs/relatorio/RELATORIO.md
 freeze:          ## regenera requirements.txt a partir do env
 	scripts/freeze.sh
