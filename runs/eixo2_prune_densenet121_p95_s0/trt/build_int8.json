@@ -1,10 +1,10 @@
 {
   "engine": "runs/eixo2_prune_densenet121_p95_s0/trt/model_int8.engine",
-  "engine_bytes": 15197116,
+  "engine_bytes": 15407916,
   "precision": "int8",
   "strongly_typed": true,
   "tf32": true,
-  "build_time_s": 175.5,
+  "build_time_s": 2315.9,
   "onnx": "runs/eixo2_prune_densenet121_p95_s0/model_qdq_int8.onnx",
   "onnx_bytes": 8050511,
   "opt_profile": {
@@ -14,9 +14,9 @@
   },
   "workspace_gib": 4,
   "inspector": {
-    "n_layers": 1471,
+    "n_layers": 1497,
     "output_datatype_histogram": {
-      "Float": 376,
+      "Float": 402,
       "Int8": 970,
       "?": 125
     }
@@ -25,24 +25,26 @@
     "onnx_qdq": "runs/eixo2_prune_densenet121_p95_s0/model_qdq_int8.onnx",
     "onnx_bytes": 8050511,
     "source_onnx": "runs/eixo2_prune_densenet121_p95_s0/model.onnx",
-    "method": "onnxruntime quantize_static, QDQ, entropy calibration (incremental), symmetric int8, per-channel weights",
-    "calibration_method": "entropy",
+    "method": "onnxruntime quantize_static, QDQ, percentile calibration (incremental), symmetric int8, per-channel weights",
+    "calibration_method": "percentile",
+    "percentile": 99.99,
     "calibration": {
       "split": "fit",
       "n": 1024,
       "seed": 0,
       "batch": 16,
+      "mask_column": null,
       "max_intermediate_outputs": 2
     },
     "quantize_linear_nodes": 370,
     "nodes_excluded": [
       "/features/conv0/Conv"
     ],
-    "time_s": 171.6,
+    "time_s": 140.9,
     "smoke": {
       "split": "val",
       "n": 256,
-      "acc_qdq_ort_cpu": 0.99609375,
+      "acc_qdq_ort_cpu": 1.0,
       "acc_fp32_ort_cpu": 1.0
     },
     "onnxruntime": "1.30.0",
@@ -54,7 +56,7 @@
     "cudnn": 91900,
     "gpu": "NVIDIA GeForce RTX 3080 Ti",
     "hostname": "EZenereArch",
-    "built_at": "2026-09-14T21:38:56"
+    "built_at": "2026-09-21T07:19:28"
   },
   "tensorrt": "11.3.0.99",
   "python": "3.11.15",
@@ -64,5 +66,5 @@
   "cudnn": 91900,
   "gpu": "NVIDIA GeForce RTX 3080 Ti",
   "hostname": "EZenereArch",
-  "built_at": "2026-09-14T21:41:53"
+  "built_at": "2026-09-21T07:58:07"
 }

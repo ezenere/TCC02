@@ -54,7 +54,8 @@ Figura: `figures/prune_compare.{pdf,png}` (`make_prune_compare.py`).
 ## Quantização int8 pós-treinamento
 
 Calibração com as mesmas 1.024 imagens de `fit` nas duas rotas. CPU: FX graph mode, backend x86/fbgemm, artefato TorchScript. GPU: TensorRT 11,
-rede fortemente tipada, ONNX Q/DQ com calibração por entropia (escolhida em `val` contra MinMax). Acurácia reportada **por backend**.
+rede fortemente tipada, ONNX Q/DQ com calibração por **percentil 99,99**, escolhida em `val` pela robustez à amostra de calibração
+(`calib_sweep.csv`: 62–64 erros em val com percentil 99,99, contra 66–689 com entropia e 604–966 com MinMax; denso = 60). Acurácia reportada **por backend**.
 
 <!-- eixo2:quant:start -->
 | arquitetura | backend | precisão | seeds | razão de erro | erros / baseline (por seed) | artefato (× FP32) | img/s (aval.) |
@@ -62,22 +63,27 @@ rede fortemente tipada, ONNX Q/DQ com calibração por entropia (escolhida em `v
 | DenseNet-121 | cpu-fbgemm | int8 | 3 | 1.24 ± 0.07 | 210/160, 203/167, 198/167 | 7.7 MiB (0.28) | 476 |
 | DenseNet-121 | gpu-tensorrt | fp16 | 3 | 1.00 ± 0.00 | 160/160, 166/167, 167/167 | 15.0 MiB (0.55) | 3198 |
 | DenseNet-121 | gpu-tensorrt | fp32 | 3 | 1.00 ± 0.00 | 160/160, 167/167, 168/167 | 34.3 MiB (1.26) | 1670 |
-| DenseNet-121 | gpu-tensorrt | int8 | 3 | 1.19 ± 0.08 | 190/160, 213/167, 185/167 | 14.5 MiB (0.53) | 1753 |
+| DenseNet-121 | gpu-tensorrt | int8 | 3 | 1.07 ± 0.03 | 175/160, 174/167, 177/167 | 14.7 MiB (0.54) | 1102 |
 | ResNet-50 | cpu-fbgemm | int8 | 3 | 1.04 ± 0.07 | 170/177, 174/165, 196/178 | 23.0 MiB (0.26) | 452 |
 | ResNet-50 | gpu-tensorrt | fp16 | 3 | 1.00 ± 0.01 | 176/177, 166/165, 179/178 | 45.5 MiB (0.51) | 5068 |
 | ResNet-50 | gpu-tensorrt | fp32 | 3 | 1.00 ± 0.01 | 176/177, 163/165, 179/178 | 100.8 MiB (1.12) | 1965 |
-| ResNet-50 | gpu-tensorrt | int8 | 3 | 1.08 ± 0.08 | 180/177, 174/165, 209/178 | 23.9 MiB (0.27) | 6189 |
+| ResNet-50 | gpu-tensorrt | int8 | 3 | 1.01 ± 0.03 | 173/177, 166/165, 184/178 | 23.9 MiB (0.27) | 3845 |
 <!-- eixo2:quant:end -->
 
-**Leitura.** A int8 não custa nada à ResNet-50 em nenhum backend, mas degrada a DenseNet-121 nos dois (CPU 1,24×, TensorRT ≈1,2×): o efeito
-é da arquitetura, não do runtime. Hipótese: a concatenação densa junta num mesmo tensor ativações de escalas distintas, e a escala única por
-tensor do PTQ estático perde resolução nos canais de menor amplitude. A engine int8 da DenseNet é ainda **mais lenta que a FP16** no TensorRT,
-porque centenas de camadas em torno das concatenações ficam em float com conversões Q/DQ; na ResNet a int8 é ~1,4× a FP16.
+**Leitura.** A int8 não custa nada à ResNet-50 em nenhum backend (CPU 1,04×, TensorRT 1,01×). Na DenseNet-121 o custo depende do backend:
+**1,24× em CPU** (FX/fbgemm, escala por tensor nas ativações) e **1,07× no TensorRT** com calibração robusta. A hipótese para a CPU: a
+concatenação densa junta num mesmo tensor ativações de escalas distintas, e a escala única por tensor perde resolução nos canais de menor
+amplitude. **Lição de método:** com calibração por entropia e uma única amostra, o TensorRT parecia custar 1,19× à DenseNet e 1,08× à ResNet;
+a varredura de robustez mostrou que boa parte disso era instabilidade do calibrador, não da arquitetura — o mesmo modelo ia de 194 a 2.596
+erros no teste conforme as 1.024 imagens sorteadas. A engine int8 da DenseNet continua **mais lenta que a FP16** no TensorRT (3,17 contra
+2,76 ms): centenas de camadas em torno das concatenações ficam em float, com conversões Q/DQ; na ResNet a int8 é 1,2× mais rápida que a FP16.
 
 ## Poda + int8 (célula extra do benchmark)
 
-Aplicada nos níveis 90% e 95% (o último dentro do orçamento de 1,5×), seed 0. As degradações se somam de forma aproximadamente aditiva;
-na DenseNet a int8 domina. Tabela completa em `results/eixo3/eixo3_table.csv` (células `prune-NN+int8-cpu` e `prune-NN+trt-int8`).
+Aplicada nos níveis 90% e 95% (o último dentro do orçamento de 1,5×), seed 0. As duas técnicas **compõem de forma aproximadamente
+aditiva**: a int8 acrescenta poucos erros ao modelo podado nos dois backends (TensorRT: ResNet 90% 190 → 195 erros, 95% 230 → 235;
+DenseNet 90% 163 → 185, 95% 193 → 207; CPU: ResNet 90% 190 → 202). Tabela completa em `results/eixo3/eixo3_table.csv`
+(células `prune-NN+int8-cpu` e `prune-NN+trt-int8`).
 
 ## Reprodução
 

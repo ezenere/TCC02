@@ -1,7 +1,7 @@
 {
   "split": "test",
   "artifact": "runs/eixo1_resnet50_s1/trt/model_int8.engine",
-  "artifact_bytes": 25062460,
+  "artifact_bytes": 25099644,
   "backend": "tensorrt",
   "precision": "int8",
   "tensorrt": "11.3.0.99",
@@ -9,20 +9,22 @@
     "onnx_qdq": "runs/eixo1_resnet50_s1/model_qdq_int8.onnx",
     "onnx_bytes": 23889115,
     "source_onnx": "runs/eixo1_resnet50_s1/model.onnx",
-    "method": "onnxruntime quantize_static, QDQ, entropy calibration (incremental), symmetric int8, per-channel weights",
-    "calibration_method": "entropy",
+    "method": "onnxruntime quantize_static, QDQ, percentile calibration (incremental), symmetric int8, per-channel weights",
+    "calibration_method": "percentile",
+    "percentile": 99.99,
     "calibration": {
       "split": "fit",
       "n": 1024,
       "seed": 0,
       "batch": 16,
+      "mask_column": null,
       "max_intermediate_outputs": 2
     },
     "quantize_linear_nodes": 120,
     "nodes_excluded": [
       "/conv1/Conv"
     ],
-    "time_s": 114.6,
+    "time_s": 95.9,
     "smoke": {
       "split": "val",
       "n": 256,
@@ -38,7 +40,7 @@
     "cudnn": 91900,
     "gpu": "NVIDIA GeForce RTX 3080 Ti",
     "hostname": "EZenereArch",
-    "built_at": "2026-09-14T20:52:18"
+    "built_at": "2026-09-21T06:26:02"
   },
   "checkpoint": "runs/eixo1_resnet50_s1/checkpoints/best.pt",
   "arch": "resnet50",
@@ -46,10 +48,10 @@
   "prune_sparsity": null,
   "manifest_version": 2,
   "manifest_sha256": "ed5c1eb749ec9e723055d1ce7284df37403df29dc16c0d81337b36a59dba374d",
-  "eval_time_s": 13.5,
-  "eval_img_s": 6207.2,
-  "evaluated_at": "2026-09-14T20:54:16",
-  "git_commit": "53ad1e879537e66e7c79a892afd452ce33fe834c",
+  "eval_time_s": 21.6,
+  "eval_img_s": 3867.9,
+  "evaluated_at": "2026-09-21T06:28:49",
+  "git_commit": "fa6c89ae4a20b09c56b9c3651176eb35dfdd9b85",
   "git_dirty": true,
   "python": "3.11.15",
   "torch": "2.11.0+cu128",
@@ -59,17 +61,17 @@
   "gpu": "NVIDIA GeForce RTX 3080 Ti",
   "hostname": "EZenereArch",
   "n": 83613,
-  "acc": 0.997918983890065,
-  "f1_macro": 0.9979389894801669,
-  "error_rate": 0.002081016109935052,
-  "n_errors": 174,
+  "acc": 0.9980146627916712,
+  "f1_macro": 0.9980365932907671,
+  "error_rate": 0.00198533720832883,
+  "n_errors": 166,
   "per_class": [
     {
       "label": "call",
       "support": 4179,
-      "precision": 0.9990421455938697,
-      "recall": 0.998324958123953,
-      "f1": 0.9986834230999401
+      "precision": 0.9988032551460029,
+      "recall": 0.9985642498205313,
+      "f1": 0.9986837381835587
     },
     {
       "label": "dislike",
@@ -81,107 +83,107 @@
     {
       "label": "fist",
       "support": 4760,
-      "precision": 0.9995798319327731,
+      "precision": 0.9997898718218113,
       "recall": 0.9995798319327731,
-      "f1": 0.9995798319327731
+      "f1": 0.9996848408446265
     },
     {
       "label": "four",
       "support": 4662,
-      "precision": 0.9967893835616438,
+      "precision": 0.9972162740899357,
       "recall": 0.9989274989274989,
-      "f1": 0.9978572959074351
+      "f1": 0.9980711530218603
     },
     {
       "label": "like",
       "support": 4718,
-      "precision": 0.9991520033919864,
-      "recall": 0.9989402289105553,
-      "f1": 0.9990461049284578
+      "precision": 0.9991521831284442,
+      "recall": 0.9991521831284442,
+      "f1": 0.9991521831284442
     },
     {
       "label": "mute",
       "support": 5004,
-      "precision": 0.9996003197442046,
-      "recall": 0.9996003197442046,
-      "f1": 0.9996003197442046
+      "precision": 0.9994003597841296,
+      "recall": 0.9992006394884093,
+      "f1": 0.9993004896572399
     },
     {
       "label": "ok",
       "support": 4737,
-      "precision": 0.9989444796284568,
+      "precision": 0.9991554054054054,
       "recall": 0.9989444796284568,
-      "f1": 0.9989444796284568
+      "f1": 0.9990499313839333
     },
     {
       "label": "one",
       "support": 4746,
-      "precision": 0.9983129481231547,
+      "precision": 0.998523518245096,
       "recall": 0.9974715549936789,
-      "f1": 0.9978920741989883
+      "f1": 0.9979972594076105
     },
     {
       "label": "palm",
       "support": 4826,
-      "precision": 0.9929562875492024,
-      "recall": 0.9931620389556569,
-      "f1": 0.9930591525950482
+      "precision": 0.9927536231884058,
+      "recall": 0.9935764608371322,
+      "f1": 0.9931648715824357
     },
     {
       "label": "peace",
       "support": 4830,
-      "precision": 0.9942160710596984,
+      "precision": 0.9946269890473238,
       "recall": 0.99648033126294,
-      "f1": 0.9953469134525902
+      "f1": 0.9955527976005792
     },
     {
       "label": "peace_inverted",
       "support": 4333,
-      "precision": 0.9983848638670973,
-      "recall": 0.9986152780983153,
-      "f1": 0.9985000576900889
+      "precision": 0.9983859810929214,
+      "recall": 0.9993076390491576,
+      "f1": 0.9988465974625145
     },
     {
       "label": "rock",
       "support": 4853,
-      "precision": 0.9989699217140503,
-      "recall": 0.9991757675664538,
-      "f1": 0.9990728340372927
+      "precision": 0.9989701338825953,
+      "recall": 0.9993818256748404,
+      "f1": 0.9991759373712402
     },
     {
       "label": "stop",
       "support": 4740,
-      "precision": 0.994291754756871,
+      "precision": 0.9945020088813703,
       "recall": 0.9921940928270042,
-      "f1": 0.9932418162618797
+      "f1": 0.9933467103178795
     },
     {
       "label": "stop_inverted",
       "support": 4508,
-      "precision": 0.9995565410199556,
+      "precision": 1.0,
       "recall": 1.0,
-      "f1": 0.9997782213351075
+      "f1": 1.0
     },
     {
       "label": "three",
       "support": 4561,
-      "precision": 0.9984615384615385,
-      "recall": 0.9960534970401228,
-      "f1": 0.9972560640983427
+      "precision": 0.9982429167581814,
+      "recall": 0.9964919973689981,
+      "f1": 0.9973666886109283
     },
     {
       "label": "three2",
       "support": 4322,
-      "precision": 0.9976905311778291,
+      "precision": 0.997920997920998,
       "recall": 0.999537251272559,
-      "f1": 0.9986130374479889
+      "f1": 0.9987284706970293
     },
     {
       "label": "two_up",
       "support": 4673,
-      "precision": 0.998286203941731,
+      "precision": 0.9985001071352047,
       "recall": 0.9972180612026535,
-      "f1": 0.9977518466973556
+      "f1": 0.9978586723768736
     },
     {
       "label": "two_up_inverted",
@@ -193,16 +195,16 @@
   ],
   "confusion_matrix": [
     [
-      4172,
-      2,
+      4173,
+      1,
       0,
       0,
       3,
       0,
       0,
+      0,
+      0,
       1,
-      0,
-      0,
       0,
       1,
       0,
@@ -261,13 +263,13 @@
       0,
       0,
       0,
-      3,
+      2,
       0,
       0,
       0,
       1,
       0,
-      1,
+      2,
       0,
       0,
       0
@@ -277,10 +279,10 @@
       0,
       0,
       0,
-      4713,
+      4714,
       0,
       0,
-      1,
+      0,
       0,
       0,
       0,
@@ -298,11 +300,11 @@
       0,
       0,
       0,
-      5002,
+      5000,
+      0,
+      2,
       0,
       1,
-      0,
-      0,
       0,
       0,
       0,
@@ -314,8 +316,8 @@
     ],
     [
       0,
-      0,
       1,
+      0,
       0,
       0,
       0,
@@ -338,7 +340,7 @@
       0,
       0,
       0,
-      2,
+      3,
       0,
       4734,
       0,
@@ -349,23 +351,23 @@
       0,
       0,
       0,
-      1,
+      0,
       0
     ],
     [
       0,
       0,
       0,
-      4,
+      3,
       1,
       0,
       0,
       0,
-      4793,
+      4795,
       0,
       0,
       0,
-      26,
+      25,
       0,
       1,
       1,
@@ -402,8 +404,8 @@
       0,
       0,
       0,
-      5,
-      4327,
+      2,
+      4330,
       0,
       0,
       0,
@@ -413,18 +415,18 @@
       1
     ],
     [
-      1,
+      2,
       0,
       0,
       0,
       0,
       0,
-      1,
       0,
       0,
-      1,
       0,
-      4849,
+      0,
+      0,
+      4850,
       0,
       0,
       0,
@@ -441,12 +443,12 @@
       0,
       0,
       0,
-      30,
+      32,
       0,
       0,
       0,
       4703,
-      2,
+      0,
       0,
       0,
       0,
@@ -476,7 +478,7 @@
       0,
       0,
       0,
-      7,
+      6,
       0,
       0,
       2,
@@ -487,8 +489,8 @@
       1,
       0,
       0,
-      4543,
-      2,
+      4545,
+      1,
       1,
       0
     ],

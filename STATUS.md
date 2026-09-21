@@ -366,3 +366,16 @@ Novo padrão: percentil 99,99. **28 células int8 TensorRT refeitas** (6 do eixo
 A int8 de CPU (FX/fbgemm) não é afetada. A latência int8 medida continua válida (mesmo grafo, só mudam as escalas).
 **Em andamento:** fila int8 (28 células, ~1,5 h) + eixo 2c, controle por LR rewinding (4 runs, com `gpu_wait` — GPU compartilhada com o autor).
 **Incidente menor:** um `rm -f` com glob sem correspondência não rodou (zsh aborta o comando); detectado antes de a fila reaproveitar engines antigas, limpo com `find -delete` e conferido. Regra adicionada ao CLAUDE.md.
+
+### 21/09 (manhã) — int8 TensorRT refeita com percentil 99,99 (28 células, 0 falhas)
+```
+                          entropia (descartada)      percentil 99,99
+ResNet-50  TRT int8       1,08 ± 0,08                1,01 ± 0,03      (erros: 173 / 166 / 184 vs denso 177 / 165 / 178)
+DenseNet   TRT int8       1,19 ± 0,08                1,07 ± 0,03      (erros: 175 / 174 / 177 vs denso 160 / 167 / 167)
+poda 90% + int8 TRT       ResNet 252 → 195 erros · DenseNet 242 → 185     (só poda: 190 / 163)
+eixo 4, 75% s0            438 → 193 erros (denso 183)
+```
+**Duas afirmações anteriores corrigidas nos READMEs:** (1) "a int8 degrada a DenseNet nos dois backends" → vale para a CPU (1,24×); no TensorRT é 1,07×;
+(2) "a int8 sobre modelos podados degrada mais no TensorRT" → era artefato da calibração por entropia. Mantém-se: a engine int8 da DenseNet é mais lenta que a FP16.
+**Eixo 4 em int8** acompanha a curva densa: 75% 1,07 · 50% 1,31 · 25% 1,49 · 10% 2,45 · 5% 3,30; erro ∝ N^-0,40 (R² 0,98).
+**Decisão do eixo 3 (preliminar, latência com sessão gráfica aberta):** ResNet-50 int8 TensorRT — razão 1,01×, 0,80 ms, 23,9 MiB.

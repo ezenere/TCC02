@@ -20,11 +20,11 @@ Na linha `baseline`, a coluna de GPU é a engine TensorRT **FP32** (o baseline m
 | DenseNet-121 | int8-cpu | 3 | 1.24 ± 0.07 | 6.97 | 2.86 | 7.7 | 2.86 | — |
 | DenseNet-121 | trt-fp32 | 3 | 1.00 ± 0.00 | 6.97 | 2.86 | 34.3 | — | 4.225 |
 | DenseNet-121 | trt-fp16 | 3 | 1.00 ± 0.00 | 6.97 | 2.86 | 15.0 | — | 2.759 |
-| DenseNet-121 | trt-int8 | 3 | 1.19 ± 0.08 | 6.97 | 2.86 | 14.5 | — | 3.171 |
+| DenseNet-121 | trt-int8 | 3 | 1.07 ± 0.03 | 6.97 | 2.86 | 14.7 | — | 3.171 |
 | DenseNet-121 | prune-90+int8-cpu | 1 | 1.37 | 0.77 | 2.86 | 7.7 | — | — |
 | DenseNet-121 | prune-95+int8-cpu | 1 | 1.58 | 0.43 | 2.86 | 7.7 | — | — |
-| DenseNet-121 | prune-90+trt-int8 | 1 | 1.51 | 0.77 | 2.86 | 14.5 | — | 3.156 |
-| DenseNet-121 | prune-95+trt-int8 | 1 | 1.92 | 0.43 | 2.86 | 14.5 | — | 3.176 |
+| DenseNet-121 | prune-90+trt-int8 | 1 | 1.16 | 0.77 | 2.86 | 14.7 | — | 3.156 |
+| DenseNet-121 | prune-95+trt-int8 | 1 | 1.29 | 0.43 | 2.86 | 14.7 | — | 3.176 |
 | ResNet-50 | baseline | 3 | 1.00 | 23.54 | 4.11 | 90.1 | 10.75 | 2.645 |
 | ResNet-50 | prune-50 | 3 | 0.97 ± 0.03 | 11.80 | 4.11 | 51.0 | 11.03 | — |
 | ResNet-50 | prune-70 | 3 | 0.98 ± 0.02 | 7.10 | 4.11 | 34.8 | 11.28 | — |
@@ -34,11 +34,11 @@ Na linha `baseline`, a coluna de GPU é a engine TensorRT **FP32** (o baseline m
 | ResNet-50 | int8-cpu | 3 | 1.04 ± 0.07 | 23.54 | 4.11 | 23.0 | 1.38 | — |
 | ResNet-50 | trt-fp32 | 3 | 1.00 ± 0.01 | 23.54 | 4.11 | 100.8 | — | 2.645 |
 | ResNet-50 | trt-fp16 | 3 | 1.00 ± 0.01 | 23.54 | 4.11 | 45.5 | — | 0.941 |
-| ResNet-50 | trt-int8 | 3 | 1.08 ± 0.08 | 23.54 | 4.11 | 23.9 | — | 0.800 |
+| ResNet-50 | trt-int8 | 3 | 1.01 ± 0.03 | 23.54 | 4.11 | 23.9 | — | 0.800 |
 | ResNet-50 | prune-90+int8-cpu | 1 | 1.14 | 2.40 | 4.11 | 23.0 | — | — |
 | ResNet-50 | prune-95+int8-cpu | 1 | 1.34 | 1.23 | 4.11 | 23.0 | — | — |
-| ResNet-50 | prune-90+trt-int8 | 1 | 1.42 | 2.40 | 4.11 | 23.9 | — | 0.793 |
-| ResNet-50 | prune-95+trt-int8 | 1 | 1.48 | 1.23 | 4.11 | 23.9 | — | 0.930 |
+| ResNet-50 | prune-90+trt-int8 | 1 | 1.10 | 2.40 | 4.11 | 23.9 | — | 0.793 |
+| ResNet-50 | prune-95+trt-int8 | 1 | 1.33 | 1.23 | 4.11 | 23.9 | — | 0.930 |
 <!-- eixo3:table:end -->
 
 Figuras de Pareto (razão de erro × custo): `figures/pareto_cpu`, `pareto_gpu`, `pareto_disk`, `pareto_macs` (`.pdf` e `.png`).
@@ -49,11 +49,13 @@ Figuras de Pareto (razão de erro × custo): `figures/pareto_cpu`, `pareto_gpu`,
    ResNet-50) e o mesmo grafo em GPU; o que cai é o artefato comprimido (até 10% do original a 98%) e os parâmetros efetivos.
 2. **Quantização é o que acelera.** int8 em CPU: 7,8× na ResNet-50 (10,7 → 1,38 ms, 16 threads) e 5,8× na DenseNet-121 (16,6 → 2,86 ms).
    Em GPU, contra o baseline FP32 no mesmo runtime: ResNet-50 3,3× (2,65 → 0,80 ms).
-3. **A DenseNet-121 paga duas vezes pela int8:** mais erro (≈1,2× nos dois backends) e, no TensorRT, **latência pior que a FP16** (3,17 contra
-   2,76 ms) — centenas de camadas em torno das concatenações ficam em float, com conversões Q/DQ.
+3. **A int8 não favorece a DenseNet-121:** em CPU custa 1,24× de erro (ResNet: 1,04×); no TensorRT o erro quase não muda (1,07×), mas a
+   **latência fica pior que a FP16** (3,17 contra 2,76 ms) — centenas de camadas em torno das concatenações ficam em float, com conversões Q/DQ.
 4. **Custo teórico e real divergem.** A DenseNet-121 tem 30% menos MACs e 3,4× menos parâmetros que a ResNet-50, mas é mais lenta em todos os
    runtimes medidos (FP32 TensorRT: 4,23 contra 2,65 ms).
-5. **As técnicas compõem de forma aproximadamente aditiva** na ResNet-50 (poda 90% 1,10 + int8 → 1,14 em CPU); na DenseNet a int8 domina.
+5. **As técnicas compõem de forma aproximadamente aditiva:** na ResNet-50, poda 90% (1,07×) + int8 dá 1,14× em CPU e 1,10× no TensorRT.
+6. **A calibração da int8 é um hiperparâmetro que precisa de validação.** Com entropia, o mesmo modelo variou de 194 a 2.596 erros conforme a
+   amostra de calibração; com percentil 99,99 (escolhido em `val`), de 62 a 64 em validação. Ver `results/eixo2/calib_sweep.csv`.
 
 ## Decisão
 

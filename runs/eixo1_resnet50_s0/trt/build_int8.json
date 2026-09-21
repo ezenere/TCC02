@@ -1,10 +1,10 @@
 {
   "engine": "runs/eixo1_resnet50_s0/trt/model_int8.engine",
-  "engine_bytes": 25085732,
+  "engine_bytes": 25138540,
   "precision": "int8",
   "strongly_typed": true,
   "tf32": true,
-  "build_time_s": 11.6,
+  "build_time_s": 141.8,
   "onnx": "runs/eixo1_resnet50_s0/model_qdq_int8.onnx",
   "onnx_bytes": 23889115,
   "opt_profile": {
@@ -25,20 +25,22 @@
     "onnx_qdq": "runs/eixo1_resnet50_s0/model_qdq_int8.onnx",
     "onnx_bytes": 23889115,
     "source_onnx": "runs/eixo1_resnet50_s0/model.onnx",
-    "method": "onnxruntime quantize_static, QDQ, entropy calibration (incremental), symmetric int8, per-channel weights",
-    "calibration_method": "entropy",
+    "method": "onnxruntime quantize_static, QDQ, percentile calibration (incremental), symmetric int8, per-channel weights",
+    "calibration_method": "percentile",
+    "percentile": 99.99,
     "calibration": {
       "split": "fit",
       "n": 1024,
       "seed": 0,
       "batch": 16,
+      "mask_column": null,
       "max_intermediate_outputs": 2
     },
     "quantize_linear_nodes": 120,
     "nodes_excluded": [
       "/conv1/Conv"
     ],
-    "time_s": 115.7,
+    "time_s": 88.3,
     "smoke": {
       "split": "val",
       "n": 256,
@@ -54,7 +56,7 @@
     "cudnn": 91900,
     "gpu": "NVIDIA GeForce RTX 3080 Ti",
     "hostname": "EZenereArch",
-    "built_at": "2026-09-14T20:41:46"
+    "built_at": "2026-09-21T06:21:22"
   },
   "tensorrt": "11.3.0.99",
   "python": "3.11.15",
@@ -64,5 +66,5 @@
   "cudnn": 91900,
   "gpu": "NVIDIA GeForce RTX 3080 Ti",
   "hostname": "EZenereArch",
-  "built_at": "2026-09-14T20:42:00"
+  "built_at": "2026-09-21T06:23:46"
 }

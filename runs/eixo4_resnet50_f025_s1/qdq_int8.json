@@ -2,8 +2,9 @@
   "onnx_qdq": "runs/eixo4_resnet50_f025_s1/model_qdq_int8.onnx",
   "onnx_bytes": 23889115,
   "source_onnx": "runs/eixo4_resnet50_f025_s1/model.onnx",
-  "method": "onnxruntime quantize_static, QDQ, entropy calibration (incremental), symmetric int8, per-channel weights",
-  "calibration_method": "entropy",
+  "method": "onnxruntime quantize_static, QDQ, percentile calibration (incremental), symmetric int8, per-channel weights",
+  "calibration_method": "percentile",
+  "percentile": 99.99,
   "calibration": {
     "split": "fit",
     "n": 1024,
@@ -16,7 +17,7 @@
   "nodes_excluded": [
     "/conv1/Conv"
   ],
-  "time_s": 121.5,
+  "time_s": 94.9,
   "smoke": {
     "split": "val",
     "n": 256,
@@ -32,5 +33,5 @@
   "cudnn": 91900,
   "gpu": "NVIDIA GeForce RTX 3080 Ti",
   "hostname": "EZenereArch",
-  "built_at": "2026-09-21T03:28:57"
+  "built_at": "2026-09-21T08:39:45"
 }

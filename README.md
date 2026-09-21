@@ -24,13 +24,15 @@ ao baseline da mesma seed — o baseline satura em ~99,8% de acurácia e deltas 
 | poda 95% | 1,28 ± 0,07 | 1,19 ± 0,05 | |
 | poda 98% (joelho) | 1,90 ± 0,17 | 1,65 ± 0,05 | |
 | int8 CPU (fbgemm) | 1,04 ± 0,07 | 1,24 ± 0,07 | |
-| int8 GPU (TensorRT) | 1,08 ± 0,08 | 1,19 ± 0,08 | |
+| int8 GPU (TensorRT, percentil 99,99) | 1,01 ± 0,03 | 1,07 ± 0,03 | |
 | erro num holdout externo de 19.042 sujeitos | 0,235 ± 0,008% | 0,216 ± 0,005% | [auditoria](results/audit/README.md) |
 
 Leituras principais: as duas arquiteturas empatam em erro (o piso de ~0,2% é em boa parte ruído de rótulo do dataset: 117 imagens são
 erradas pelas duas redes, quase sempre com a mesma predição); ambas toleram 90% de poda sem perda mensurável e quebram em 98%; a
-quantização int8 é gratuita para a ResNet-50 e custa ~20% a mais de erro à DenseNet-121 nos dois backends; a engine int8 da DenseNet é
-mais lenta que a FP16 no TensorRT. Eixos 3 e 4 em andamento — ver o [diário](STATUS.md).
+quantização int8 é gratuita para a ResNet-50 e custa à DenseNet-121 24% a mais de erro em CPU e 7% no TensorRT, onde a engine int8 dela
+é ainda mais lenta que a FP16; a calibração da int8 precisou ser escolhida em validação (a por entropia era instável). Configuração
+vencedora do benchmark (preliminar): **ResNet-50 int8 TensorRT**, 0,80 ms por imagem com razão de erro 1,01. Com 25% dos dados de treino o
+erro sobe 41%; o joelho fica entre 25% e 10% (erro ∝ N^-0,38). Ver [eixo 3](results/eixo3/README.md), [eixo 4](results/eixo4/) e o [diário](STATUS.md).
 
 ## Estrutura
 
