@@ -234,10 +234,15 @@ manifesto v2 em todas as frações: a validação interna é a mesma para todos 
 intocado. Verificação: `scripts/verify_manifest.py --version 3`; `tests/test_masks.py`.
 
 **Receita ("reduz dados, mantém receita").** Mesmos hiperparâmetros do eixo 1 (SGD nesterov, lr 0,0375,
-warmup 2 + cosine, batch 96, AMP), 30 épocas fixas com **early stopping** por F1 macro em `val`
-(paciência 5), seleção do `best.pt` por `val`, teste avaliado uma vez. A seed K governa a máscara, a
+warmup 2 + cosine, batch 96, AMP), **30 épocas fixas** com a agenda cosseno levada até o fim, seleção do
+`best.pt` por F1 macro em `val`, teste avaliado uma vez. Uma primeira rodada usou parada antecipada com paciência 5 e foi
+descartada: como o erro em `val` oscila ±0,05 p.p. entre épocas vizinhas, cinco épocas sem recorde acontecem por acaso no meio do
+treino, e a parada truncou a agenda cosseno em 13 dos 18 runs com a taxa de aprendizado ainda em até 56% do pico — justamente antes
+da fase em que o decaimento do lr traz o ganho final (o ponto de 100% da seed 2 ficou com 277 erros contra 177 e 182 nas outras
+seeds). Os 13 runs foram **continuados** do último checkpoint até a época 30 (o resume reproduz lote a lote o treino ininterrupto);
+os resultados truncados ficam arquivados em `metrics_es5.json`. A seed K governa a máscara, a
 inicialização da cabeça, a ordem dos dados e a augmentation. A fração 100% é treinada com a mesma
-receita (com early stopping), para que todos os pontos da curva sejam comparáveis entre si. Se a
+receita, para que todos os pontos da curva sejam comparáveis entre si. Se a
 configuração vencedora do eixo 3 for um modelo podado, cada ponto encadeia: treino denso na fração →
 poda global no nível vencedor → fine-tuning na mesma fração (`src/reduce_data.py --sparsity`).
 
@@ -245,8 +250,7 @@ poda global no nível vencedor → fine-tuning na mesma fração (`src/reduce_da
 média ± desvio. Ordem de execução: seeds 0–2 em todas as frações, depois 3–4; a fila é retomável.
 
 **Reportado** (`results/eixo4/make_eixo4.py`): acurácia, F1 macro e taxa de erro por fração;
-**razão de erro vs o ponto de 100% da mesma seed**; nº de épocas efetivas e época selecionada (o
-early stopping atua mais cedo nas frações pequenas); F1 por classe nas frações extremas (quais gestos
+**razão de erro vs o ponto de 100% da mesma seed**; época selecionada por `val`; F1 por classe nas frações extremas (quais gestos
 degradam primeiro). Análise complementar: ajuste de lei de potência `erro ∝ N^-α` sobre a curva média
 (Hestness et al., 2017), reportando α e R² por arquitetura. Registra-se no texto que a curva mede a
 redução de dados **no regime de fine-tuning** a partir de pesos ImageNet.

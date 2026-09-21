@@ -343,3 +343,15 @@ por 0,9% de latência sobre **ResNet-50 int8 TRT** (0,800 ms, razão 1,08×) —
 = empate → menor razão de erro. Com ele vence **ResNet-50 int8 TensorRT**. Em todas as leituras a arquitetura é ResNet-50, então o treino denso do eixo 4
 é o mesmo; a quantização de cada ponto da curva é aplicada depois.
 **Em andamento:** `[GPU][NOITE]` eixo 4 — `src/reduce_data.py --config configs/train_resnet50.yaml --seeds 0 1 2` (18 runs, ETA ≈ 14 h). Log: `runs/queue_eixo4_resnet50.log`.
+
+## 2026-09-21 (seg, madrugada) — eixo 4: anomalia, diagnóstico e correção
+
+**Treino do eixo 4 (ResNet-50, 6 frações × 3 seeds) terminou às 01:23, 18/18, 0 falhas.** Ao consolidar, **anomalia**: o ponto de 100% da seed 2
+fez 277 erros (177 e 182 nas outras seeds), pior que os de 75% e 50% da mesma seed.
+**Diagnóstico:** o early stopping com paciência 5 parou esse run na época 15 com o lr a 56% do pico. O erro em `val` oscila ±0,05 p.p. entre
+épocas, então 5 épocas sem recorde ocorrem por acaso; com agenda cosseno, parar no meio corta a fase em que o decaimento do lr dá o ganho final.
+13 dos 18 runs pararam antes da época 30 (ex.: 10% s0 com lr a 33%, 50% s1 a 11%) — e são os de mais erros dentro de cada fração.
+**Correção (decisão minha, sinalizada):** `--patience 0` — 30 épocas fixas, `best.pt` por `val`, como no eixo 1. Os 13 runs estão sendo **continuados**
+de `last.pt` até a época 30 (o resume replica o treino ininterrupto); resultados antigos arquivados em `metrics_es5.json`. CLAUDE.md e METODOLOGIA atualizados.
+**Curva com paciência 5 (descartada, só para registro):** razão de erro vs 100%: 75% 0,89 · 50% 1,08 · 25% 1,19 · 10% 2,17 · 5% 2,63 — distorcida pelo 100% da seed 2.
+**Em andamento:** continuação dos 13 runs (~1,3 h) → int8 TensorRT dos 18 pontos com calibração restrita à fração (~1,2 h).
