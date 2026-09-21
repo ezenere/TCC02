@@ -15,6 +15,7 @@ run_one() {   # run_one <arch> <seed> <sparsity>
   local pct; pct="$(python3 -c "print(f'{round(100*$sp):02d}')")"
   local name="eixo2b_prunefirst_${arch}_p${pct}_s${seed}"
   if [ -f "runs/$name/metrics.json" ]; then log "skip  $name"; return 0; fi
+  scripts/gpu_wait.sh 8000 3 | tee -a "$QLOG"          # the GPU is shared: wait until it is free
   mkdir -p "runs/$name"; log "start $name"; local t0=$SECONDS
   "$PY" -u src/train.py --config "configs/prune_first_${arch}.yaml" --seed "$seed" --sparsity "$sp" \
         --run-name "$name" --resume --eval-test >> "runs/$name/train.log" 2>&1

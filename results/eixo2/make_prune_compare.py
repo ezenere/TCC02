@@ -24,7 +24,8 @@ ROOT = Path(__file__).resolve().parents[2]
 OUT = Path(__file__).resolve().parent
 LABEL = {"resnet50": "ResNet-50", "densenet121": "DenseNet-121"}
 PATS = {"depois (treino → poda → fine-tuning 5 ép.)": re.compile(r"eixo2_prune_(?P<arch>\w+?)_p(?P<pct>\d+)_s(?P<seed>\d+)$"),
-        "antes (poda ImageNet → treino 30 ép.)": re.compile(r"eixo2b_prunefirst_(?P<arch>\w+?)_p(?P<pct>\d+)_s(?P<seed>\d+)$")}
+        "antes (poda ImageNet → treino 30 ép.)": re.compile(r"eixo2b_prunefirst_(?P<arch>\w+?)_p(?P<pct>\d+)_s(?P<seed>\d+)$"),
+        "controle (treino → poda → 30 ép., LR rewinding)": re.compile(r"eixo2c_rewind_(?P<arch>\w+?)_p(?P<pct>\d+)_s(?P<seed>\d+)$")}
 
 
 def collect() -> pd.DataFrame:
@@ -80,13 +81,13 @@ def main() -> int:
     pd.set_option("display.width", 200)
     piv = s.pivot_table(index=["arch", "sparsity"], columns="method", values="ratio_mean").round(2)
     print(piv.to_string())
-    lines = ["| arquitetura | esparsidade | poda depois: razão (erros) | poda antes: razão (erros) | min de GPU depois / antes |", "|---|---|---|---|---|"]
+    lines = ["| arquitetura | esparsidade | poda depois, 5 ép.: razão (erros) | poda antes, 30 ép.: razão (erros) | controle: poda depois, 30 ép. (erros) | min de GPU |", "|---|---|---|---|---|---|"]
     for (arch, sp), grp in s.groupby(["arch", "sparsity"]):
         cell = {r.method[:5]: r for r in grp.itertuples()}
         fmt = lambda r: (f"{r.ratio_mean:.2f}" + (f" ± {r.ratio_std:.2f}" if pd.notna(r.ratio_std) else "") + f" ({r.errors})") if r is not None else "—"
         gm = lambda r: f"{r.gpu_min:.0f}" if r is not None else "—"
-        a, b = cell.get("depoi"), cell.get("antes")
-        lines.append(f"| {LABEL.get(arch, arch)} | {sp}% | {fmt(a)} | {fmt(b)} | {gm(a)} / {gm(b)} |")
+        a, b, c = cell.get("depoi"), cell.get("antes"), cell.get("contr")
+        lines.append(f"| {LABEL.get(arch, arch)} | {sp}% | {fmt(a)} | {fmt(b)} | {fmt(c)} | {gm(a)} / {gm(b)} / {gm(c)} |")
     readme = OUT / "README.md"
     txt = readme.read_text()
     a, b = "<!-- eixo2:compare:start -->", "<!-- eixo2:compare:end -->"
