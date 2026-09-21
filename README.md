@@ -8,7 +8,7 @@ Trabalho de conclusão de curso. Classificação de 18 gestos de mão do HaGRIDv
 3. **Benchmark** — qualidade × custo × latência de todas as células, e escolha da melhor configuração por um critério fixado antes dos resultados.
 4. **Redução de dados anotados** — a melhor configuração treinada com 100, 75, 50, 25, 10 e 5% dos dados.
 
-Documentos: [metodologia implementada](docs/METODOLOGIA.md) · [diário de execução](STATUS.md) · [como rodar](docs/RUNBOOK.md) ·
+Documentos: [**resultados (sumário)**](RESULTS.md) · [metodologia implementada](docs/METODOLOGIA.md) · [diário de execução](STATUS.md) · [como rodar](docs/RUNBOOK.md) ·
 [auditoria de vazamento](results/audit/README.md) · [análise dos erros](results/analise/README.md).
 
 ## Resultados até aqui
