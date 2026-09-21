@@ -16,17 +16,19 @@ import pandas as pd
 ROOT = Path(__file__).resolve().parents[2]
 MD = Path(__file__).resolve().parent / "RELATORIO.md"
 NAME = {"resnet50": "ResNet-50", "densenet121": "DenseNet-121"}
-CELLS = [("baseline", "Modelo original"),
-         ("prune-50", "Apagar 50% + ajuste curto"), ("prune-70", "Apagar 70% + ajuste curto"),
-         ("prune-90", "Apagar 90% + ajuste curto"), ("prune-95", "Apagar 95% + ajuste curto"),
-         ("prune-98", "Apagar 98% + ajuste curto"),
-         ("int8-cpu", "Compacto, no processador"), ("trt-fp32", "Placa de vídeo, precisão total"),
-         ("trt-fp16", "Placa de vídeo, meia precisão"), ("trt-int8", "Compacto, na placa de vídeo"),
-         ("prune-90+int8-cpu", "Apagar 90% + compacto (processador)"), ("prune-95+int8-cpu", "Apagar 95% + compacto (processador)"),
-         ("prune-90+trt-int8", "Apagar 90% + compacto (placa de vídeo)"), ("prune-95+trt-int8", "Apagar 95% + compacto (placa de vídeo)")]
+CELLS = [("baseline", "Baseline"),
+         ("prune-50", "Poda 50% + fine-tuning 5 ép."), ("prune-70", "Poda 70% + fine-tuning 5 ép."),
+         ("prune-90", "Poda 90% + fine-tuning 5 ép."), ("prune-95", "Poda 95% + fine-tuning 5 ép."),
+         ("prune-98", "Poda 98% + fine-tuning 5 ép."),
+         ("int8-cpu", "int8 CPU (fbgemm)"), ("trt-fp32", "TensorRT FP32"),
+         ("trt-fp16", "TensorRT FP16"), ("trt-int8", "TensorRT INT8"),
+         ("prune-90+int8-cpu", "Poda 90% + int8 CPU"), ("prune-95+int8-cpu", "Poda 95% + int8 CPU"),
+         ("prune-90+trt-int8", "Poda 90% + TensorRT INT8"), ("prune-95+trt-int8", "Poda 95% + TensorRT INT8")]
+
+
 def head(title: str) -> list[str]:
     """The network name lives in the header cell, so it can never be separated from its table."""
-    return [f"| {title} | Acerto médio | Rep. 1 | Rep. 2 | Rep. 3 | Erros (média) |", "|---|---|---|---|---|---|"]
+    return [f"| {title} | Acurácia média | Seed 0 | Seed 1 | Seed 2 | Erros (média) |", "|---|---|---|---|---|---|"]
 
 
 def pct(v) -> str:
@@ -43,8 +45,7 @@ def main() -> int:
     cells = pd.read_csv(ROOT / "results/eixo3/eixo3_table.csv")
     prune = pd.read_csv(ROOT / "results/eixo2/prune_compare_runs.csv")
     e4 = pd.read_csv(ROOT / "results/eixo4/eixo4_runs.csv")
-    out = ['Prova final: 83.613 fotos. "Ajuste curto" = 5 rodadas de treino depois de apagar; "compacto" = números '
-           'guardados em 8 bits. "—" = não executado ou ainda rodando.', ""]
+    out = ['Teste: 83.613 imagens. Cada versão comprimida parte do baseline da mesma seed. "—" = não executado ou ainda rodando.', ""]
     for arch in ("resnet50", "densenet121"):
         out += head(NAME[arch])
         def add_cells(selected):
@@ -53,19 +54,19 @@ def main() -> int:
                 if len(g):
                     out.append(row(label, g))
         add_cells(CELLS[:6])                                     # original + the five pruning levels
-        for key, label in (("antes", "Apagar {p}% antes de treinar (30 rodadas)"), ("contro", "Apagar {p}% e treinar tudo de novo (30 rodadas)")):
+        for key, label in (("antes", "Poda {p}% antes do treino (30 ép.)"), ("contro", "Poda {p}% depois + treino 30 ép.")):
             sub = prune[(prune.arch == arch) & prune.method.str.startswith(key)]
             for p in sorted(sub.sparsity.unique()):
                 out.append(row(label.format(p=int(p)), sub[sub.sparsity == p]))
         add_cells(CELLS[6:])                                     # compact versions and combinations
         out.append("")
-    out += head("ResNet-50 com menos fotos (etapa 4)")
-    for stage, tag in (("dense", "modelo original"), ("dense+trt-int8", "modelo compacto")):
+    out += head("ResNet-50, eixo 4 (redução de dados)")
+    for stage, tag in (("dense", "FP32"), ("dense+trt-int8", "TensorRT INT8")):
         for frac in sorted(e4.frac.unique(), reverse=True):
             g = e4[(e4.stage == stage) & (e4.frac == frac)]
             if len(g):
                 n = f"{int(g.n_fit.iloc[0]):,}".replace(",", ".")
-                out.append(row(f"{frac}% das fotos ({n} imagens), {tag}", g))
+                out.append(row(f"{frac}% do treino ({n} imagens), {tag}", g))
     block = '<div class="long" markdown="1">\n\n' + "\n".join(out) + "\n\n</div>"
 
     txt = MD.read_text(encoding="utf-8")

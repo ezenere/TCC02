@@ -45,23 +45,23 @@ def fig_poda():
         ax.annotate(f"{g.err_ratio_mean.iloc[-1]:.2f}×".replace(".", ","), (len(g) - 1, g.err_ratio_mean.iloc[-1]),
                     xytext=(8, 0), textcoords="offset points", va="center", color=INK, fontsize=10)
     ax.axhline(1.5, color=MUTED, lw=1)
-    ax.text(0, 1.53, "limite aceito: 1,5× mais erros", color=MUTED, fontsize=9)
+    ax.text(0, 1.53, "limite do critério: 1,5×", color=MUTED, fontsize=9)
     ax.axhline(1.0, color=GRID, lw=1)
     ax.set_xticks(range(5), ["50%", "70%", "90%", "95%", "98%"])
     ax.set_xlim(-.3, 4.6)
-    ax.set_xlabel("conexões apagadas da rede")
-    ax.set_ylabel("erros em relação à rede original")
+    ax.set_xlabel("poda (% dos pesos zerados) + fine-tuning de 5 épocas")
+    ax.set_ylabel("razão de erro vs baseline")
     ax.set_yticks([1.0, 1.25, 1.5, 1.75, 2.0], ["igual", "1,25×", "1,5×", "1,75×", "2×"])
     ax.grid(axis="x", visible=False)
     ax.legend(loc="upper left", bbox_to_anchor=(0, .88))
-    ax.set_title("Dá para apagar 90% da rede sem errar mais", loc="left", color=INK, fontsize=12, pad=10)
+    ax.set_title("Poda de 90% não aumenta os erros; o joelho está em 98%", loc="left", color=INK, fontsize=12, pad=10)
     save(fig, "poda")
 
 
 def fig_velocidade():
-    rows = [("Processador\nmodelo original", 10.75, 16.64), ("Processador\nmodelo compacto", 1.38, 2.86),
-            ("Placa de vídeo\nprecisão total", 2.65, 4.23), ("Placa de vídeo\nmeia precisão", 0.94, 2.76),
-            ("Placa de vídeo\nmodelo compacto", 0.80, 3.17)]
+    rows = [("CPU FP32\n(16 threads)", 10.75, 16.64), ("CPU int8\n(fbgemm)", 1.38, 2.86),
+            ("GPU TensorRT\nFP32", 2.65, 4.23), ("GPU TensorRT\nFP16", 0.94, 2.76),
+            ("GPU TensorRT\nINT8", 0.80, 3.17)]
     fig, ax = plt.subplots(figsize=(7.2, 4.3))
     h = 0.34
     for i, (lab, r, d) in enumerate(rows):
@@ -71,12 +71,12 @@ def fig_velocidade():
                     va="center", color=INK, fontsize=9.5)
     ax.set_yticks(range(len(rows)), [r[0] for r in rows], color=INK)
     ax.invert_yaxis()
-    ax.set_xlabel("tempo para reconhecer uma foto (milissegundos) — menor é melhor")
+    ax.set_xlabel("latência p50, batch 1 (ms) — menor é melhor")
     ax.grid(axis="y", visible=False)
     ax.set_xlim(0, 19)
     ax.set_xticks([0, 5, 10, 15])
     ax.legend(loc="lower right")
-    ax.set_title("O modelo compacto é até 8 vezes mais rápido no processador", loc="left", color=INK, fontsize=12, pad=10)
+    ax.set_title("int8 é até 8 vezes mais rápido em CPU", loc="left", color=INK, fontsize=12, pad=10)
     save(fig, "velocidade")
 
 
@@ -91,20 +91,20 @@ def fig_dados():
         ax.annotate(f"{100 * g.err_mean.iloc[i]:.2f}%".replace(".", ","), (i, 100 * g.err_mean.iloc[i]),
                     xytext=(0, 10), textcoords="offset points", ha="center", color=INK, fontsize=9.5)
     ax.set_xticks(list(x), [f"{f}%\n{int(round(n / 1000))} mil" for f, n in zip(g.frac, g.n_fit)])
-    ax.set_xlabel("fotos usadas para ensinar a rede (parcela do total e quantidade)")
-    ax.set_ylabel("fotos erradas no teste")
+    ax.set_xlabel("fração do treino (imagens de fit)")
+    ax.set_ylabel("taxa de erro no teste")
     ax.set_yticks([0, .2, .4, .6, .8], ["0", "0,2%", "0,4%", "0,6%", "0,8%"])
     ax.set_ylim(0, .85)
     ax.grid(axis="x", visible=False)
-    ax.set_title("Com um quarto das fotos, a rede quase não piora", loc="left", color=INK, fontsize=12, pad=10)
+    ax.set_title("Com 25% do treino o erro sobe pouco; abaixo disso, sobe rápido", loc="left", color=INK, fontsize=12, pad=10)
     save(fig, "dados")
 
 
 def fig_poda_metodos():
     s = pd.read_csv(ROOT / "results/eixo2/prune_compare_summary.csv")
     s = s[s.sparsity == 98]
-    order = [("depois", "apagar depois\ne reajustar pouco\n(5 rodadas)"), ("antes", "apagar antes\ne treinar tudo\n(30 rodadas)"),
-             ("contro", "apagar depois\ne treinar tudo\n(30 rodadas)")]
+    order = [("depois", "poda depois\n+ fine-tuning\n5 ép."), ("antes", "poda antes\n+ treino\n30 ép."),
+             ("contro", "poda depois\n+ treino\n30 ép.")]
     fig, axes = plt.subplots(1, 2, figsize=(7.6, 3.7), sharey=True)
     for ax, arch in zip(axes, ("resnet50", "densenet121")):
         g = s[s.arch == arch]
@@ -120,10 +120,10 @@ def fig_poda_metodos():
         ax.set_ylim(0, 2.2)
         ax.set_title(NAME[arch], color=INK, fontsize=11)
         ax.grid(axis="x", visible=False)
-    axes[0].set_ylabel("erros em relação à rede original")
+    axes[0].set_ylabel("razão de erro vs baseline")
     axes[0].set_yticks([0, .5, 1.0, 1.5, 2.0], ["0", "0,5×", "igual", "1,5×", "2×"])
-    axes[1].text(2.45, 1.54, "limite aceito", color=MUTED, fontsize=8.5, ha="right")
-    fig.suptitle("Com 98% da rede apagada, o que salva é treinar por mais tempo", x=.02, ha="left", color=INK, fontsize=12)
+    axes[1].text(2.45, 1.54, "limite 1,5×", color=MUTED, fontsize=8.5, ha="right")
+    fig.suptitle("Poda de 98%: o que decide é o número de épocas depois da poda", x=.02, ha="left", color=INK, fontsize=12)
     fig.tight_layout(rect=(0, 0, 1, .93))
     save(fig, "poda_metodos")
 
@@ -148,7 +148,7 @@ def fig_rotulos():
     fig, axes = plt.subplots(1, 6, figsize=(9.6, 2.35))
     for ax, r in zip(axes, pick.itertuples()):
         ax.imshow(Image.open(ROOT / r.image_path))
-        ax.set_title(f"marcada: {r.label}\nmodelos: {r.pred_r}", fontsize=8.5, color=INK)
+        ax.set_title(f"rótulo: {r.label}\npredito: {r.pred_r}", fontsize=8.5, color=INK)
         ax.set_xticks([]); ax.set_yticks([]); ax.grid(False)
         for sp in ax.spines.values():
             sp.set_visible(False)
