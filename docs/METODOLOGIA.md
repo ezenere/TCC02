@@ -164,14 +164,16 @@ TensorRT consome diretamente.
 int8 **simétrico** em ativações e pesos (exigência do TensorRT), pesos por canal armazenados já em int8
 com apenas `DequantizeLinear` (o par Q→DQ sobre peso em float não tem kernel no TensorRT), bias mantido
 em float (o TensorRT rejeita `DequantizeLinear` sobre Int32) e a convolução de entrada mantida em float
-(3 canais; sem implementação int8 para o bloco fundido). **Calibração das ativações por entropia (KL)**
-com as mesmas 1.024 imagens de `fit` (seed 0) da PTQ de CPU, de modo que as duas rotas int8 partem do
-mesmo conjunto de calibração. Os calibradores por histograma do ONNX Runtime acumulam todas as ativações
-intermediárias do conjunto inteiro antes de montar os histogramas (30–53 GB para a ResNet-50, dois
-encerramentos por OOM); foram tornados incrementais alimentando o `HistogramCollector` lote a lote, e o
-processo roda sob `systemd-run --scope -p MemoryMax=16G`. A escolha do calibrador foi feita **em `val`**,
-sem tocar no teste: com MinMax, a ResNet-50 int8 errava 131 imagens de val contra ~59 do modelo FP32
-(um outlier dilata a escala de todo o tensor); com entropia, 61. Na DenseNet-121, 67 contra 63.
+(3 canais; sem implementação int8 para o bloco fundido). **Calibração das ativações por percentil 99,99** com 1.024 imagens de `fit`
+(seed 0; nos runs do eixo 4, apenas imagens da fração daquele run), de modo que as duas rotas int8 partem do mesmo tipo de conjunto de
+calibração. **O calibrador foi escolhido em `val` por robustez à amostra de calibração** (`scripts/calib_sweep.sh`,
+`results/eixo2/calib_sweep.csv`): sobre um mesmo modelo (60 erros em `val` em FP32), quatro amostras diferentes de 1.024 imagens dão
+62–64 erros com percentil 99,99, 62–68 com percentil 99,999, **66–689 com entropia (KL)** e 604–966 com MinMax. A entropia, usada numa
+primeira rodada, parecia boa com uma única amostra e revelou-se instável (no teste, o mesmo modelo foi de 194 a 2.596 erros conforme a
+amostra); esses resultados ficam arquivados em `metrics_trt_int8_entropy.json`. Os calibradores por histograma do ONNX Runtime acumulam
+todas as ativações intermediárias do conjunto inteiro antes de montar os histogramas (30–53 GB para a ResNet-50, dois encerramentos por
+OOM); foram tornados incrementais alimentando o `HistogramCollector` lote a lote, e o processo roda sob
+`systemd-run --scope -p MemoryMax=16G`.
 
 **Engines** (`src/compress/trt_build.py`): um perfil de otimização com lote mínimo 1, ótimo e máximo
 32; workspace de 4 GiB; após a construção, o `EngineInspector` registra o histograma de tipos das

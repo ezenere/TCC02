@@ -355,3 +355,14 @@ fez 277 erros (177 e 182 nas outras seeds), pior que os de 75% e 50% da mesma se
 de `last.pt` até a época 30 (o resume replica o treino ininterrupto); resultados antigos arquivados em `metrics_es5.json`. CLAUDE.md e METODOLOGIA atualizados.
 **Curva com paciência 5 (descartada, só para registro):** razão de erro vs 100%: 75% 0,89 · 50% 1,08 · 25% 1,19 · 10% 2,17 · 5% 2,63 — distorcida pelo 100% da seed 2.
 **Em andamento:** continuação dos 13 runs (~1,3 h) → int8 TensorRT dos 18 pontos com calibração restrita à fração (~1,2 h).
+
+## 2026-09-21 (seg) — eixo 4 fechado na curva densa; int8 TensorRT recalibrada
+
+**Eixo 4, ResNet-50 densa (3 seeds, 30 épocas fixas em todos os runs):** razão de erro vs 100% da mesma seed —
+75% 1,05 ± 0,05 · 50% 1,28 ± 0,16 · 25% 1,41 ± 0,09 · 10% 2,33 ± 0,13 · 5% 3,13 ± 0,21. Erros a 100%: 177 / 172 / 165. Lei de potência erro ∝ N^-0,38 (R² 0,98).
+**Achado de robustez (int8 TensorRT):** a calibração por entropia do ORT é instável à amostra de calibração — o mesmo modelo foi de 194 a 2.596 erros no teste
+com quatro amostras de 1.024 imagens. Varredura em `val` (denso = 60 erros): **percentil 99,99 → 62–64**; percentil 99,999 → 62–68; entropia → 66–689; MinMax → 604–966.
+Novo padrão: percentil 99,99. **28 células int8 TensorRT refeitas** (6 do eixo 1, 4 de poda+int8, 18 do eixo 4); as antigas ficam em `metrics_trt_int8_entropy.json`.
+A int8 de CPU (FX/fbgemm) não é afetada. A latência int8 medida continua válida (mesmo grafo, só mudam as escalas).
+**Em andamento:** fila int8 (28 células, ~1,5 h) + eixo 2c, controle por LR rewinding (4 runs, com `gpu_wait` — GPU compartilhada com o autor).
+**Incidente menor:** um `rm -f` com glob sem correspondência não rodou (zsh aborta o comando); detectado antes de a fila reaproveitar engines antigas, limpo com `find -delete` e conferido. Regra adicionada ao CLAUDE.md.

@@ -98,7 +98,7 @@ def figures(s: pd.DataFrame, df: pd.DataFrame) -> None:
         a.set_xticks([5, 10, 25, 50, 75, 100], [5, 10, 25, 50, 75, 100])
         a.grid(alpha=.3, which="both")
         a.legend()
-    fig.suptitle("Eixo 4 — redução de dados anotados (30 épocas + early stopping em val; média ± std entre seeds)")
+    fig.suptitle("Eixo 4 — redução de dados anotados (30 épocas fixas, best.pt por val; média ± std entre seeds)")
     fig.tight_layout(rect=(0, 0, 1, .94))
     fig.savefig(OUT / "figures/eixo4_curva.pdf")
     fig.savefig(OUT / "figures/eixo4_curva.png", dpi=200)
