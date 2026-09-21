@@ -1,0 +1,71 @@
+2026-09-20 14:38:34  === eixo4 resnet50 frações [100, 75, 50, 25, 10, 5] seeds [0, 1, 2] sparsity None ===
+2026-09-20 14:38:34  start eixo4_resnet50_f100_s0
+2026-09-20 16:03:37  end   eixo4_resnet50_f100_s0 rc=0  85 min
+2026-09-20 16:03:41  start eixo4_resnet50_f075_s0
+2026-09-20 17:09:57  end   eixo4_resnet50_f075_s0 rc=0  66 min
+2026-09-20 17:10:01  start eixo4_resnet50_f050_s0
+2026-09-20 17:50:40  end   eixo4_resnet50_f050_s0 rc=0  41 min
+2026-09-20 17:50:44  start eixo4_resnet50_f025_s0
+2026-09-20 18:15:03  end   eixo4_resnet50_f025_s0 rc=0  24 min
+2026-09-20 18:15:07  start eixo4_resnet50_f010_s0
+2026-09-20 18:23:45  end   eixo4_resnet50_f010_s0 rc=0  9 min
+2026-09-20 18:23:49  start eixo4_resnet50_f005_s0
+2026-09-20 18:32:39  end   eixo4_resnet50_f005_s0 rc=0  9 min
+2026-09-20 18:32:43  start eixo4_resnet50_f100_s1
+2026-09-20 19:49:18  end   eixo4_resnet50_f100_s1 rc=0  77 min
+2026-09-20 19:49:22  start eixo4_resnet50_f075_s1
+2026-09-20 20:50:02  end   eixo4_resnet50_f075_s1 rc=0  61 min
+2026-09-20 20:50:07  start eixo4_resnet50_f050_s1
+2026-09-20 21:26:19  end   eixo4_resnet50_f050_s1 rc=0  36 min
+2026-09-20 21:26:23  start eixo4_resnet50_f025_s1
+2026-09-20 21:51:38  end   eixo4_resnet50_f025_s1 rc=0  25 min
+2026-09-20 21:51:43  start eixo4_resnet50_f010_s1
+2026-09-20 22:01:50  end   eixo4_resnet50_f010_s1 rc=0  10 min
+2026-09-20 22:01:55  start eixo4_resnet50_f005_s1
+2026-09-20 22:09:39  end   eixo4_resnet50_f005_s1 rc=0  8 min
+2026-09-20 22:09:44  start eixo4_resnet50_f100_s2
+2026-09-20 22:53:37  end   eixo4_resnet50_f100_s2 rc=0  44 min
+2026-09-20 22:53:42  start eixo4_resnet50_f075_s2
+2026-09-20 23:59:47  end   eixo4_resnet50_f075_s2 rc=0  66 min
+2026-09-20 23:59:51  start eixo4_resnet50_f050_s2
+2026-09-21 00:41:30  end   eixo4_resnet50_f050_s2 rc=0  42 min
+2026-09-21 00:41:34  start eixo4_resnet50_f025_s2
+2026-09-21 01:06:36  end   eixo4_resnet50_f025_s2 rc=0  25 min
+2026-09-21 01:06:40  start eixo4_resnet50_f010_s2
+2026-09-21 01:16:26  end   eixo4_resnet50_f010_s2 rc=0  10 min
+2026-09-21 01:16:30  start eixo4_resnet50_f005_s2
+2026-09-21 01:23:06  end   eixo4_resnet50_f005_s2 rc=0  7 min
+2026-09-21 01:23:10  === eixo4 resnet50 concluído ===
+2026-09-21 01:25:17  === eixo4 resnet50 frações [100, 75, 50, 25, 10, 5] seeds [0, 1, 2] sparsity None ===
+2026-09-21 01:25:17  skip  eixo4_resnet50_f100_s0
+2026-09-21 01:25:17  skip  eixo4_resnet50_f075_s0
+2026-09-21 01:25:17  start eixo4_resnet50_f050_s0
+2026-09-21 01:30:37  end   eixo4_resnet50_f050_s0 rc=0  5 min
+2026-09-21 01:30:41  start eixo4_resnet50_f025_s0
+2026-09-21 01:32:21  end   eixo4_resnet50_f025_s0 rc=0  2 min
+2026-09-21 01:32:25  start eixo4_resnet50_f010_s0
+2026-09-21 01:37:44  end   eixo4_resnet50_f010_s0 rc=0  5 min
+2026-09-21 01:37:48  start eixo4_resnet50_f005_s0
+2026-09-21 01:38:57  end   eixo4_resnet50_f005_s0 rc=0  1 min
+2026-09-21 01:39:01  start eixo4_resnet50_f100_s1
+2026-09-21 01:48:16  end   eixo4_resnet50_f100_s1 rc=0  9 min
+2026-09-21 01:48:20  start eixo4_resnet50_f075_s1
+2026-09-21 01:53:29  end   eixo4_resnet50_f075_s1 rc=0  5 min
+2026-09-21 01:53:33  start eixo4_resnet50_f050_s1
+2026-09-21 02:03:39  end   eixo4_resnet50_f050_s1 rc=0  10 min
+2026-09-21 02:03:43  skip  eixo4_resnet50_f025_s1
+2026-09-21 02:03:43  start eixo4_resnet50_f010_s1
+2026-09-21 02:08:01  end   eixo4_resnet50_f010_s1 rc=0  4 min
+2026-09-21 02:08:05  start eixo4_resnet50_f005_s1
+2026-09-21 02:10:39  end   eixo4_resnet50_f005_s1 rc=0  3 min
+2026-09-21 02:10:43  start eixo4_resnet50_f100_s2
+2026-09-21 02:54:27  end   eixo4_resnet50_f100_s2 rc=0  44 min
+2026-09-21 02:54:31  skip  eixo4_resnet50_f075_s2
+2026-09-21 02:54:31  start eixo4_resnet50_f050_s2
+2026-09-21 02:59:47  end   eixo4_resnet50_f050_s2 rc=0  5 min
+2026-09-21 02:59:51  skip  eixo4_resnet50_f025_s2
+2026-09-21 02:59:51  start eixo4_resnet50_f010_s2
+2026-09-21 03:03:58  end   eixo4_resnet50_f010_s2 rc=0  4 min
+2026-09-21 03:04:02  start eixo4_resnet50_f005_s2
+2026-09-21 03:07:21  end   eixo4_resnet50_f005_s2 rc=0  3 min
+2026-09-21 03:07:25  === eixo4 resnet50 concluído ===

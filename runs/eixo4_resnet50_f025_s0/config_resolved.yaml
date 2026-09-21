@@ -1,0 +1,32 @@
+run_name: eixo4_resnet50_f025_s0
+seed: 0
+data:
+  manifest: data/processed/manifest_v3.csv
+  root: null
+  image_size: 224
+  hflip: true
+  batch_size: 96
+  eval_batch_size: 192
+  workers: 16
+  prefetch_factor: 6
+model:
+  arch: resnet50
+  pretrained: true
+optim:
+  name: sgd
+  lr: 0.0375
+  momentum: 0.9
+  weight_decay: 0.0001
+  nesterov: true
+  label_smoothing: 0.0
+sched:
+  name: cosine
+  warmup_epochs: 2
+train:
+  epochs: 30
+  amp: fp16
+  channels_last: true
+  cudnn_benchmark: true
+  early_stopping_patience: 0
+paths:
+  runs: runs

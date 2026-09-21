@@ -17,3 +17,40 @@
 2026-09-14 21:42:44  end   runs/eixo2_prune_densenet121_p95_s0
 2026-09-14 21:42:44  === fila trt concluida ===
 2026-09-21 01:23:31  start runs/eixo4_resnet50_f005_s0 [int8]
+2026-09-21 03:07:25  start runs/eixo4_resnet50_f005_s0 [int8]
+2026-09-21 03:10:10  end   runs/eixo4_resnet50_f005_s0
+2026-09-21 03:10:10  start runs/eixo4_resnet50_f005_s1 [int8]
+2026-09-21 03:12:53  end   runs/eixo4_resnet50_f005_s1
+2026-09-21 03:12:53  start runs/eixo4_resnet50_f005_s2 [int8]
+2026-09-21 03:15:44  end   runs/eixo4_resnet50_f005_s2
+2026-09-21 03:15:44  start runs/eixo4_resnet50_f010_s0 [int8]
+2026-09-21 03:18:26  end   runs/eixo4_resnet50_f010_s0
+2026-09-21 03:18:26  start runs/eixo4_resnet50_f010_s1 [int8]
+2026-09-21 03:21:07  end   runs/eixo4_resnet50_f010_s1
+2026-09-21 03:21:07  start runs/eixo4_resnet50_f010_s2 [int8]
+2026-09-21 03:23:52  end   runs/eixo4_resnet50_f010_s2
+2026-09-21 03:23:52  start runs/eixo4_resnet50_f025_s0 [int8]
+2026-09-21 03:26:42  end   runs/eixo4_resnet50_f025_s0
+2026-09-21 03:26:42  start runs/eixo4_resnet50_f025_s1 [int8]
+2026-09-21 03:29:28  end   runs/eixo4_resnet50_f025_s1
+2026-09-21 03:29:28  start runs/eixo4_resnet50_f025_s2 [int8]
+2026-09-21 03:32:21  end   runs/eixo4_resnet50_f025_s2
+2026-09-21 03:32:21  start runs/eixo4_resnet50_f050_s0 [int8]
+2026-09-21 03:35:14  end   runs/eixo4_resnet50_f050_s0
+2026-09-21 03:35:14  start runs/eixo4_resnet50_f050_s1 [int8]
+2026-09-21 03:38:16  end   runs/eixo4_resnet50_f050_s1
+2026-09-21 03:38:16  start runs/eixo4_resnet50_f050_s2 [int8]
+2026-09-21 03:41:12  end   runs/eixo4_resnet50_f050_s2
+2026-09-21 03:41:12  start runs/eixo4_resnet50_f075_s0 [int8]
+2026-09-21 03:44:07  end   runs/eixo4_resnet50_f075_s0
+2026-09-21 03:44:07  start runs/eixo4_resnet50_f075_s1 [int8]
+2026-09-21 03:46:59  end   runs/eixo4_resnet50_f075_s1
+2026-09-21 03:46:59  start runs/eixo4_resnet50_f075_s2 [int8]
+2026-09-21 03:49:57  end   runs/eixo4_resnet50_f075_s2
+2026-09-21 03:49:57  start runs/eixo4_resnet50_f100_s0 [int8]
+2026-09-21 03:52:53  end   runs/eixo4_resnet50_f100_s0
+2026-09-21 03:52:53  start runs/eixo4_resnet50_f100_s1 [int8]
+2026-09-21 03:55:46  end   runs/eixo4_resnet50_f100_s1
+2026-09-21 03:55:46  start runs/eixo4_resnet50_f100_s2 [int8]
+2026-09-21 03:58:37  end   runs/eixo4_resnet50_f100_s2
+2026-09-21 03:58:37  === fila trt concluida ===

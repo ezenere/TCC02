@@ -1,0 +1,78 @@
+run       : eixo4_resnet50_f100_s1
+arch      : resnet50 (pretrained=True)  seed=1
+manifesto : v3 40f0951659609108...  mask=None
+fit/val/test: 175,591 / 19,511 / 83,613 imgs  (11,805 / 2,268 / 6,044 sujeitos)
+batch 96 | steps/epoch 1,829 | epochs 30 | warmup 2 ep | early stop patience 5
+val 1/30:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 1/30: train 0.3929/0.8918 | val loss 0.0434 acc 0.9864 f1 0.9863 err 1.3633% * | 168s 1047 img/s
+val 2/30:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 2/30: train 0.0294/0.9912 | val loss 0.0367 acc 0.9905 f1 0.9904 err 0.9533% * | 160s 1097 img/s
+val 3/30:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 3/30: train 0.0214/0.9939 | val loss 0.0251 acc 0.9921 f1 0.9920 err 0.7944% * | 161s 1093 img/s
+val 4/30:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 4/30: train 0.0153/0.9956 | val loss 0.0259 acc 0.9927 f1 0.9927 err 0.7329% * | 161s 1093 img/s
+val 5/30:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 5/30: train 0.0134/0.9962 | val loss 0.0261 acc 0.9927 f1 0.9926 err 0.7329%  | 161s 1093 img/s
+val 6/30:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 6/30: train 0.0118/0.9966 | val loss 0.0199 acc 0.9942 f1 0.9941 err 0.5843% * | 162s 1084 img/s
+val 7/30:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 7/30: train 0.0111/0.9970 | val loss 0.0259 acc 0.9931 f1 0.9931 err 0.6919%  | 161s 1089 img/s
+val 8/30:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 8/30: train 0.0112/0.9968 | val loss 0.0170 acc 0.9952 f1 0.9953 err 0.4767% * | 160s 1094 img/s
+val 9/30:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 9/30: train 0.0094/0.9973 | val loss 0.0251 acc 0.9936 f1 0.9936 err 0.6355%  | 160s 1095 img/s
+val 10/30:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 10/30: train 0.0093/0.9974 | val loss 0.0215 acc 0.9940 f1 0.9940 err 0.5997%  | 160s 1095 img/s
+val 11/30:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 11/30: train 0.0089/0.9975 | val loss 0.0213 acc 0.9937 f1 0.9937 err 0.6304%  | 161s 1093 img/s
+val 12/30:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 12/30: train 0.0071/0.9981 | val loss 0.0159 acc 0.9955 f1 0.9956 err 0.4459% * | 161s 1093 img/s
+val 13/30:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 13/30: train 0.0070/0.9980 | val loss 0.0189 acc 0.9948 f1 0.9948 err 0.5177%  | 160s 1094 img/s
+val 14/30:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 14/30: train 0.0066/0.9981 | val loss 0.0213 acc 0.9941 f1 0.9941 err 0.5894%  | 160s 1095 img/s
+val 15/30:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 15/30: train 0.0061/0.9983 | val loss 0.0148 acc 0.9964 f1 0.9964 err 0.3639% * | 160s 1096 img/s
+val 16/30:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 16/30: train 0.0048/0.9986 | val loss 0.0168 acc 0.9955 f1 0.9955 err 0.4510%  | 161s 1093 img/s
+val 17/30:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 17/30: train 0.0035/0.9991 | val loss 0.0154 acc 0.9963 f1 0.9963 err 0.3690%  | 160s 1096 img/s
+val 18/30:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 18/30: train 0.0034/0.9991 | val loss 0.0158 acc 0.9965 f1 0.9965 err 0.3485% * | 160s 1094 img/s
+val 19/30:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 19/30: train 0.0024/0.9994 | val loss 0.0143 acc 0.9965 f1 0.9965 err 0.3536%  | 160s 1094 img/s
+val 20/30:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 20/30: train 0.0020/0.9995 | val loss 0.0154 acc 0.9966 f1 0.9966 err 0.3383% * | 160s 1095 img/s
+val 21/30:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 21/30: train 0.0015/0.9996 | val loss 0.0154 acc 0.9968 f1 0.9968 err 0.3229% * | 160s 1095 img/s
+val 22/30:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 22/30: train 0.0011/0.9997 | val loss 0.0146 acc 0.9970 f1 0.9970 err 0.3024% * | 160s 1095 img/s
+val 23/30:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 23/30: train 0.0008/0.9998 | val loss 0.0155 acc 0.9968 f1 0.9968 err 0.3178%  | 160s 1096 img/s
+val 24/30:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 24/30: train 0.0007/0.9998 | val loss 0.0153 acc 0.9967 f1 0.9967 err 0.3331%  | 160s 1097 img/s
+val 25/30:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 25/30: train 0.0006/0.9999 | val loss 0.0148 acc 0.9968 f1 0.9968 err 0.3178%  | 161s 1094 img/s
+val 26/30:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 26/30: train 0.0005/0.9999 | val loss 0.0153 acc 0.9967 f1 0.9967 err 0.3331%  | 160s 1096 img/s
+val 27/30:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 27/30: train 0.0004/0.9999 | val loss 0.0150 acc 0.9968 f1 0.9968 err 0.3229%  | 160s 1096 img/s
+early stopping: 5 epocas sem melhora em val (best epoca 22)
+test:   0%|          | 0/436 [00:00<?, ?it/s]
+TESTE (best.pt, epoca 22): acc 0.9978  f1 0.9978  erro 0.2177% (182 / 83613)
+-> runs/eixo4_resnet50_f100_s1/metrics.json
+run       : eixo4_resnet50_f100_s1
+arch      : resnet50 (pretrained=True)  seed=1
+manifesto : v3 40f0951659609108...  mask=None
+fit/val/test: 175,591 / 19,511 / 83,613 imgs  (11,805 / 2,268 / 6,044 sujeitos)
+batch 96 | steps/epoch 1,829 | epochs 30 | warmup 2 ep | early stop patience off
+retomando: epoca 28/30, best F1 0.9970 (epoca 22)
+val 28/30:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 28/30: train 0.0004/0.9999 | val loss 0.0149 acc 0.9971 f1 0.9971 err 0.2870% * | 168s 1047 img/s
+val 29/30:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 29/30: train 0.0004/0.9999 | val loss 0.0154 acc 0.9969 f1 0.9969 err 0.3126%  | 160s 1098 img/s
+val 30/30:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 30/30: train 0.0004/0.9999 | val loss 0.0154 acc 0.9968 f1 0.9968 err 0.3229%  | 160s 1097 img/s
+test:   0%|          | 0/436 [00:00<?, ?it/s]
+TESTE (best.pt, epoca 28): acc 0.9979  f1 0.9980  erro 0.2057% (172 / 83613)
+-> runs/eixo4_resnet50_f100_s1/metrics.json
