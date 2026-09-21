@@ -1,0 +1,17 @@
+run,calibrador,calib_seed,val_errors,val_n
+eixo4_resnet50_f075_s0,entropy,0,126,19511
+eixo4_resnet50_f075_s0,entropy,1,66,19511
+eixo4_resnet50_f075_s0,entropy,2,72,19511
+eixo4_resnet50_f075_s0,entropy,3,689,19511
+eixo4_resnet50_f075_s0,minmax,0,966,19511
+eixo4_resnet50_f075_s0,minmax,1,604,19511
+eixo4_resnet50_f075_s0,minmax,2,813,19511
+eixo4_resnet50_f075_s0,minmax,3,808,19511
+eixo4_resnet50_f075_s0,percentile 99.99,0,64,19511
+eixo4_resnet50_f075_s0,percentile 99.99,1,62,19511
+eixo4_resnet50_f075_s0,percentile 99.99,2,62,19511
+eixo4_resnet50_f075_s0,percentile 99.99,3,63,19511
+eixo4_resnet50_f075_s0,percentile 99.999,0,62,19511
+eixo4_resnet50_f075_s0,percentile 99.999,1,67,19511
+eixo4_resnet50_f075_s0,percentile 99.999,2,67,19511
+eixo4_resnet50_f075_s0,percentile 99.999,3,68,19511

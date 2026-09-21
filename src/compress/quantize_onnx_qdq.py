@@ -116,8 +116,11 @@ def main() -> int:
                     help="batches kept in RAM before the MinMax ranges are merged and memory freed")
     ap.add_argument("--workers", type=int, default=2)
     ap.add_argument("--threads", type=int, default=8)
-    ap.add_argument("--method", default="entropy", choices=["minmax", "entropy", "percentile"],
+    ap.add_argument("--method", default="percentile", choices=["minmax", "entropy", "percentile"],
                     help="activation calibration; entropy/percentile use the incremental histogram collector")
+    ap.add_argument("--percentile", type=float, default=99.99,
+                    help="for --method percentile. 99.99 was selected on val by scripts/calib_sweep.sh: over 4 calibration "
+                         "samples it gives 62-64 val errors (dense: 60) vs 66-689 for entropy and 604-966 for minmax")
     ap.add_argument("--tag", default="", help="suffix for the output files (compare calibrators)")
     ap.add_argument("--smoke-n", type=int, default=256)
     args = ap.parse_args()
@@ -151,6 +154,7 @@ def main() -> int:
         # the runtime QuantizeLinear fused into the conv ("Could not find any implementation").
         extra_options={"ActivationSymmetric": True, "WeightSymmetric": True, "AddQDQPairToWeight": False,
                        "CalibMovingAverage": False, "CalibMaxIntermediateOutputs": args.calib_flush,
+                       "CalibPercentile": args.percentile,
                        "QuantizeBias": False})   # TensorRT rejects DequantizeLinear on Int32 bias
     dt = time.perf_counter() - t0
     pre.unlink(missing_ok=True)
@@ -171,7 +175,7 @@ def main() -> int:
 
     info = {"onnx_qdq": str(out), "onnx_bytes": out.stat().st_size, "source_onnx": str(src),
             "method": f"onnxruntime quantize_static, QDQ, {args.method} calibration (incremental), symmetric int8, per-channel weights",
-            "calibration_method": args.method,
+            "calibration_method": args.method, "percentile": args.percentile if args.method == "percentile" else None,
             "calibration": {"split": "fit", "n": len(calib_loader.dataset), "seed": args.calib_seed, "batch": args.batch, "mask_column": mask,
                             "max_intermediate_outputs": args.calib_flush},
             "quantize_linear_nodes": n_q, "nodes_excluded": exclude, "time_s": round(dt, 1),
