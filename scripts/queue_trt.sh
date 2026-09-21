@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# TensorRT cells for a list of run dirs: ONNX export -> Q/DQ (entropy, memory cap)
+# TensorRT cells for a list of run dirs: ONNX export -> Q/DQ (percentile 99.99, memory cap)
 # -> engines -> test evaluation. GPU-serial; run with the GPU otherwise idle.
 #   scripts/queue_trt.sh "runs/eixo1_resnet50_s1 runs/eixo1_densenet121_s1" "fp32 fp16 int8"
 set -uo pipefail; cd "$(dirname "$0")/.."
