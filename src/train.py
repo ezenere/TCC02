@@ -313,6 +313,7 @@ def main() -> int:
         scheduler.load_state_dict(ck["scheduler"])
         state = ck["state"]
         state["epoch"] = ck["epoch"] + 1
+        state["stopped_early"] = False          # a resumed run continues; it may stop again on its own
         if ck.get("prune_masks"):
             masks = masks_to_device(ck["prune_masks"], device)
             apply_masks(model, masks)

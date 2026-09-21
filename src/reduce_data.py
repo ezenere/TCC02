@@ -7,7 +7,8 @@
 Per (fraction F, seed K): `train.py --manifest manifest_v3.csv --frac-column
 frac_F_sK --seed K --patience P --eval-test` -> runs/eixo4_<arch>_f<F>_s<K>/.
 Fraction 100 is trained the same way without a mask, so every point of the
-curve shares the recipe (30 epochs + early stopping on val). The seed K
+curve shares the recipe (30 fixed epochs, cosine schedule run to the end, best.pt selected
+on val — no early stopping, see --patience). The seed K
 governs mask, head init, data order and augmentation.
 
 If the axis-3 winner is a pruned model (--sparsity S): dense run on the
@@ -60,7 +61,9 @@ def main() -> int:
     ap.add_argument("--manifest", default="data/processed/manifest_v3.csv")
     ap.add_argument("--fractions", type=int, nargs="+", default=list(FRACTIONS))
     ap.add_argument("--seeds", type=int, nargs="+", default=[0, 1, 2, 3, 4])
-    ap.add_argument("--patience", type=int, default=5)
+    ap.add_argument("--patience", type=int, default=0,
+                    help="0 = no early stopping: 30 fixed epochs, best.pt selected on val. Patience 5 was tried first and "
+                         "truncated the cosine schedule mid-way in 11 of 18 runs (lr still at up to 56%% of its peak)")
     ap.add_argument("--epochs", type=int, default=None, help="override (default: config, 30)")
     ap.add_argument("--sparsity", type=float, default=None, help="winner is pruned at this level")
     ap.add_argument("--dry-run", action="store_true")

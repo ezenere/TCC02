@@ -16,3 +16,4 @@
 2026-09-14 21:35:48  start runs/eixo2_prune_densenet121_p95_s0 [int8]
 2026-09-14 21:42:44  end   runs/eixo2_prune_densenet121_p95_s0
 2026-09-14 21:42:44  === fila trt concluida ===
+2026-09-21 01:23:31  start runs/eixo4_resnet50_f005_s0 [int8]
