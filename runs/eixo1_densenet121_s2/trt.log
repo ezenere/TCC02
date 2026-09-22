@@ -1,0 +1,827 @@
+/home/ezenere/Documents/Faculdade/TCC/src/compress/export_onnx.py:33: DeprecationWarning: You are using the legacy TorchScript-based ONNX export. Starting in PyTorch 2.9, the new torch.export-based ONNX exporter has become the default. Learn more about the new export logic: https://docs.pytorch.org/docs/stable/onnx_export.html. For exporting control flow: https://pytorch.org/tutorials/beginner/onnx/export_control_flow_model_to_onnx_tutorial.html
+  torch.onnx.export(
+densenet121: runs/eixo1_densenet121_s2/model.onnx (27.0 MiB, 372 nós, opset 17) | paridade ORT-CPU vs PyTorch em 64 imgs: max|Δ| = 3.81e-06, argmax divergentes = 0 -> OK | ORT 136.7 img/s vs PyTorch 73.6 img/s
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock1.denselayer1.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock1.denselayer2.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock1.denselayer3.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock1.denselayer4.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock1.denselayer5.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock1.denselayer6.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.transition1.norm.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock2.denselayer1.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock2.denselayer2.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock2.denselayer3.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock2.denselayer4.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock2.denselayer5.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock2.denselayer6.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock2.denselayer7.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock2.denselayer8.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock2.denselayer9.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock2.denselayer10.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock2.denselayer11.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock2.denselayer12.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.transition2.norm.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock3.denselayer1.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock3.denselayer2.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock3.denselayer3.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock3.denselayer4.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock3.denselayer5.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock3.denselayer6.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock3.denselayer7.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock3.denselayer8.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock3.denselayer9.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock3.denselayer10.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock3.denselayer11.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock3.denselayer12.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock3.denselayer13.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock3.denselayer14.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock3.denselayer15.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock3.denselayer16.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock3.denselayer17.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock3.denselayer18.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock3.denselayer19.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock3.denselayer20.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock3.denselayer21.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock3.denselayer22.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock3.denselayer23.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock3.denselayer24.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.transition3.norm.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock4.denselayer1.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock4.denselayer2.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock4.denselayer3.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock4.denselayer4.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock4.denselayer5.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock4.denselayer6.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock4.denselayer7.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock4.denselayer8.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock4.denselayer9.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock4.denselayer10.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock4.denselayer11.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock4.denselayer12.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock4.denselayer13.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock4.denselayer14.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock4.denselayer15.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock4.denselayer16.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.norm5.weight' with rank 1
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Finding optimal threshold for each tensor using 'entropy' algorithm ...
+Number of tensors : 373
+Number of histogram bins : 128 (The number may increase depends on the data it collects)
+Number of quantized bins : 128
+densenet121: runs/eixo1_densenet121_s2/model_qdq_int8.onnx (7.7 MiB, 370 QuantizeLinear, 171s) | smoke val n=256: acc qdq 1.0000 vs fp32 1.0000
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 5.515661538613159e-11 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -2.7129387625279833e-09 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 5.605193857299268e-45 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 8.941043461163645e-08 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -2.198526249941324e-09 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 1.1445772329921056e-08 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 5.165213146085534e-09 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -1.3333089299294443e-08 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -2.4100414108829682e-08 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 4.693628471996725e-11 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -1.0943146389053027e-09 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 8.465175088678834e-11 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -3.9868344736682104e-10 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -2.6074518100216437e-09 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 3.787606339678007e-10 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -1.0217441115401016e-08 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 4.795959895886881e-08 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 1.8876990248717362e-11 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -3.543269844197283e-11 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -1.3878193039218445e-09 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 2.1937529570692504e-09 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -3.3536679211465525e-08 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 6.001453240617183e-12 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -9.711344575724645e-12 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 9.003190970524599e-10 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -4.632676020577264e-09 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 1.371388225201997e-09 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -6.170484567746826e-08 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -1.4672090209444377e-08 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 3.148500571370505e-09 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -3.825432415283103e-08 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 4.108520745838007e-10 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -6.51798259809766e-09 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -6.5928005277271495e-09 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 9.711987303262504e-08 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 3.1307285652815153e-09 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -1.0645112347162922e-08 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -1.842889929548619e-08 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -8.588986588620173e-08 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 1.616625028288965e-10 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -4.327144420557261e-09 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 6.28230731325452e-11 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -1.6855271622873147e-09 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -4.6740282755308726e-08 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 1.5013125187479659e-09 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -1.9294043696049812e-08 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 2.2900392693259164e-10 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -5.189620289058894e-09 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 5.101054023626261e-10 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -7.553984104902156e-09 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -1.1113576725563235e-08 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 2.083579753175968e-09 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -3.805763482134239e-10 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -6.708265942734215e-09 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 2.7237401667434824e-08 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -8.47537293680034e-08 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 1.1441322333993753e-09 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -7.532049428604637e-10 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 1.5844859646563236e-08 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 7.321134365412263e-09 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -6.22550189177673e-08 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 2.1061424604340573e-08 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -4.389941299365319e-09 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -5.304139705231137e-08 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 6.145624809050787e-08 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 1.2006106109296866e-09 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -7.810312041556244e-08 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -1.6834764693385296e-08 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 2.2352294237748538e-08 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 4.72622474489981e-09 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 3.761365441334874e-09 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -5.825755522437248e-08 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 3.828141004191821e-08 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 7.692049308616333e-08 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 2.4518904684356357e-09 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -2.0271827619322558e-11 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -2.3950068595013363e-09 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 5.010496462176661e-09 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -4.0564959391531374e-08 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -4.9670365598331045e-09 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -6.535589847089796e-08 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 1.0740524025720788e-08 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -5.490965548915483e-08 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 2.0977930503818243e-09 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -2.6082906501301295e-08 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 1.7020880704876618e-08 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 2.5744129050764286e-09 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 2.183515590559182e-09 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -1.756446010858781e-08 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -3.64231134142301e-09 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 2.282206201797976e-09 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -3.098551459856935e-08 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 6.115418171859233e-10 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -7.155596559726973e-09 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 1.7428132270680408e-09 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -1.0655636373257948e-09 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -1.4689514493682054e-08 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 2.020068140540232e-10 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -2.0671050648957134e-08 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -6.687720599529712e-09 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 1.4324513797348004e-09 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -7.464404205848041e-09 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -1.5758649496433463e-08 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -5.446256778895986e-08 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 3.521454772226207e-08 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -4.291942801160076e-08 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 2.2095270058031247e-09 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -3.6657151980534763e-08 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 6.265000518368424e-09 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 3.851327867732124e-10 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -3.7336092550965816e-10 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -7.959809700253118e-09 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 6.955618025994426e-11 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -3.5695876809960225e-10 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -2.4668722620191375e-09 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -3.4047538122194965e-08 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 1.8742951635175586e-09 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -1.4065637543581033e-10 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -1.8691540759618874e-08 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 7.704612121905985e-12 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -3.4712996366259574e-10 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -3.116373381573112e-09 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 7.517460265393794e-11 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -8.582904525988866e-11 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 2.3132522286584134e-10 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -2.6604116132311617e-10 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -2.4914106333540076e-09 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -4.36492690880641e-08 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 1.0421019602802062e-10 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -1.4632812322945554e-11 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -2.3719954889145356e-09 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 2.5584347140839014e-11 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -1.6139126146619276e-10 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -6.849375511208677e-10 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -4.418681420759185e-09 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 7.956620085014521e-11 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -1.3895844197531204e-10 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -2.8463353896057697e-09 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 1.2640558821885861e-08 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -6.148164199970552e-10 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 7.245074679085306e-11 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -2.4301781073599038e-11 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -1.721302100854416e-09 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -8.993606570584234e-08 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 4.312936813244406e-11 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -7.645385019516837e-11 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -2.757305050948844e-09 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 1.0695797719728617e-10 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -8.450640187618319e-11 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 5.51385639369073e-08 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -1.2404584026626253e-09 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -4.0907163878500796e-08 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 1.3423936441603335e-11 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -3.2260909221815126e-11 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -6.029743371271934e-10 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -3.02649922900855e-08 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 1.1013056439024282e-10 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -1.4476427001586245e-10 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -2.1506545433425117e-09 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 7.0472388813414e-08 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 8.31708268353898e-18 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -1.8234829997284012e-16 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -4.587684188095409e-08 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 1.8486403380313376e-11 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -3.695750649956864e-11 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 1.2560393697347294e-11 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -2.8270526544749153e-11 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 3.669341219758593e-11 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -1.0100820353742268e-11 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 1.9946386556335405e-11 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -1.856624749774216e-11 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 2.125512960082787e-11 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -5.484437556879662e-11 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 1.7646484967714926e-11 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -9.09372674818415e-13 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 1.4860144365025363e-11 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -3.3825681838850485e-11 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 2.5096502653809694e-10 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -7.984457539578216e-11 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 5.2164602498683266e-11 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -8.545213842081623e-11 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 3.271255065873807e-13 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -8.48511191864354e-12 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 1.2972135865485512e-10 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -2.671021459565992e-10 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 7.691176862056892e-11 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -1.8060566930877542e-11 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 5.1327154332314606e-11 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -9.93887402933602e-11 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 2.4082474903153184e-10 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -1.179976394372062e-10 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 1.0895829377632893e-10 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -2.6156757315654033e-10 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 2.0095436426004198e-10 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -4.641493439594413e-11 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 3.029073519789094e-11 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -1.699542312438851e-10 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 2.0834209024656047e-08 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -1.8208312635437096e-09 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 3.1013490386921916e-11 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -2.028629625394629e-10 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 2.458906189772847e-09 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -6.8545880083092925e-09 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 3.110340784928667e-08 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -2.1924726922861737e-08 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 4.3060405935380075e-11 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -4.545379073128686e-10 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 1.6287605930642712e-08 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -4.739130421427262e-09 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 1.2776018021298796e-09 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -8.032793985535136e-09 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 1.8136585566708163e-08 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -2.6136934394571654e-08 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 1.8194006301541776e-09 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -1.2863485387981655e-08 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 3.8556597914407575e-09 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -6.608834013377418e-08 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 1.597147067378124e-11 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -5.823459076070847e-11 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 4.469145942209707e-09 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -4.285974686268901e-09 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 2.7202830210626416e-08 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -1.6726930951449503e-08 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 2.3700586632147136e-11 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -1.4554082938822432e-10 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 2.8965567722138985e-09 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -1.977363162097845e-09 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 7.207313634793877e-10 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -9.77667635737589e-09 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 5.89614801427274e-09 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -4.6432849232225237e-10 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 3.9170841570346226e-10 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -9.036316139798828e-10 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 2.7842331218330685e-10 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -1.2868831000822922e-10 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 2.662275400133751e-10 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -2.7584526329782477e-10 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 2.3216574496220943e-10 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -1.4950384680245676e-11 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 1.5553018595237944e-10 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -5.103873434997297e-10 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -9.368361020278826e-08 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 1.1767005148044518e-09 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -6.171787386710648e-11 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 3.5396841013835e-10 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -9.464714567641863e-10 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 7.575578497842628e-10 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -2.2231468055355919e-10 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 6.466662622051089e-11 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -9.563945121970896e-12 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 1.436551017031107e-10 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -6.49580667033689e-10 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 2.7389523379155822e-17 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -6.180882134175885e-17 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -2.5022304228627945e-08 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 6.159544228834246e-12 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -4.195508090248934e-12 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 1.3771099538484322e-10 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -4.781976897794138e-12 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 2.0394970434711723e-12 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -2.4815293916957692e-11 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 4.217354590552169e-11 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -7.068815584959642e-12 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 5.723694955495073e-12 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -5.815340830411797e-12 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 1.3207886173649541e-11 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -3.211295118710211e-11 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 1.836420989234644e-12 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -2.2334558247988356e-12 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 2.0093614272465032e-12 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -5.907075637011719e-14 will be truncated to -1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:52: UserWarning: the float32 number 1.8580848665239458e-12 will be truncated to 1e-07
+  warnings.warn(
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/onnxconverter_common/float16.py:70: UserWarning: the float32 number -2.8396620314506335e-14 will be truncated to -1e-07
+  warnings.warn(
+fp32: runs/eixo1_densenet121_s2/trt/model_fp32.engine (34.3 MiB, build 72.9s) | camadas por tipo: {'Float': 739, '?': 1}
+fp16 onnx -> runs/eixo1_densenet121_s2/model_fp16.onnx (13.6 MiB)
+fp16: runs/eixo1_densenet121_s2/trt/model_fp16.engine (15.0 MiB, build 192.8s) | camadas por tipo: {'Half': 769, '?': 1, 'Float': 1}
+int8: runs/eixo1_densenet121_s2/trt/model_int8.engine (14.5 MiB, build 176.7s) | camadas por tipo: {'Float': 376, 'Int8': 966, '?': 125}
+trt fp32 test:   0%|          | 0/2613 [00:00<?, ?it/s][09/14/2026-21:21:31] [TRT] [W] Using default stream in enqueueV3() may lead to performance issues due to additional calls to cudaStreamSynchronize() by TensorRT to ensure correct synchronization. Please use non-default stream instead.
+trt fp32 test:  60%|█████▉    | 1559/2613 [00:30<00:20, 51.93it/s]                                                                  densenet121 TRT fp32 test: n=83,613 acc 0.99799 f1 0.99801 erro 0.2009% (168) | 1673.1 img/s
+-> runs/eixo1_densenet121_s2/metrics_trt_fp32.json
+trt fp16 test:   0%|          | 0/2613 [00:00<?, ?it/s][09/14/2026-21:22:23] [TRT] [W] Using default stream in enqueueV3() may lead to performance issues due to additional calls to cudaStreamSynchronize() by TensorRT to ensure correct synchronization. Please use non-default stream instead.
+                                                       densenet121 TRT fp16 test: n=83,613 acc 0.99800 f1 0.99802 erro 0.1997% (167) | 3179.8 img/s
+-> runs/eixo1_densenet121_s2/metrics_trt_fp16.json
+trt int8 test:   0%|          | 0/2613 [00:00<?, ?it/s][09/14/2026-21:22:52] [TRT] [W] Using default stream in enqueueV3() may lead to performance issues due to additional calls to cudaStreamSynchronize() by TensorRT to ensure correct synchronization. Please use non-default stream instead.
+trt int8 test:  62%|██████▏   | 1624/2613 [00:30<00:18, 54.12it/s]                                                                  densenet121 TRT int8 test: n=83,613 acc 0.99779 f1 0.99780 erro 0.2213% (185) | 1737.7 img/s
+-> runs/eixo1_densenet121_s2/metrics_trt_int8.json
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock1.denselayer1.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock1.denselayer2.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock1.denselayer3.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock1.denselayer4.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock1.denselayer5.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock1.denselayer6.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.transition1.norm.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock2.denselayer1.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock2.denselayer2.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock2.denselayer3.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock2.denselayer4.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock2.denselayer5.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock2.denselayer6.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock2.denselayer7.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock2.denselayer8.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock2.denselayer9.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock2.denselayer10.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock2.denselayer11.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock2.denselayer12.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.transition2.norm.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock3.denselayer1.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock3.denselayer2.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock3.denselayer3.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock3.denselayer4.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock3.denselayer5.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock3.denselayer6.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock3.denselayer7.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock3.denselayer8.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock3.denselayer9.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock3.denselayer10.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock3.denselayer11.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock3.denselayer12.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock3.denselayer13.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock3.denselayer14.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock3.denselayer15.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock3.denselayer16.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock3.denselayer17.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock3.denselayer18.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock3.denselayer19.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock3.denselayer20.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock3.denselayer21.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock3.denselayer22.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock3.denselayer23.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock3.denselayer24.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.transition3.norm.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock4.denselayer1.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock4.denselayer2.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock4.denselayer3.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock4.denselayer4.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock4.denselayer5.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock4.denselayer6.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock4.denselayer7.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock4.denselayer8.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock4.denselayer9.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock4.denselayer10.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock4.denselayer11.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock4.denselayer12.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock4.denselayer13.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock4.denselayer14.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock4.denselayer15.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.denseblock4.denselayer16.norm1.weight' with rank 1
+WARNING:root:Axis 1 is out-of-range for weight 'features.norm5.weight' with rank 1
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Collecting tensor data and making histogram ...
+Finding optimal threshold for each tensor using 'percentile' algorithm ...
+Number of tensors : 373
+Number of histogram bins : 2048
+Percentile : (0.010000000000005116,99.99)
+densenet121: runs/eixo1_densenet121_s2/model_qdq_int8.onnx (7.7 MiB, 370 QuantizeLinear, 141s) | smoke val n=256: acc qdq 1.0000 vs fp32 1.0000
+int8: runs/eixo1_densenet121_s2/trt/model_int8.engine (14.7 MiB, build 1023.3s) | camadas por tipo: {'Float': 387, 'Int8': 970, '?': 125}
+trt int8 test:   0%|          | 0/2613 [00:00<?, ?it/s]trt int8 test:  60%|█████▉    | 1559/2613 [00:30<00:20, 51.94it/s]trt int8 test:  60%|█████▉    | 1559/2613 [00:50<00:20, 51.94it/s]                                                                  densenet121 TRT int8 test: n=83,613 acc 0.99788 f1 0.99790 erro 0.2117% (177) | 1667.6 img/s
+-> runs/eixo1_densenet121_s2/metrics_trt_int8.json

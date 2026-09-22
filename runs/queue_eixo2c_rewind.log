@@ -10,3 +10,22 @@ gpu_wait: esperou 80s pela GPU
 2026-09-21 09:54:34  start eixo2c_rewind_densenet121_p95_s0
 2026-09-21 11:39:23  end   eixo2c_rewind_densenet121_p95_s0 rc=0  104 min
 2026-09-21 11:39:26  === rewind concluido ===
+2026-09-21 11:40:28  === rewind: seeds [1 2] niveis [0.98 0.95] ===
+2026-09-21 11:41:09  start eixo2c_rewind_resnet50_p98_s1
+2026-09-21 13:06:30  end   eixo2c_rewind_resnet50_p98_s1 rc=0  85 min
+2026-09-21 13:07:14  start eixo2c_rewind_densenet121_p98_s1
+2026-09-21 14:54:33  end   eixo2c_rewind_densenet121_p98_s1 rc=0  107 min
+2026-09-21 14:55:15  start eixo2c_rewind_resnet50_p95_s1
+2026-09-21 16:21:01  end   eixo2c_rewind_resnet50_p95_s1 rc=0  85 min
+2026-09-21 16:21:46  start eixo2c_rewind_densenet121_p95_s1
+2026-09-21 18:08:51  end   eixo2c_rewind_densenet121_p95_s1 rc=0  107 min
+2026-09-21 18:09:35  start eixo2c_rewind_resnet50_p98_s2
+2026-09-21 19:35:13  end   eixo2c_rewind_resnet50_p98_s2 rc=0  85 min
+2026-09-21 19:35:57  start eixo2c_rewind_densenet121_p98_s2
+2026-09-21 21:20:44  end   eixo2c_rewind_densenet121_p98_s2 rc=0  104 min
+2026-09-21 21:21:26  start eixo2c_rewind_resnet50_p95_s2
+2026-09-21 22:48:10  end   eixo2c_rewind_resnet50_p95_s2 rc=0  86 min
+2026-09-21 22:48:55  start eixo2c_rewind_densenet121_p95_s2
+2026-09-22 00:39:12  end   eixo2c_rewind_densenet121_p95_s2 rc=0  110 min
+2026-09-22 00:39:15  === rewind concluido ===
+2026-09-22 04:58:03  PAUSADA pelo autor (GPU necessária); retomar com: scripts/queue_rewind.sh "1 2" "0.98 0.95" && scripts/queue_prune_first.sh "1 2" "0.98 0.95"

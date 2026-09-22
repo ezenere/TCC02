@@ -1,0 +1,73 @@
+poda global por magnitude: alvo 98.00% -> obtida 98.0000% dos pesos podáveis (0.52 M não-nulos de 23.54 M)
+run       : eixo2c_rewind_resnet50_p98_s2
+arch      : resnet50 (pretrained=False)  seed=2
+manifesto : v2 ed5c1eb749ec9e72...  mask=None
+fit/val/test: 175,591 / 19,511 / 83,613 imgs  (11,805 / 2,268 / 6,044 sujeitos)
+batch 96 | steps/epoch 1,829 | epochs 30 | warmup 2 ep | early stop patience off
+epoch 1/30:   0%|          | 0/1829 [00:00<?, ?it/s]/home/ezenere/Documents/Faculdade/TCC/src/train.py:132: UserWarning: Detected call of `lr_scheduler.step()` before `optimizer.step()`. In PyTorch 1.1.0 and later, you should call them in the opposite order: `optimizer.step()` before `lr_scheduler.step()`.  Failure to do this will result in PyTorch skipping the first value of the learning rate schedule. See more details at https://pytorch.org/docs/stable/optim.html#how-to-adjust-learning-rate
+  scheduler.step()
+val 1/30:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 1/30: train 0.3860/0.9164 | val loss 0.0307 acc 0.9920 f1 0.9920 err 0.7995% * | 172s 1023 img/s
+val 2/30:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 2/30: train 0.0318/0.9913 | val loss 0.0403 acc 0.9897 f1 0.9897 err 1.0251%  | 165s 1064 img/s
+val 3/30:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 3/30: train 0.0267/0.9924 | val loss 0.0275 acc 0.9920 f1 0.9920 err 0.8047%  | 163s 1076 img/s
+val 4/30:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 4/30: train 0.0206/0.9944 | val loss 0.0259 acc 0.9934 f1 0.9934 err 0.6612% * | 165s 1067 img/s
+val 5/30:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 5/30: train 0.0179/0.9948 | val loss 0.0257 acc 0.9927 f1 0.9926 err 0.7329%  | 166s 1056 img/s
+val 6/30:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 6/30: train 0.0157/0.9956 | val loss 0.0249 acc 0.9931 f1 0.9931 err 0.6919%  | 163s 1077 img/s
+val 7/30:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 7/30: train 0.0154/0.9956 | val loss 0.0209 acc 0.9942 f1 0.9942 err 0.5843% * | 161s 1092 img/s
+val 8/30:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 8/30: train 0.0139/0.9961 | val loss 0.0204 acc 0.9945 f1 0.9945 err 0.5535% * | 161s 1091 img/s
+val 9/30:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 9/30: train 0.0128/0.9965 | val loss 0.0212 acc 0.9945 f1 0.9945 err 0.5484% * | 161s 1092 img/s
+val 10/30:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 10/30: train 0.0137/0.9962 | val loss 0.0225 acc 0.9940 f1 0.9940 err 0.5997%  | 161s 1090 img/s
+val 11/30:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 11/30: train 0.0125/0.9966 | val loss 0.0196 acc 0.9949 f1 0.9949 err 0.5074% * | 161s 1090 img/s
+val 12/30:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 12/30: train 0.0114/0.9968 | val loss 0.0199 acc 0.9944 f1 0.9944 err 0.5638%  | 161s 1090 img/s
+val 13/30:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 13/30: train 0.0103/0.9973 | val loss 0.0164 acc 0.9954 f1 0.9954 err 0.4562% * | 161s 1090 img/s
+val 14/30:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 14/30: train 0.0094/0.9976 | val loss 0.0173 acc 0.9950 f1 0.9950 err 0.4972%  | 161s 1090 img/s
+val 15/30:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 15/30: train 0.0089/0.9977 | val loss 0.0183 acc 0.9946 f1 0.9946 err 0.5382%  | 161s 1090 img/s
+val 16/30:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 16/30: train 0.0078/0.9981 | val loss 0.0207 acc 0.9946 f1 0.9946 err 0.5382%  | 161s 1090 img/s
+val 17/30:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 17/30: train 0.0068/0.9983 | val loss 0.0164 acc 0.9957 f1 0.9958 err 0.4254% * | 161s 1091 img/s
+val 18/30:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 18/30: train 0.0060/0.9984 | val loss 0.0150 acc 0.9961 f1 0.9961 err 0.3895% * | 161s 1090 img/s
+val 19/30:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 19/30: train 0.0056/0.9986 | val loss 0.0156 acc 0.9955 f1 0.9955 err 0.4510%  | 161s 1089 img/s
+val 20/30:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 20/30: train 0.0044/0.9990 | val loss 0.0138 acc 0.9962 f1 0.9962 err 0.3793% * | 161s 1090 img/s
+val 21/30:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 21/30: train 0.0039/0.9992 | val loss 0.0148 acc 0.9956 f1 0.9956 err 0.4408%  | 161s 1090 img/s
+val 22/30:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 22/30: train 0.0032/0.9993 | val loss 0.0148 acc 0.9963 f1 0.9963 err 0.3690% * | 161s 1091 img/s
+val 23/30:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 23/30: train 0.0026/0.9995 | val loss 0.0137 acc 0.9967 f1 0.9967 err 0.3280% * | 161s 1091 img/s
+val 24/30:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 24/30: train 0.0025/0.9995 | val loss 0.0148 acc 0.9964 f1 0.9964 err 0.3639%  | 161s 1089 img/s
+val 25/30:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 25/30: train 0.0021/0.9996 | val loss 0.0146 acc 0.9965 f1 0.9965 err 0.3485%  | 161s 1089 img/s
+val 26/30:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 26/30: train 0.0022/0.9995 | val loss 0.0145 acc 0.9967 f1 0.9967 err 0.3280%  | 161s 1091 img/s
+val 27/30:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 27/30: train 0.0020/0.9996 | val loss 0.0141 acc 0.9966 f1 0.9966 err 0.3434%  | 161s 1090 img/s
+val 28/30:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 28/30: train 0.0018/0.9997 | val loss 0.0142 acc 0.9966 f1 0.9966 err 0.3434%  | 161s 1091 img/s
+val 29/30:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 29/30: train 0.0018/0.9997 | val loss 0.0142 acc 0.9965 f1 0.9965 err 0.3485%  | 161s 1088 img/s
+val 30/30:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 30/30: train 0.0018/0.9997 | val loss 0.0147 acc 0.9965 f1 0.9965 err 0.3485%  | 161s 1090 img/s
+test:   0%|          | 0/436 [00:00<?, ?it/s]
+TESTE (best.pt, epoca 23): acc 0.9976  f1 0.9976  erro 0.2416% (202 / 83613)
+-> runs/eixo2c_rewind_resnet50_p98_s2/metrics.json
+resnet50: params 23.54 M (nao-nulos 0.52 M, esparsidade 97.8%) | MACs 4.11 G @ 224px | FP32 90.1 MiB, gzip 8.8 MiB [1.9s]
+-> runs/eixo2c_rewind_resnet50_p98_s2/cost.json

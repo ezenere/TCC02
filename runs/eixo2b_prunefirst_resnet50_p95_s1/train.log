@@ -1,0 +1,68 @@
+poda global por magnitude: alvo 95.00% -> obtida 95.0000% dos pesos podáveis (1.26 M não-nulos de 23.54 M)
+run       : eixo2b_prunefirst_resnet50_p95_s1
+arch      : resnet50 (pretrained=True)  seed=1
+manifesto : v2 ed5c1eb749ec9e72...  mask=None
+fit/val/test: 175,591 / 19,511 / 83,613 imgs  (11,805 / 2,268 / 6,044 sujeitos)
+batch 96 | steps/epoch 1,829 | epochs 30 | warmup 2 ep | early stop patience off
+epoch 1/30:   0%|          | 0/1829 [00:00<?, ?it/s]/home/ezenere/Documents/Faculdade/TCC/src/train.py:132: UserWarning: Detected call of `lr_scheduler.step()` before `optimizer.step()`. In PyTorch 1.1.0 and later, you should call them in the opposite order: `optimizer.step()` before `lr_scheduler.step()`.  Failure to do this will result in PyTorch skipping the first value of the learning rate schedule. See more details at https://pytorch.org/docs/stable/optim.html#how-to-adjust-learning-rate
+  scheduler.step()
+val 1/30:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 1/30: train 0.9236/0.7209 | val loss 0.0654 acc 0.9806 f1 0.9805 err 1.9374% * | 172s 1019 img/s
+val 2/30:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 2/30: train 0.0443/0.9865 | val loss 0.0497 acc 0.9839 f1 0.9839 err 1.6093% * | 165s 1067 img/s
+val 3/30:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 3/30: train 0.0272/0.9919 | val loss 0.0358 acc 0.9890 f1 0.9890 err 1.1019% * | 165s 1062 img/s
+val 4/30:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 4/30: train 0.0186/0.9946 | val loss 0.0244 acc 0.9931 f1 0.9931 err 0.6868% * | 164s 1072 img/s
+val 5/30:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 5/30: train 0.0153/0.9957 | val loss 0.0272 acc 0.9929 f1 0.9930 err 0.7073%  | 164s 1070 img/s
+val 6/30:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 6/30: train 0.0133/0.9961 | val loss 0.0217 acc 0.9938 f1 0.9938 err 0.6202% * | 164s 1074 img/s
+val 7/30:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 7/30: train 0.0121/0.9965 | val loss 0.0257 acc 0.9930 f1 0.9929 err 0.7022%  | 163s 1078 img/s
+val 8/30:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 8/30: train 0.0114/0.9967 | val loss 0.0182 acc 0.9947 f1 0.9947 err 0.5330% * | 167s 1054 img/s
+val 9/30:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 9/30: train 0.0103/0.9970 | val loss 0.0236 acc 0.9937 f1 0.9937 err 0.6253%  | 168s 1045 img/s
+val 10/30:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 10/30: train 0.0093/0.9974 | val loss 0.0185 acc 0.9950 f1 0.9950 err 0.5023% * | 165s 1064 img/s
+val 11/30:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 11/30: train 0.0082/0.9977 | val loss 0.0205 acc 0.9944 f1 0.9944 err 0.5638%  | 166s 1055 img/s
+val 12/30:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 12/30: train 0.0074/0.9979 | val loss 0.0216 acc 0.9938 f1 0.9938 err 0.6202%  | 167s 1051 img/s
+val 13/30:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 13/30: train 0.0074/0.9980 | val loss 0.0177 acc 0.9953 f1 0.9953 err 0.4664% * | 167s 1055 img/s
+val 14/30:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 14/30: train 0.0062/0.9983 | val loss 0.0157 acc 0.9958 f1 0.9959 err 0.4152% * | 166s 1056 img/s
+val 15/30:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 15/30: train 0.0052/0.9986 | val loss 0.0157 acc 0.9956 f1 0.9956 err 0.4408%  | 167s 1052 img/s
+val 16/30:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 16/30: train 0.0046/0.9989 | val loss 0.0154 acc 0.9960 f1 0.9960 err 0.3998% * | 168s 1047 img/s
+val 17/30:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 17/30: train 0.0041/0.9990 | val loss 0.0156 acc 0.9957 f1 0.9958 err 0.4254%  | 166s 1055 img/s
+val 18/30:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 18/30: train 0.0033/0.9991 | val loss 0.0161 acc 0.9962 f1 0.9962 err 0.3793% * | 170s 1036 img/s
+val 19/30:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 19/30: train 0.0027/0.9993 | val loss 0.0138 acc 0.9966 f1 0.9966 err 0.3434% * | 173s 1014 img/s
+val 20/30:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 20/30: train 0.0025/0.9993 | val loss 0.0143 acc 0.9967 f1 0.9967 err 0.3280% * | 165s 1067 img/s
+epoch 21/30:  36%|███▌      | 660/1829 [01:16<01:46, 11.00it/s, acc=0.9996, loss=0.0018, lr=9.75e-03]
+Traceback (most recent call last):
+  File "/home/ezenere/Documents/Faculdade/TCC/src/train.py", line 427, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/home/ezenere/Documents/Faculdade/TCC/src/train.py", line 348, in main
+    tr_loss, tr_acc, dt, ips = train_one_epoch(
+                               ^^^^^^^^^^^^^^^^
+  File "/home/ezenere/Documents/Faculdade/TCC/src/train.py", line 130, in train_one_epoch
+    scaler.step(optimizer)
+  File "/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/torch/amp/grad_scaler.py", line 478, in step
+    retval = self._maybe_opt_step(optimizer, optimizer_state, *args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/torch/amp/grad_scaler.py", line 371, in _maybe_opt_step
+    if not sum(v.item() for v in optimizer_state["found_inf_per_device"].values()):
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/torch/amp/grad_scaler.py", line 371, in <genexpr>
+    if not sum(v.item() for v in optimizer_state["found_inf_per_device"].values()):
+               ^^^^^^^^
+KeyboardInterrupt

@@ -391,3 +391,22 @@ DenseNet-121 98%         1,65            1,64            1,33
 **Conclusão (uma seed):** o fator dominante é o orçamento de retreino, não a ordem da poda; com 30 épocas após a poda o joelho de 98% desaparece
 nas duas arquiteturas, e podar depois do treino é igual ou melhor que podar antes. O "joelho em 98%" do eixo 2 vale para o protocolo de 5 épocas.
 **Em andamento:** seeds 1–2 em 95% e 98% para os dois métodos de 30 épocas (`queue_rewind.sh` e `queue_prune_first.sh`, 16 runs ≈ 26 h, com `gpu_wait`).
+
+## 2026-09-22 (ter, 05:00) — PAUSA a pedido do autor (GPU necessária)
+
+**Parado:** fila do eixo 2b/2c. Nada meu roda na GPU. **Retomar com** (pula o que já tem `metrics.json`, retoma o resto do checkpoint):
+```
+scripts/queue_prune_first.sh "1 2" "0.98 0.95"      # 6 runs restantes (~10 h)
+```
+**Eixo 2c (poda depois + 30 ép., LR rewinding) — COMPLETO, 3 seeds, 12 runs, 0 falhas.** Razão de erro vs baseline da mesma seed:
+```
+                 depois + 5 ép. (eixo 2)   antes + 30 ép. (eixo 2b)   depois + 30 ép. (eixo 2c)
+ResNet-50 95%    1,28 ± 0,07               1,15 (1 seed)              1,14 ± 0,07
+ResNet-50 98%    1,90 ± 0,17               1,47 ± 0,16 (2 seeds)      1,12 ± 0,02
+DenseNet 95%     1,19 ± 0,05               1,26 (1 seed)              1,10 ± 0,15
+DenseNet 98%     1,65 ± 0,05               1,56 ± 0,12 (2 seeds)      1,23 ± 0,09
+```
+**Conclusão sustentada com 3 seeds:** com 30 épocas depois da poda, o joelho de 98% desaparece nas duas arquiteturas (1,12× e 1,23×); o que
+decide é o orçamento de retreino, não a ordem. Podar antes fica no meio (1,47× / 1,56× a 98%). Os 5 runs restantes do 2b só estreitam
+o desvio dessa coluna intermediária — podem esperar ou ser descartados sem mudar a conclusão.
+**Eixo 2b seeds 1–2:** concluídos: densenet121_p98_s1, resnet50_p98_s1. Faltam 6 (um deles com checkpoint parcial).
