@@ -30,10 +30,10 @@ parâmetros e 30% menos MACs, mas é mais lenta em todos os runtimes medidos. ![
 | poda 90% + int8 (CPU / TensorRT, seed 0) | 1,14 / 1,10 | 1,37 / 1,16 |
 
 90% dos pesos são dispensáveis nas duas redes; o joelho está em 98%. A poda não-estruturada reduz o artefato comprimido (21% do original
-a 90%) mas **não a latência**. A int8 é gratuita para a ResNet-50; à DenseNet-121 custa 24% de erro em CPU. **Podar antes ou depois do treino**
-(seed 0): o que decide é o orçamento de retreino, não a ordem. A 98%, podar o modelo treinado e retreinar 30 épocas dá 1,10× (ResNet-50) e
-1,33× (DenseNet-121), contra 1,36× / 1,64× podando os pesos ImageNet antes do treino e 1,90× / 1,65× com o fine-tuning de 5 épocas — o
-joelho de 98% é do protocolo curto, não das redes. ![poda](results/eixo2/figures/pruning_error_ratio.png)
+a 90%) mas **não a latência**. A int8 é gratuita para a ResNet-50; à DenseNet-121 custa 24% de erro em CPU. **Podar antes ou depois do treino:**
+o que decide é o orçamento de retreino, não a ordem. A 98%, podar o modelo treinado e retreinar 30 épocas dá **1,12 ± 0,02×** (ResNet-50) e
+**1,23 ± 0,09×** (DenseNet-121, 3 seeds), contra 1,47× / 1,56× podando os pesos ImageNet antes do treino (2 seeds) e 1,90× / 1,65× com o
+fine-tuning de 5 épocas — o joelho de 98% é do protocolo curto, não das redes. ![poda](results/eixo2/figures/pruning_error_ratio.png)
 
 ## Eixo 3 — benchmark ([detalhes](results/eixo3/README.md), [decisão](results/eixo3/decision.md))
 

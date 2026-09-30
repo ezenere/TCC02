@@ -410,3 +410,11 @@ DenseNet 98%     1,65 ± 0,05               1,56 ± 0,12 (2 seeds)      1,23 ± 
 decide é o orçamento de retreino, não a ordem. Podar antes fica no meio (1,47× / 1,56× a 98%). Os 5 runs restantes do 2b só estreitam
 o desvio dessa coluna intermediária — podem esperar ou ser descartados sem mudar a conclusão.
 **Eixo 2b seeds 1–2:** concluídos: densenet121_p98_s1, resnet50_p98_s1. Faltam 6 (um deles com checkpoint parcial).
+
+## 2026-09-30 (qua) — retomada
+
+**Em andamento:** `[GPU]` eixo 2b seeds 1–2 em 95/98% — 6 runs restantes (`queue_prune_first.sh "1 2" "0.98 0.95"`, ~10 h, com `gpu_wait`).
+**Feito hoje (CPU):** textos atualizados com o eixo 2c em 3 seeds (RESULTS.md, relatório); release `v0.5-eixo4` (18 × `best.pt` do eixo 4).
+**Ainda com o autor:** latência GPU em TTY (`make trt` reconstrói as engines antes); confirmação dos dois ajustes sinalizados.
+**Próximo bloco de GPU (após a fila, ~1 h):** Extra B — poda 90% + int8 no modelo treinado com 25% dos dados (seed 0): "a compressão degrada mais com menos dados?".
+Extra A (eixo 4 na DenseNet-121, ~10 h) fica **em espera** até decisão do autor.

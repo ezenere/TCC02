@@ -94,7 +94,7 @@ A pedido do orientador, testamos podar **antes** do treino. O resultado surpreen
 
 ![Três formas de apagar 98% da rede](figuras/poda_metodos.png)
 
-Com poda de 95%, as três formas dão resultados parecidos. Com 98%, treinar 30 épocas depois da poda resolve o problema nos dois modelos. Este experimento tem por enquanto uma ou duas seeds; as demais estão rodando.
+Com poda de 95%, as três formas dão resultados parecidos. Com 98%, treinar 30 épocas depois da poda resolve o problema nos dois modelos: a razão de erro cai de 1,90× para 1,12× na ResNet-50 e de 1,65× para 1,23× na DenseNet-121 (3 seeds). Podar antes do treino fica no meio. As seeds que faltam de "podar antes" estão rodando.
 
 ## 5. Etapa 3 — qual versão é a melhor?
 
@@ -141,7 +141,7 @@ Com um quarto das fotos, o erro sobe 41%. O ponto de virada fica entre 25% e 10%
 
 | Item | Situação |
 |---|---|
-| Seeds 1 e 2 da poda antes/depois do treino, em 95% e 98% | Rodando: 4 de 16 treinos concluídos, cerca de 20 horas restantes |
+| Seeds 1 e 2 da poda antes/depois do treino, em 95% e 98% | Rodando: 10 de 16 treinos concluídos, cerca de 10 horas restantes |
 | Medição final de velocidade na placa de vídeo | Pendente: precisa ser feita com a tela gráfica fechada. Os tempos de placa de vídeo deste relatório são preliminares |
 | Confirmar com o orientador dois ajustes feitos no caminho | Pendente: a retirada da parada antecipada e o critério de desempate quando duas versões têm praticamente a mesma velocidade |
 | Artigo e pôster | A partir de 1º de novembro |
@@ -172,9 +172,9 @@ Teste: 83.613 imagens. Cada versão comprimida parte do baseline da mesma seed. 
 | Poda 70% antes do treino (30 ép.) | **99,762%** | 99,762% | — | — | 199 |
 | Poda 90% antes do treino (30 ép.) | **99,772%** | 99,772% | — | — | 191 |
 | Poda 95% antes do treino (30 ép.) | **99,757%** | 99,757% | — | — | 203 |
-| Poda 98% antes do treino (30 ép.) | **99,712%** | 99,712% | — | — | 241 |
-| Poda 95% depois + treino 30 ép. | **99,758%** | 99,751% | 99,764% | — | 202 |
-| Poda 98% depois + treino 30 ép. | **99,773%** | 99,768% | 99,778% | — | 190 |
+| Poda 98% antes do treino (30 ép.) | **99,700%** | 99,712% | 99,688% | — | 251 |
+| Poda 95% depois + treino 30 ép. | **99,764%** | 99,751% | 99,764% | 99,775% | 198 |
+| Poda 98% depois + treino 30 ép. | **99,768%** | 99,768% | 99,778% | 99,758% | 194 |
 | int8 CPU (fbgemm) | **99,785%** | 99,797% | 99,792% | 99,766% | 180 |
 | TensorRT FP32 | **99,793%** | 99,790% | 99,805% | 99,786% | 173 |
 | TensorRT FP16 | **99,792%** | 99,790% | 99,801% | 99,786% | 174 |
@@ -196,9 +196,9 @@ Teste: 83.613 imagens. Cada versão comprimida parte do baseline da mesma seed. 
 | Poda 70% antes do treino (30 ép.) | **99,795%** | 99,795% | — | — | 171 |
 | Poda 90% antes do treino (30 ép.) | **99,787%** | 99,787% | — | — | 178 |
 | Poda 95% antes do treino (30 ép.) | **99,758%** | 99,758% | — | — | 202 |
-| Poda 98% antes do treino (30 ép.) | **99,685%** | 99,685% | — | — | 263 |
-| Poda 95% depois + treino 30 ép. | **99,756%** | 99,756% | — | — | 204 |
-| Poda 98% depois + treino 30 ép. | **99,754%** | 99,745% | 99,763% | — | 206 |
+| Poda 98% antes do treino (30 ép.) | **99,696%** | 99,685% | 99,706% | — | 254 |
+| Poda 95% depois + treino 30 ép. | **99,783%** | 99,756% | 99,798% | 99,795% | 181 |
+| Poda 98% depois + treino 30 ép. | **99,759%** | 99,745% | 99,763% | 99,768% | 202 |
 | int8 CPU (fbgemm) | **99,756%** | 99,749% | 99,757% | 99,763% | 204 |
 | TensorRT FP32 | **99,803%** | 99,809% | 99,800% | 99,799% | 165 |
 | TensorRT FP16 | **99,803%** | 99,809% | 99,801% | 99,800% | 164 |
