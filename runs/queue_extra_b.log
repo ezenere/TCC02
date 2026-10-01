@@ -1,0 +1,7 @@
+2026-10-01 00:34:15  === extra B ===
+2026-10-01 00:34:55  start extraB_resnet50_f025_p90_s0
+2026-10-01 00:40:09  end   extraB_resnet50_f025_p90_s0 rc=0
+2026-10-01 00:46:03  start runs/extraB_resnet50_f025_p90_s0 [int8]
+2026-10-01 00:48:15  end   runs/extraB_resnet50_f025_p90_s0
+2026-10-01 00:48:15  === fila trt concluida ===
+2026-10-01 00:48:15  === extra B concluido ===

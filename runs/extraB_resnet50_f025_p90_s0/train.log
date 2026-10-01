@@ -1,0 +1,45 @@
+poda global por magnitude: alvo 90.00% -> obtida 90.0000% dos pesos podáveis (2.40 M não-nulos de 23.54 M)
+run       : extraB_resnet50_f025_p90_s0
+arch      : resnet50 (pretrained=False)  seed=0
+manifesto : v3 40f0951659609108...  mask=frac_25_s0
+fit/val/test: 43,898 / 19,511 / 83,613 imgs  (6,340 / 2,268 / 6,044 sujeitos)
+batch 96 | steps/epoch 457 | epochs 5 | warmup 0 ep | early stop patience off
+epoch 1/5:   0%|          | 0/457 [00:00<?, ?it/s]/home/ezenere/Documents/Faculdade/TCC/src/train.py:132: UserWarning: Detected call of `lr_scheduler.step()` before `optimizer.step()`. In PyTorch 1.1.0 and later, you should call them in the opposite order: `optimizer.step()` before `lr_scheduler.step()`.  Failure to do this will result in PyTorch skipping the first value of the learning rate schedule. See more details at https://pytorch.org/docs/stable/optim.html#how-to-adjust-learning-rate
+  scheduler.step()
+val 1/5:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 1/5: train 0.1059/0.9925 | val loss 0.0331 acc 0.9929 f1 0.9929 err 0.7073% * | 51s 860 img/s
+val 2/5:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 2/5: train 0.0173/0.9975 | val loss 0.0263 acc 0.9937 f1 0.9937 err 0.6304% * | 43s 1018 img/s
+val 3/5:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 3/5: train 0.0127/0.9981 | val loss 0.0240 acc 0.9938 f1 0.9938 err 0.6150% * | 43s 1014 img/s
+val 4/5:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 4/5: train 0.0113/0.9983 | val loss 0.0232 acc 0.9942 f1 0.9942 err 0.5792% * | 43s 1020 img/s
+val 5/5:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 5/5: train 0.0104/0.9986 | val loss 0.0233 acc 0.9941 f1 0.9940 err 0.5945%  | 43s 1023 img/s
+test:   0%|          | 0/436 [00:00<?, ?it/s]
+TESTE (best.pt, epoca 4): acc 0.9953  f1 0.9953  erro 0.4700% (393 / 83613)
+-> runs/extraB_resnet50_f025_p90_s0/metrics.json
+resnet50: params 23.54 M (nao-nulos 2.40 M, esparsidade 89.8%) | MACs 4.11 G @ 224px | FP32 90.1 MiB, gzip 17.1 MiB [2.4s]
+-> runs/extraB_resnet50_f025_p90_s0/cost.json
+/home/ezenere/Documents/Faculdade/TCC/src/compress/quantize_cpu.py:101: DeprecationWarning: torch.ao.quantization is deprecated and will be removed in 2.10. 
+For migrations of users: 
+1. Eager mode quantization (torch.ao.quantization.quantize, torch.ao.quantization.quantize_dynamic), please migrate to use torchao eager mode quantize_ API instead 
+2. FX graph mode quantization (torch.ao.quantization.quantize_fx.prepare_fx,torch.ao.quantization.quantize_fx.convert_fx, please migrate to use torchao pt2e quantization API instead (prepare_pt2e, convert_pt2e) 
+3. pt2e quantization has been migrated to torchao (https://github.com/pytorch/ao/tree/main/torchao/quantization/pt2e) 
+see https://github.com/pytorch/ao/issues/2259 for more details
+  prepared = prepare_fx(copy.deepcopy(model), qconfig_mapping, example_inputs=(example,))
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/site-packages/torch/ao/quantization/observer.py:1039: UserWarning: Please use quant_min and quant_max to specify the range for observers.                     reduce_range will be deprecated in a future release of PyTorch.
+  super().__init__(
+calibração:   0%|          | 0/16 [00:00<?, ?it/s]
+/home/ezenere/Documents/Faculdade/TCC/src/compress/quantize_cpu.py:105: DeprecationWarning: torch.ao.quantization is deprecated and will be removed in 2.10. 
+For migrations of users: 
+1. Eager mode quantization (torch.ao.quantization.quantize, torch.ao.quantization.quantize_dynamic), please migrate to use torchao eager mode quantize_ API instead 
+2. FX graph mode quantization (torch.ao.quantization.quantize_fx.prepare_fx,torch.ao.quantization.quantize_fx.convert_fx, please migrate to use torchao pt2e quantization API instead (prepare_pt2e, convert_pt2e) 
+3. pt2e quantization has been migrated to torchao (https://github.com/pytorch/ao/tree/main/torchao/quantization/pt2e) 
+see https://github.com/pytorch/ao/issues/2259 for more details
+  quantized = convert_fx(prepared)
+/home/ezenere/miniconda3/envs/tcc/lib/python3.11/ast.py:418: UserWarning: The TorchScript type system doesn't support instance-level annotations on empty non-base types in `__init__`. Instead, either 1) use a type annotation in the class body, or 2) wrap the type in `torch.jit.Attribute`.
+  return visitor(node)
+teste int8:  85%|████████▍ | 1106/1307 [02:18<00:21,  9.18it/s]
+resnet50 int8/x86: artefato 23.0 MiB (0.26x FP32) | quantização 22s | teste n=83,613: acc 0.99435 f1 0.99436 erro 0.5645% (472) | 588.8 img/s (8 threads)
+-> runs/extraB_resnet50_f025_p90_s0/metrics_int8_fbgemm.json

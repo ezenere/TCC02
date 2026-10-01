@@ -1,0 +1,50 @@
+# Eixo 2b — poda ANTES do treino (pedido do orientador, 2026-09-19), DenseNet-121.
+# Poda global por magnitude sobre os pesos ImageNet (cabeça nova fica densa: é
+# aleatória), depois o treino completo do eixo 1 com as máscaras fixas.
+# Contraste com o eixo 2: treino completo -> poda -> fine-tuning de 5 épocas.
+#   python src/train.py --config configs/prune_first_densenet121.yaml --seed 0 --sparsity 0.9 --eval-test
+run_name: "eixo2b_prunefirst_{arch}_p{sparsity}_s{seed}"
+seed: 0
+
+data:
+  manifest: data/processed/manifest_v2.csv
+  root: null
+  image_size: 224
+  hflip: true
+  batch_size: 96
+  eval_batch_size: 192
+  workers: 16
+  prefetch_factor: 6
+
+model:
+  arch: densenet121
+  pretrained: true           # pesos ImageNet: é sobre eles que a poda é calculada
+  init_from: null
+
+prune:
+  sparsity: null             # --sparsity
+  scope: global_magnitude
+  when: before_training
+  exclude_head: true
+
+optim:
+  name: sgd
+  lr: 0.0375
+  momentum: 0.9
+  weight_decay: 0.0001
+  nesterov: true
+  label_smoothing: 0.0
+
+sched:
+  name: cosine
+  warmup_epochs: 2
+
+train:
+  epochs: 30
+  amp: fp16
+  channels_last: true
+  cudnn_benchmark: true
+  early_stopping_patience: 0
+
+paths:
+  runs: runs

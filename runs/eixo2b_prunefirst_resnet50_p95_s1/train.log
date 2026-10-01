@@ -66,3 +66,42 @@ Traceback (most recent call last):
     if not sum(v.item() for v in optimizer_state["found_inf_per_device"].values()):
                ^^^^^^^^
 KeyboardInterrupt
+poda global por magnitude: alvo 95.00% -> obtida 95.0000% dos pesos podáveis (1.26 M não-nulos de 23.54 M)
+run       : eixo2b_prunefirst_resnet50_p95_s1
+arch      : resnet50 (pretrained=True)  seed=1
+manifesto : v2 ed5c1eb749ec9e72...  mask=None
+fit/val/test: 175,591 / 19,511 / 83,613 imgs  (11,805 / 2,268 / 6,044 sujeitos)
+batch 96 | steps/epoch 1,829 | epochs 30 | warmup 2 ep | early stop patience off
+retomando: epoca 21/30, best F1 0.9967 (epoca 20)
+val 21/30:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 21/30: train 0.0019/0.9995 | val loss 0.0148 acc 0.9968 f1 0.9968 err 0.3229% * | 175s 1005 img/s
+val 22/30:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 22/30: train 0.0016/0.9996 | val loss 0.0148 acc 0.9964 f1 0.9964 err 0.3639%  | 166s 1060 img/s
+val 23/30:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 23/30: train 0.0013/0.9997 | val loss 0.0142 acc 0.9967 f1 0.9967 err 0.3280%  | 165s 1062 img/s
+val 24/30:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 24/30: train 0.0011/0.9997 | val loss 0.0140 acc 0.9969 f1 0.9969 err 0.3075% * | 167s 1053 img/s
+val 25/30:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 25/30: train 0.0010/0.9998 | val loss 0.0139 acc 0.9967 f1 0.9967 err 0.3280%  | 174s 1010 img/s
+val 26/30:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 26/30: train 0.0009/0.9998 | val loss 0.0144 acc 0.9968 f1 0.9968 err 0.3229%  | 172s 1020 img/s
+val 27/30:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 27/30: train 0.0008/0.9998 | val loss 0.0142 acc 0.9968 f1 0.9968 err 0.3229%  | 166s 1057 img/s
+val 28/30:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 28/30: train 0.0008/0.9999 | val loss 0.0144 acc 0.9969 f1 0.9969 err 0.3126%  | 169s 1040 img/s
+val 29/30:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 29/30: train 0.0007/0.9999 | val loss 0.0146 acc 0.9968 f1 0.9968 err 0.3229%  | 169s 1042 img/s
+epoch 30/30:  72%|███████▏  | 1308/1829 [02:12<00:47, 10.89it/s, acc=0.9999, loss=0.0008, lr=5.28e-06]poda global por magnitude: alvo 95.00% -> obtida 95.0000% dos pesos podáveis (1.26 M não-nulos de 23.54 M)
+run       : eixo2b_prunefirst_resnet50_p95_s1
+arch      : resnet50 (pretrained=True)  seed=1
+manifesto : v2 ed5c1eb749ec9e72...  mask=None
+fit/val/test: 175,591 / 19,511 / 83,613 imgs  (11,805 / 2,268 / 6,044 sujeitos)
+batch 96 | steps/epoch 1,829 | epochs 30 | warmup 2 ep | early stop patience off
+retomando: epoca 30/30, best F1 0.9969 (epoca 24)
+val 30/30:   0%|          | 0/102 [00:00<?, ?it/s]
+epoca 30/30: train 0.0008/0.9999 | val loss 0.0148 acc 0.9967 f1 0.9967 err 0.3331%  | 169s 1040 img/s
+test:   0%|          | 0/436 [00:00<?, ?it/s]
+TESTE (best.pt, epoca 24): acc 0.9975  f1 0.9976  erro 0.2464% (206 / 83613)
+-> runs/eixo2b_prunefirst_resnet50_p95_s1/metrics.json
+resnet50: params 23.54 M (nao-nulos 1.26 M, esparsidade 94.6%) | MACs 4.11 G @ 224px | FP32 90.1 MiB, gzip 12.2 MiB [2.1s]
+-> runs/eixo2b_prunefirst_resnet50_p95_s1/cost.json
