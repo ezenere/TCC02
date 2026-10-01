@@ -9,7 +9,7 @@
 - A **poda de 90%** dos pesos não aumenta os erros, e a **quantização int8** deixa o modelo até **8 vezes mais rápido**.
 - A melhor combinação encontrada reconhece um gesto em **0,8 milésimo de segundo**, errando praticamente o mesmo que o modelo original.
 - Com **um quarto das fotos de treino** o modelo ainda erra só 0,29%. Abaixo disso a qualidade cai rápido.
-- As quatro etapas previstas estão concluídas. Falta a medição final de latência em GPU e as seeds 1 e 2 de um experimento extra de poda.
+- As quatro etapas previstas e os experimentos extras estão concluídos. Falta só a medição final de latência em GPU.
 
 **Como ler os números.** Como os modelos quase não erram, comparar "99,79% com 99,80%" não diz nada. Por isso contamos **erros**: "1,5×" quer dizer "uma vez e meia os erros do modelo original". Cada experimento roda com 3 seeds (0, 1 e 2); "±" é a variação entre elas.
 
@@ -143,7 +143,7 @@ Com um quarto das fotos, o erro sobe 41%. O ponto de virada fica entre 25% e 10%
 
 | Item | Situação |
 |---|---|
-| Seeds 1 e 2 da poda antes/depois do treino, em 95% e 98% | Rodando: 16 de 16 treinos concluídos, cerca de 0 horas restantes |
+| Seeds 1 e 2 da poda antes/depois do treino, em 95% e 98% | Concluído em 1º/10 (16 de 16) |
 | Medição final de velocidade na placa de vídeo | Pendente: precisa ser feita com a tela gráfica fechada. Os tempos de placa de vídeo deste relatório são preliminares |
 | Confirmar com o orientador dois ajustes feitos no caminho | Pendente: a retirada da parada antecipada e o critério de desempate quando duas versões têm praticamente a mesma velocidade |
 | Artigo e pôster | A partir de 1º de novembro |

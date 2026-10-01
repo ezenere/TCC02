@@ -76,8 +76,9 @@ def main() -> int:
     # keep the "in progress" line honest
     done = sum(len(re.findall(r"end   eixo2[bc]_\w+_s[12] rc=0", p.read_text())) for p in
                (ROOT / "runs").glob("queue_eixo2[bc]*.log"))
-    txt = re.sub(r"Rodando: \d+ de 16 treinos concluídos, cerca de \d+ horas restantes",
-                 f"Rodando: {done} de 16 treinos concluídos, cerca de {round((16 - done) * 100 / 60)} horas restantes", txt)
+    if done < 16:
+        txt = re.sub(r"(Concluído em 1º/10 \(16 de 16\)|Rodando: \d+ de 16 treinos concluídos, cerca de \d+ horas restantes)",
+                     f"Rodando: {done} de 16 treinos concluídos, cerca de {round((16 - done) * 100 / 60)} horas restantes", txt)
     MD.write_text(txt, encoding="utf-8")
     print(f"tabela: {sum(1 for l in out if l.startswith('| ') and not l.startswith('| Versão'))} linhas | fila extra: {done}/16")
     return 0

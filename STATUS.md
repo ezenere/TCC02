@@ -418,3 +418,18 @@ o desvio dessa coluna intermediária — podem esperar ou ser descartados sem mu
 **Ainda com o autor:** latência GPU em TTY (`make trt` reconstrói as engines antes); confirmação dos dois ajustes sinalizados.
 **Próximo bloco de GPU (após a fila, ~1 h):** Extra B — poda 90% + int8 no modelo treinado com 25% dos dados (seed 0): "a compressão degrada mais com menos dados?".
 Extra A (eixo 4 na DenseNet-121, ~10 h) fica **em espera** até decisão do autor.
+
+## 2026-10-01 (qui, 01:30) — eixo 2b fechado (3 seeds) e extra B
+
+**Eixo 2b/2c completos, 3 seeds, 0 falhas.** Razão de erro vs baseline:
+```
+                 depois + 5 ép.    antes + 30 ép.    depois + 30 ép.
+ResNet-50 95%    1,28 ± 0,07       1,19 ± 0,05       1,14 ± 0,07
+ResNet-50 98%    1,90 ± 0,17       1,40 ± 0,16       1,12 ± 0,02
+DenseNet 95%     1,19 ± 0,05       1,17 ± 0,08       1,10 ± 0,15
+DenseNet 98%     1,65 ± 0,05       1,54 ± 0,09       1,23 ± 0,09
+```
+**Extra B (ResNet-50 seed 0; `results/analise/interacao.csv`):** razão de erro vs denso do mesmo regime, 100% → 25% dos dados:
+int8 CPU 0,96 → 1,15; int8 TRT 0,98 → 1,03; poda 90% 1,07 → **1,69**; poda 90% + int8 CPU 1,14 → **2,03**; poda 90% + int8 TRT 1,10 → 1,81.
+A compressão custa muito mais quando o modelo viu menos dados (uma seed; a direção é clara, a magnitude pede mais seeds se houver GPU).
+**Pendente com o autor:** latência GPU em TTY; Extra A (eixo 4 na DenseNet) em espera. Nada meu roda na GPU.
