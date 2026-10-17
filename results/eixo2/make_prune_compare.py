@@ -1,5 +1,6 @@
-"""Eixo 2 vs 2b: prune AFTER training (+5-epoch fine-tuning) vs prune BEFORE training
-(ImageNet weights pruned, then the full 30-epoch recipe with fixed masks).
+"""Eixo 2 vs 2b vs 2c vs 2d: prune AFTER training (+5-epoch fine-tuning), prune BEFORE
+training (ImageNet weights pruned, then the full 30-epoch recipe with fixed masks), the
+LR-rewinding control (prune after, retrain 30 epochs) and prune WITHOUT any retraining.
 
     python results/eixo2/make_prune_compare.py
 
@@ -23,7 +24,8 @@ import pandas as pd
 ROOT = Path(__file__).resolve().parents[2]
 OUT = Path(__file__).resolve().parent
 LABEL = {"resnet50": "ResNet-50", "densenet121": "DenseNet-121"}
-PATS = {"depois (treino → poda → fine-tuning 5 ép.)": re.compile(r"eixo2_prune_(?P<arch>\w+?)_p(?P<pct>\d+)_s(?P<seed>\d+)$"),
+PATS = {"sem retreino (poda → avaliar)": re.compile(r"eixo2d_noft_(?P<arch>\w+?)_p(?P<pct>\d+)_s(?P<seed>\d+)$"),
+        "depois (treino → poda → fine-tuning 5 ép.)": re.compile(r"eixo2_prune_(?P<arch>\w+?)_p(?P<pct>\d+)_s(?P<seed>\d+)$"),
         "antes (poda ImageNet → treino 30 ép.)": re.compile(r"eixo2b_prunefirst_(?P<arch>\w+?)_p(?P<pct>\d+)_s(?P<seed>\d+)$"),
         "controle (treino → poda → 30 ép., LR rewinding)": re.compile(r"eixo2c_rewind_(?P<arch>\w+?)_p(?P<pct>\d+)_s(?P<seed>\d+)$")}
 
@@ -40,7 +42,9 @@ def collect() -> pd.DataFrame:
             if not g:
                 continue
             d = json.loads(m.read_text())
-            hist = pd.read_csv(m.parent / "metrics.csv")
+            # no metrics.csv for the no-retraining cells: zero epochs, zero GPU minutes
+            hist = pd.read_csv(m.parent / "metrics.csv") if (m.parent / "metrics.csv").exists() \
+                else pd.DataFrame({"epoch_time_s": []})
             b = base.get((g["arch"], int(g["seed"])), np.nan)
             rows.append({"method": method, "arch": g["arch"], "sparsity": int(g["pct"]), "seed": int(g["seed"]),
                          "run": m.parent.name, "acc": d["acc"], "f1_macro": d["f1_macro"], "error_rate": d["error_rate"],
@@ -69,9 +73,9 @@ def main() -> int:
             ax.errorbar(sub.sparsity, sub.ratio_mean, yerr=sub.ratio_std.fillna(0), fmt="-o", capsize=3, label=method)
         ax.axhline(1.0, color="gray", ls=":", lw=.8)
         ax.axhline(1.5, color="red", ls="--", lw=.8)
-        ax.set(title=LABEL.get(arch, arch), xlabel="esparsidade global (%)")
-        ax.grid(alpha=.3)
-    axes[0].set_ylabel("razão de erro vs baseline denso (mesma seed)")
+        ax.set(title=LABEL.get(arch, arch), xlabel="esparsidade global (%)", yscale="log")
+        ax.grid(alpha=.3, which="both")
+    axes[0].set_ylabel("razão de erro vs baseline denso (mesma seed, escala log)")
     axes[0].legend(fontsize=8, title="quando podar")
     fig.tight_layout()
     (OUT / "figures").mkdir(exist_ok=True)
@@ -81,13 +85,13 @@ def main() -> int:
     pd.set_option("display.width", 200)
     piv = s.pivot_table(index=["arch", "sparsity"], columns="method", values="ratio_mean").round(2)
     print(piv.to_string())
-    lines = ["| arquitetura | esparsidade | poda depois, 5 ép.: razão (erros) | poda antes, 30 ép.: razão (erros) | controle: poda depois, 30 ép. (erros) | min de GPU |", "|---|---|---|---|---|---|"]
+    lines = ["| arquitetura | esparsidade | sem retreino: razão (erros) | poda depois, 5 ép.: razão (erros) | poda antes, 30 ép.: razão (erros) | controle: poda depois, 30 ép. (erros) | min de GPU |", "|---|---|---|---|---|---|---|"]
     for (arch, sp), grp in s.groupby(["arch", "sparsity"]):
         cell = {r.method[:5]: r for r in grp.itertuples()}
-        fmt = lambda r: (f"{r.ratio_mean:.2f}" + (f" ± {r.ratio_std:.2f}" if pd.notna(r.ratio_std) else "") + f" ({r.errors})") if r is not None else "—"
+        fmt = lambda r: (f"{r.ratio_mean:.{0 if r.ratio_mean >= 10 else 2}f}" + (f" ± {r.ratio_std:.{0 if r.ratio_mean >= 10 else 2}f}" if pd.notna(r.ratio_std) else "") + f" ({r.errors})") if r is not None else "—"
         gm = lambda r: f"{r.gpu_min:.0f}" if r is not None else "—"
-        a, b, c = cell.get("depoi"), cell.get("antes"), cell.get("contr")
-        lines.append(f"| {LABEL.get(arch, arch)} | {sp}% | {fmt(a)} | {fmt(b)} | {fmt(c)} | {gm(a)} / {gm(b)} / {gm(c)} |")
+        z, a, b, c = cell.get("sem r"), cell.get("depoi"), cell.get("antes"), cell.get("contr")
+        lines.append(f"| {LABEL.get(arch, arch)} | {sp}% | {fmt(z)} | {fmt(a)} | {fmt(b)} | {fmt(c)} | {gm(z)} / {gm(a)} / {gm(b)} / {gm(c)} |")
     readme = OUT / "README.md"
     txt = readme.read_text()
     a, b = "<!-- eixo2:compare:start -->", "<!-- eixo2:compare:end -->"

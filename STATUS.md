@@ -433,3 +433,28 @@ DenseNet 98%     1,65 ± 0,05       1,54 ± 0,09       1,23 ± 0,09
 int8 CPU 0,96 → 1,15; int8 TRT 0,98 → 1,03; poda 90% 1,07 → **1,69**; poda 90% + int8 CPU 1,14 → **2,03**; poda 90% + int8 TRT 1,10 → 1,81.
 A compressão custa muito mais quando o modelo viu menos dados (uma seed; a direção é clara, a magnitude pede mais seeds se houver GPU).
 **Pendente com o autor:** latência GPU em TTY; Extra A (eixo 4 na DenseNet) em espera. Nada meu roda na GPU.
+
+## 2026-10-17 (sáb) — eixo 2d: poda sem retreino (30 células, ~25 min de GPU)
+
+**Pergunta:** quanto o fine-tuning recupera? Mesmas máscaras do eixo 2 (globais por magnitude, cabeça incluída) aplicadas ao `best.pt`
+do eixo 1 da mesma seed e avaliadas **direto no teste**, sem nenhuma época (`src/compress/prune_eval.py --all`; runs
+`runs/eixo2d_noft_<arch>_p<NN>_s<k>/`, com `metrics.json`, `cost.json`, `confusion_matrix.npy` e checkpoint podado). 0 falhas.
+
+Erros no teste (83.613 imgs) por seed e razão de erro vs baseline denso (177/165/178 ResNet, 160/167/167 DenseNet):
+```
+                     s0      s1      s2    razão (sem retreino)   depois + 5 ép.
+ResNet-50   50%     177     181     190    1,05 ± 0,05            0,97 ± 0,03
+ResNet-50   70%     326     377     328    1,99 ± 0,26            0,98 ± 0,02
+ResNet-50   90%   66388   77983   70815    415 ± 51               1,10 ± 0,03
+ResNet-50   95%   78755   76128   78760    450 ± 10               1,28 ± 0,07
+ResNet-50   98%   78853   78760   78761    455 ± 19               1,90 ± 0,17
+DenseNet    50%     161     162     177    1,01 ± 0,05            0,97 ± 0,06
+DenseNet    70%     217     215     205    1,29 ± 0,06            0,98 ± 0,05
+DenseNet    90%   76718   71898   66711    436 ± 40               1,03 ± 0,04
+DenseNet    95%   78695   78760   78951    479 ± 11               1,19 ± 0,05
+DenseNet    98%   79434   78873   78951    481 ± 14               1,65 ± 0,05
+```
+**Leitura:** 50% é gratuito sem retreino; 70% custa 2× (ResNet) / 1,3× (DenseNet); a 90% a rede quebra (14% de acurácia) e a 95/98%
+responde ao acaso (1/18). O fine-tuning de 5 épocas recupera tudo até 90% e quase tudo a 95% — acima de 50%, retreino é obrigatório.
+Integrado como 1ª coluna da tabela comparativa (`results/eixo2/make_prune_compare.py`, figura `prune_compare` agora em escala log),
+parágrafo em `results/eixo2/README.md` e procedimento em `docs/METODOLOGIA.md` § 2.1. GPU livre.

@@ -112,6 +112,17 @@ limiar global (esparsidade difere entre camadas); os pesos removidos são os de 
 magnitude; máscaras sobrevivem a passos do otimizador com momentum e weight decay;
 round-trip por checkpoint preserva máscaras e saídas.
 
+**Poda sem retreino (eixo 2d).** Para medir quanto o fine-tuning de fato recupera, cada nível de
+esparsidade é também avaliado **sem nenhuma época de treino** (`src/compress/prune_eval.py`): parte-se
+do mesmo `best.pt` do eixo 1 da mesma seed, calculam-se as mesmas máscaras globais por magnitude de 2.1
+(cabeça incluída), zeram-se os pesos e o modelo é avaliado diretamente no teste (manifesto v2, AMP fp16,
+`channels_last`, mesmo caminho de `src/eval.py`). Nenhum passo de otimizador é dado, de modo que a
+célula isola o efeito da remoção dos pesos do efeito do retreino: a diferença entre esta coluna e a de
+2.1 é a parcela de erro que as 5 épocas de fine-tuning recuperam. Mesmos níveis (50/70/90/95/98%),
+mesmas 3 seeds, mesma métrica (razão de erro vs o baseline denso da mesma seed); runs
+`runs/eixo2d_noft_<arch>_p<NN>_s<k>/`, com `metrics.json`, `cost.json` e o checkpoint podado no formato
+dos demais eixos. Custo: ~40 s de GPU por célula, contra ~15 min do fine-tuning e ~100 min de um treino completo.
+
 ### 2.1b Poda antes do treino (eixo 2b)
 
 **Pergunta.** A ordem importa? No protocolo de 2.1 a rede é treinada densa e depois podada, com um fine-tuning curto. A alternativa

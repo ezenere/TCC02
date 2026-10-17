@@ -33,20 +33,22 @@ o artefato comprimido, para ~21% em 90%. Poda estruturada, que reduziria MACs, �
 máscaras fixas. Mesma receita de otimização, mesmas seeds, mesma métrica. O custo de GPU por modelo podado é parecido quando se conta
 o treino denso de origem (≈ 100 min), mas "antes" precisa de um treino completo **por nível** de esparsidade, enquanto "depois"
 reaproveita um único treino denso para todos os níveis.
+**Sem retreino** (eixo 2d, `src/compress/prune_eval.py`): as mesmas máscaras de "depois" aplicadas ao `best.pt` do eixo 1 e avaliadas
+diretamente no teste, sem nenhuma época — a referência de quanto o fine-tuning recupera.
 
 <!-- eixo2:compare:start -->
-| arquitetura | esparsidade | poda depois, 5 ép.: razão (erros) | poda antes, 30 ép.: razão (erros) | controle: poda depois, 30 ép. (erros) | min de GPU |
-|---|---|---|---|---|---|
-| DenseNet-121 | 50% | 0.97 ± 0.06 (159, 168, 151) | 1.06 (170) | — | 17 / 99 / — |
-| DenseNet-121 | 70% | 0.98 ± 0.05 (158, 171, 156) | 1.07 (171) | — | 17 / 99 / — |
-| DenseNet-121 | 90% | 1.03 ± 0.04 (163, 178, 166) | 1.11 (178) | — | 17 / 101 / — |
-| DenseNet-121 | 95% | 1.19 ± 0.05 (193, 206, 190) | 1.17 ± 0.08 (202, 190, 186) | 1.10 ± 0.15 (204, 169, 171) | 17 / 103 / 102 |
-| DenseNet-121 | 98% | 1.65 ± 0.05 (262, 285, 269) | 1.54 ± 0.09 (263, 246, 251) | 1.23 ± 0.09 (213, 198, 194) | 17 / 100 / 105 |
-| ResNet-50 | 50% | 0.97 ± 0.03 (166, 164, 174) | 0.99 (176) | — | 14 / 81 / — |
-| ResNet-50 | 70% | 0.98 ± 0.02 (175, 163, 171) | 1.12 (199) | — | 14 / 81 / — |
-| ResNet-50 | 90% | 1.10 ± 0.03 (190, 187, 192) | 1.08 (191) | — | 14 / 85 / — |
-| ResNet-50 | 95% | 1.28 ± 0.07 (230, 221, 214) | 1.19 ± 0.05 (203, 206, 209) | 1.14 ± 0.07 (208, 197, 188) | 14 / 82 / 84 |
-| ResNet-50 | 98% | 1.90 ± 0.17 (323, 345, 316) | 1.40 ± 0.16 (241, 261, 225) | 1.12 ± 0.02 (194, 186, 202) | 14 / 82 / 85 |
+| arquitetura | esparsidade | sem retreino: razão (erros) | poda depois, 5 ép.: razão (erros) | poda antes, 30 ép.: razão (erros) | controle: poda depois, 30 ép. (erros) | min de GPU |
+|---|---|---|---|---|---|---|
+| DenseNet-121 | 50% | 1.01 ± 0.05 (161, 162, 177) | 0.97 ± 0.06 (159, 168, 151) | 1.06 (170) | — | 0 / 17 / 99 / — |
+| DenseNet-121 | 70% | 1.29 ± 0.06 (217, 215, 205) | 0.98 ± 0.05 (158, 171, 156) | 1.07 (171) | — | 0 / 17 / 99 / — |
+| DenseNet-121 | 90% | 436 ± 40 (76718, 71898, 66711) | 1.03 ± 0.04 (163, 178, 166) | 1.11 (178) | — | 0 / 17 / 101 / — |
+| DenseNet-121 | 95% | 479 ± 11 (78695, 78760, 78951) | 1.19 ± 0.05 (193, 206, 190) | 1.17 ± 0.08 (202, 190, 186) | 1.10 ± 0.15 (204, 169, 171) | 0 / 17 / 103 / 102 |
+| DenseNet-121 | 98% | 481 ± 14 (79434, 78873, 78951) | 1.65 ± 0.05 (262, 285, 269) | 1.54 ± 0.09 (263, 246, 251) | 1.23 ± 0.09 (213, 198, 194) | 0 / 17 / 100 / 105 |
+| ResNet-50 | 50% | 1.05 ± 0.05 (177, 181, 190) | 0.97 ± 0.03 (166, 164, 174) | 0.99 (176) | — | 0 / 14 / 81 / — |
+| ResNet-50 | 70% | 1.99 ± 0.26 (326, 377, 328) | 0.98 ± 0.02 (175, 163, 171) | 1.12 (199) | — | 0 / 14 / 81 / — |
+| ResNet-50 | 90% | 415 ± 51 (66388, 77983, 70815) | 1.10 ± 0.03 (190, 187, 192) | 1.08 (191) | — | 0 / 14 / 85 / — |
+| ResNet-50 | 95% | 450 ± 10 (78755, 76128, 78760) | 1.28 ± 0.07 (230, 221, 214) | 1.19 ± 0.05 (203, 206, 209) | 1.14 ± 0.07 (208, 197, 188) | 0 / 14 / 82 / 84 |
+| ResNet-50 | 98% | 455 ± 19 (78853, 78760, 78761) | 1.90 ± 0.17 (323, 345, 316) | 1.40 ± 0.16 (241, 261, 225) | 1.12 ± 0.02 (194, 186, 202) | 0 / 14 / 82 / 85 |
 <!-- eixo2:compare:end -->
 
 Figura: `figures/prune_compare.{pdf,png}` (`make_prune_compare.py`).
@@ -57,6 +59,16 @@ os dois: a 98%, o controle dá **1,12 ± 0,02× na ResNet-50 e 1,23 ± 0,09× na
 muito melhor que o fine-tuning de 5 épocas (1,90 ± 0,17× / 1,65 ± 0,05×). Ou seja: **o que decide é o orçamento de retreino, não a ordem**; com orçamento igual, podar depois
 do treino é igual ou melhor. O joelho de 98% reportado acima é uma propriedade do protocolo de 5 épocas, não das redes. A 95% os três
 métodos ficam dentro do ruído entre seeds (1,10–1,28).
+
+**Leitura (sem retreino, 3 seeds em todos os níveis).** Sem nenhuma época de treino, a poda de **50%** é gratuita nas duas redes
+(1,05 ± 0,05× / 1,01 ± 0,05×: metade dos pesos de menor magnitude não contribui para a decisão); a **70%** a rede ainda funciona mas
+já paga — 1,99 ± 0,26× na ResNet-50 e 1,29 ± 0,06× na DenseNet-121 — e a **90%** ela quebra: 14% de acurácia nas duas (razão ≈ 415× / 436×,
+com variação grande entre seeds), e a 95% e 98% o modelo responde ao acaso (5–7% de acurácia, 1/18 = 5,6%). O fine-tuning de 5 épocas
+recupera **tudo** até 90% (1,10× / 1,03×) e quase tudo a 95% (1,28× / 1,19×): o que a poda remove sem retreino é a calibração conjunta dos
+pesos restantes com o BatchNorm e a cabeça, não a capacidade da sub-rede — bastam 5 épocas a lr 0,1× para reaprendê-la. Em suma, a
+cada nível acima de 50% o retreino é obrigatório, e o "joelho" de 98% das colunas anteriores é o ponto em que nem 5 épocas bastam.
+A DenseNet-121 é um pouco mais robusta à poda crua que a ResNet-50 (70%: 1,29× contra 1,99×), coerente com a vantagem leve que
+mantém após o fine-tuning. Custo: ~40 s de GPU por célula.
 
 ## Quantização int8 pós-treinamento
 
