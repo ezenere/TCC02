@@ -19,9 +19,10 @@ Cronologia do que foi implementado, executado e decidido, com incidentes e corre
 | 22/09 | eixo 2c fechado; eixo 2b seeds 1–2 iniciado e pausado a pedido do autor | ~4 h |
 | 23–29/09 | pausa | 0 |
 | 30/09–01/10 | retomada; fila morta por limite de tempo e relançada desacoplada; eixo 2b fechado; extra B; release v0.5 | ~8,7 h |
-| 02–17/10 | sem GPU; pendências com o orientador; redação desta documentação | 0 |
+| 02–16/10 | sem GPU; pendências com o orientador | 0 |
+| 17/10 | eixo 2d: poda sem retreino (30 avaliações, 0 épocas); redação desta documentação | ~25 min |
 
-Total aproximado de GPU em treinos e engines: **≈ 83 h**, soma dos logs de fila. Runs de treino: 6 (eixo 1) + 30 (eixo 2) + 16 (eixo 2b) + 12 (eixo 2c) + 18 (eixo 4) + 1 (extra B) + 1 (controle de rótulos embaralhados) + 1 (baseline de 5 épocas) = 85, todos com 0 falhas de execução (as interrupções foram externas e retomadas de `last.pt`).
+Total aproximado de GPU em treinos, engines e avaliações: **≈ 83,5 h**, soma dos logs de fila (≈ 83 h até 01/10 + ~25 min do eixo 2d em 17/10). Runs de treino: 6 (eixo 1) + 30 (eixo 2) + 16 (eixo 2b) + 12 (eixo 2c) + 18 (eixo 4) + 1 (extra B) + 1 (controle de rótulos embaralhados) + 1 (baseline de 5 épocas) = 85, todos com 0 falhas de execução (as interrupções foram externas e retomadas de `last.pt`). Além deles, 30 células de avaliação sem treino (eixo 2d, poda sem retreino), também com 0 falhas.
 
 ## Dia a dia
 
@@ -138,9 +139,14 @@ Pausa. Sem execução.
 - 00:34–00:48 **Extra B** (ResNet-50 seed 0, 25% dos dados): poda 90% custa 1,69× (vs 1,07× com 100%), poda + int8 CPU 2,03× (vs 1,14×), int8 sozinha 1,15× (vs 0,96×). `results/analise/interacao.csv`.
 - Relatório e diário atualizados (`61fcd3a`). GPU livre.
 
-### 2026-10-02 a 2026-10-17
+### 2026-10-02 a 2026-10-16
 
-Sem execução de GPU. Pendências com o autor e o orientador: (1) latência GPU em TTY, após `make trt` reconstruir as engines; (2) confirmar a tolerância de empate de 5% na decisão do eixo 3; (3) confirmar a retirada da parada antecipada no eixo 4; (4) decidir o extra A. 17/10: redação desta documentação de referência (`docs/artigo/`).
+Sem execução de GPU. Pendências com o autor e o orientador: (1) latência GPU em TTY, após `make trt` reconstruir as engines; (2) confirmar a tolerância de empate de 5% na decisão do eixo 3; (3) confirmar a retirada da parada antecipada no eixo 4; (4) decidir o extra A.
+
+### 2026-10-17 (sáb): eixo 2d (poda sem retreino) e documentação de referência
+
+- Redação desta documentação de referência (`docs/artigo/`, `28834e7`).
+- **Eixo 2d: poda sem retreino.** Novo `src/compress/prune_eval.py`: aplica as máscaras globais por magnitude do eixo 2 (cabeça incluída) ao `best.pt` do eixo 1 da mesma seed e avalia direto no teste, sem nenhuma época. **30 avaliações** (2 arquiteturas × 5 níveis × 3 seeds), ~40 s cada, **~25 min de GPU**, 0 falhas; runs `runs/eixo2d_noft_*` com `metrics.json`, `run_meta.json`, `confusion_matrix.npy`, `cost.json` e checkpoint podado. Resultado: 50% é gratuito sem retreino (1,05× / 1,01×); 70% custa 1,99× (ResNet-50) / 1,29× (DenseNet-121); a 90% a rede quebra (~14% de acurácia) e a 95/98% responde ao acaso (1/18). O fine-tuning de 5 épocas recupera tudo até 90%: acima de 50%, o retreino é obrigatório. Integrado como coluna da tabela comparativa (`make_prune_compare.py`, figura `prune_compare` em escala log), `results/eixo2/README.md`, `docs/METODOLOGIA.md` § 2.1 e diário (`b66bdc5`). GPU livre.
 
 ## Incidentes e correções (resumo)
 

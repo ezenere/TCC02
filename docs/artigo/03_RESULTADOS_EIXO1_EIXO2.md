@@ -80,49 +80,78 @@ Fonte: `results/eixo2/pruning_summary.csv`. O gzip do `state_dict` é o único c
 
 **Limitação registrada: poda estruturada em DenseNet.** A poda estruturada (remoção de filtros inteiros, a que reduz MACs e latência) é direta na ResNet, mas na DenseNet cada camada concatena as saídas de todas as anteriores do bloco; remover um canal altera a entrada de todas as seguintes e das transições. Por isso o protocolo usa poda não-estruturada nas duas, comparável entre elas. É uma constatação a reportar, não uma falha de implementação.
 
-## 3. Eixo 2b e 2c: podar antes ou depois do treino? Três protocolos
+## 3. Eixo 2b, 2c e 2d: podar antes, depois ou sem retreino? Quatro protocolos
 
-Pedido do orientador (19/09/2026): testar a poda **antes** do treino. Os três protocolos comparados:
+Pedido do orientador (19/09/2026): testar a poda **antes** do treino. Três protocolos com retreino foram comparados; em 17/10/2026 juntou-se um quarto, **sem retreino**, que serve de referência de quanto o fine-tuning recupera:
 
 | protocolo | ponto de partida | poda calculada sobre | treino após a poda | cabeça | configs | runs |
 |---|---|---|---|---|---|---|
 | **Eixo 2: depois + 5 ép.** | `best.pt` do eixo 1 (treinado) | pesos treinados nos gestos | 5 épocas, lr 0,00375, sem warmup | podável | `prune_<arch>.yaml` | `eixo2_prune_*` |
 | **Eixo 2b: antes + 30 ép.** | pesos ImageNet | pesos ImageNet | 30 épocas, receita completa do eixo 1 | **densa** (`exclude_head: true`; é aleatória, a magnitude não carrega informação; 0,15% dos parâmetros da ResNet-50) | `prune_first_<arch>.yaml` | `eixo2b_prunefirst_*` |
 | **Eixo 2c: depois + 30 ép. (controle, LR rewinding)** | `best.pt` do eixo 1 | pesos treinados nos gestos | 30 épocas, receita completa (Renda et al., 2020) | podável | `prune_rewind_<arch>.yaml` | `eixo2c_rewind_*` |
+| **Eixo 2d: sem retreino (podar e avaliar)** | `best.pt` do eixo 1 | pesos treinados nos gestos | **nenhum** (0 épocas; avaliação imediata no teste) | podável | (sem config; `src/compress/prune_eval.py --all`) | `eixo2d_noft_*` |
 
-Por que o controle existe: a comparação 2 × 2b confunde a **ordem** da poda com o **orçamento** de retreino da rede esparsa (5 × 30 épocas). O 2c poda o modelo treinado e dá a ele a agenda completa; isola os dois fatores. Em todos, máscaras fixas reaplicadas a cada passo, mesma métrica, mesmas seeds.
+Por que o controle existe: a comparação 2 × 2b confunde a **ordem** da poda com o **orçamento** de retreino da rede esparsa (5 × 30 épocas). O 2c poda o modelo treinado e dá a ele a agenda completa; isola os dois fatores. O 2d responde à pergunta anterior a todas: quanto do erro introduzido pela poda o retreino de fato recupera. Nos três protocolos com retreino, máscaras fixas reaplicadas a cada passo; em todos, mesma métrica, mesmas seeds.
 
-### 3.1 Tabela completa (razão de erro; erros por seed entre parênteses)
+### 3.1 Eixo 2d: poda sem retreino (podar e avaliar)
 
-| arquitetura | esparsidade | depois + 5 ép. (eixo 2) | antes + 30 ép. (eixo 2b) | depois + 30 ép. (eixo 2c) |
+**Procedimento** (`src/compress/prune_eval.py --all`, 17/10/2026). Para cada arquitetura, seed e nível: carrega-se o `best.pt` do eixo 1 da mesma seed, calculam-se as **mesmas máscaras globais por magnitude** da seção 2 (um limiar de |w| sobre todos os `Conv2d` e `Linear`, **cabeça incluída**; biases e BatchNorm excluídos), zeram-se os pesos e o modelo é avaliado **imediatamente no teste** (manifesto v2, AMP fp16, `channels_last`, mesmo caminho de `src/eval.py`). Nenhum passo de otimizador: **0 épocas**. Runs `runs/eixo2d_noft_<arch>_p<NN>_s<k>/`, com `metrics.json`, `run_meta.json`, `confusion_matrix.npy`, `cost.json` e o checkpoint podado no formato dos demais eixos. 30 células (2 arquiteturas × 5 níveis × 3 seeds), 0 falhas, ~40 s de GPU por célula (~25 min no total).
+
+| esparsidade | erros R (s0, s1, s2) | acurácia R (%) | razão R | erros D (s0, s1, s2) | acurácia D (%) | razão D |
+|---|---|---|---|---|---|---|
+| baseline | 177, 165, 178 | 99,79 | 1,00 | 160, 167, 167 | 99,80 | 1,00 |
+| 50% | 177, 181, 190 | 99,78 | **1,05 ± 0,05** | 161, 162, 177 | 99,80 | **1,01 ± 0,05** |
+| 70% | 326, 377, 328 | 99,59 | **1,99 ± 0,26** | 217, 215, 205 | 99,75 | **1,29 ± 0,06** |
+| 90% | 66.388, 77.983, 70.815 | 14,2 (6,7–20,6) | 415 ± 51 | 76.718, 71.898, 66.711 | 14,2 (8,2–20,2) | 436 ± 40 |
+| 95% | 78.755, 76.128, 78.760 | 6,9 (5,8–9,0) | 450 ± 10 | 78.695, 78.760, 78.951 | 5,8 (5,6–5,9) | 479 ± 11 |
+| 98% | 78.853, 78.760, 78.761 | 5,8 (5,7–5,8) | 455 ± 19 | 79.434, 78.873, 78.951 | 5,4 (5,0–5,7) | 481 ± 14 |
+
+R = ResNet-50, D = DenseNet-121. Razão de erro vs o baseline denso da mesma seed (177/165/178 e 160/167/167 erros em 83.613 imagens), média ± desvio de 3 seeds; acurácia média das 3 seeds (faixa entre parênteses onde a variação é grande). Acaso para 18 classes = 1/18 = 5,6%. Fonte: `results/eixo2/prune_compare_runs.csv` e `prune_compare_summary.csv` (método `sem retreino (poda → avaliar)`).
+
+**Leitura.** Sem nenhuma época de treino, a poda de **50% é gratuita** nas duas redes (1,05× / 1,01×, dentro do ruído entre seeds): metade dos pesos de menor magnitude não contribui para a decisão. A **70%** a rede ainda funciona mas já paga: **1,99× na ResNet-50 e 1,29× na DenseNet-121**. A **90% a rede quebra** (~14% de acurácia nas duas, com variação grande entre seeds: 6,7–20,6%), e a **95% e 98% o modelo responde ao acaso** (5–9% de acurácia; 1/18 = 5,6%). Posto ao lado da seção 2.1: o fine-tuning de 5 épocas **recupera tudo até 90%** (1,10× / 1,03×) e quase tudo a 95% (1,28× / 1,19×). O que a poda remove sem retreino é a calibração conjunta dos pesos restantes com o BatchNorm e a cabeça, não a capacidade da sub-rede: 5 épocas a lr 0,1× bastam para reaprendê-la. Em suma, **acima de 50% o retreino é obrigatório**, e o "joelho" de 98% da seção 2 é o ponto em que nem 5 épocas bastam. A DenseNet-121 é um pouco mais robusta à poda crua que a ResNet-50 (70%: 1,29× contra 1,99×; 50%: 1,01× contra 1,05×), coerente com a vantagem leve que mantém após o fine-tuning.
+
+### 3.2 Tabela completa (razão de erro; erros por seed entre parênteses)
+
+| arquitetura | esparsidade | sem retreino (eixo 2d) | depois + 5 ép. (eixo 2) | antes + 30 ép. (eixo 2b) | depois + 30 ép. (eixo 2c) |
+|---|---|---|---|---|---|
+| ResNet-50 | 50% | 1,05 ± 0,05 (177, 181, 190) | 0,97 ± 0,03 (166, 164, 174) | 0,99 (176) *1 seed* | — |
+| ResNet-50 | 70% | 1,99 ± 0,26 (326, 377, 328) | 0,98 ± 0,02 (175, 163, 171) | 1,12 (199) *1 seed* | — |
+| ResNet-50 | 90% | 415 ± 51 (66.388, 77.983, 70.815) | 1,10 ± 0,03 (190, 187, 192) | 1,08 (191) *1 seed* | — |
+| ResNet-50 | 95% | 450 ± 10 (78.755, 76.128, 78.760) | 1,28 ± 0,07 (230, 221, 214) | 1,19 ± 0,05 (203, 206, 209) | 1,14 ± 0,07 (208, 197, 188) |
+| ResNet-50 | 98% | 455 ± 19 (78.853, 78.760, 78.761) | 1,90 ± 0,17 (323, 345, 316) | 1,40 ± 0,16 (241, 261, 225) | **1,12 ± 0,02** (194, 186, 202) |
+| DenseNet-121 | 50% | 1,01 ± 0,05 (161, 162, 177) | 0,97 ± 0,06 (159, 168, 151) | 1,06 (170) *1 seed* | — |
+| DenseNet-121 | 70% | 1,29 ± 0,06 (217, 215, 205) | 0,98 ± 0,05 (158, 171, 156) | 1,07 (171) *1 seed* | — |
+| DenseNet-121 | 90% | 436 ± 40 (76.718, 71.898, 66.711) | 1,03 ± 0,04 (163, 178, 166) | 1,11 (178) *1 seed* | — |
+| DenseNet-121 | 95% | 479 ± 11 (78.695, 78.760, 78.951) | 1,19 ± 0,05 (193, 206, 190) | 1,17 ± 0,08 (202, 190, 186) | 1,10 ± 0,15 (204, 169, 171) |
+| DenseNet-121 | 98% | 481 ± 14 (79.434, 78.873, 78.951) | 1,65 ± 0,05 (262, 285, 269) | 1,54 ± 0,09 (263, 246, 251) | **1,23 ± 0,09** (213, 198, 194) |
+
+Fonte: `results/eixo2/prune_compare_summary.csv`, `results/eixo2/prune_compare_runs.csv`. Figura: `results/eixo2/figures/prune_compare` (eixo da razão em escala log, por causa da coluna sem retreino).
+
+### 3.3 Custo de GPU por modelo podado
+
+| arquitetura | sem retreino | depois + 5 ép. | antes + 30 ép. | depois + 30 ép. |
 |---|---|---|---|---|
-| ResNet-50 | 50% | 0,97 ± 0,03 (166, 164, 174) | 0,99 (176) *1 seed* | — |
-| ResNet-50 | 70% | 0,98 ± 0,02 (175, 163, 171) | 1,12 (199) *1 seed* | — |
-| ResNet-50 | 90% | 1,10 ± 0,03 (190, 187, 192) | 1,08 (191) *1 seed* | — |
-| ResNet-50 | 95% | 1,28 ± 0,07 (230, 221, 214) | 1,19 ± 0,05 (203, 206, 209) | 1,14 ± 0,07 (208, 197, 188) |
-| ResNet-50 | 98% | 1,90 ± 0,17 (323, 345, 316) | 1,40 ± 0,16 (241, 261, 225) | **1,12 ± 0,02** (194, 186, 202) |
-| DenseNet-121 | 50% | 0,97 ± 0,06 (159, 168, 151) | 1,06 (170) *1 seed* | — |
-| DenseNet-121 | 70% | 0,98 ± 0,05 (158, 171, 156) | 1,07 (171) *1 seed* | — |
-| DenseNet-121 | 90% | 1,03 ± 0,04 (163, 178, 166) | 1,11 (178) *1 seed* | — |
-| DenseNet-121 | 95% | 1,19 ± 0,05 (193, 206, 190) | 1,17 ± 0,08 (202, 190, 186) | 1,10 ± 0,15 (204, 169, 171) |
-| DenseNet-121 | 98% | 1,65 ± 0,05 (262, 285, 269) | 1,54 ± 0,09 (263, 246, 251) | **1,23 ± 0,09** (213, 198, 194) |
+| ResNet-50 | ~40 s (só avaliação; + 86 min do treino denso, reaproveitado) | 14 min (+ 86 min do treino denso, reaproveitado para todos os níveis) | 81–85 min por nível | 84–85 min por nível (+ treino denso) |
+| DenseNet-121 | ~35 s (+ 107 min do denso) | 17 min (+ 107 min do denso) | 99–105 min por nível | 102–105 min por nível (+ denso) |
 
-Fonte: `results/eixo2/prune_compare_summary.csv`, `results/eixo2/prune_compare_runs.csv`. Figura: `results/eixo2/figures/prune_compare`.
+Fonte: coluna `gpu_min` de `results/eixo2/prune_compare_summary.csv` (0 para o eixo 2d, que não treina) e `runs/queue_eixo2d.log` (tempo de avaliação por célula). "Antes" exige um treino completo por nível de esparsidade; "depois" reaproveita um único treino denso.
 
-### 3.2 Custo de GPU por modelo podado
+### 3.4 Conclusão: os quatro protocolos lado a lado
 
-| arquitetura | depois + 5 ép. | antes + 30 ép. | depois + 30 ép. |
-|---|---|---|---|
-| ResNet-50 | 14 min (+ 86 min do treino denso, reaproveitado para todos os níveis) | 81–85 min por nível | 84–85 min por nível (+ treino denso) |
-| DenseNet-121 | 17 min (+ 107 min do denso) | 99–105 min por nível | 102–105 min por nível (+ denso) |
+| arquitetura | esparsidade | sem retreino (2d) | depois + 5 ép. (2) | antes + 30 ép. (2b) | depois + 30 ép. (2c) |
+|---|---|---|---|---|---|
+| ResNet-50 | 90% | 415 ± 51 (acurácia 14%) | 1,10 ± 0,03 | 1,08 *(1 seed)* | — |
+| ResNet-50 | 95% | 450 ± 10 (acaso) | 1,28 ± 0,07 | 1,19 ± 0,05 | **1,14 ± 0,07** |
+| ResNet-50 | 98% | 455 ± 19 (acaso) | 1,90 ± 0,17 | 1,40 ± 0,16 | **1,12 ± 0,02** |
+| DenseNet-121 | 90% | 436 ± 40 (acurácia 14%) | 1,03 ± 0,04 | 1,11 *(1 seed)* | — |
+| DenseNet-121 | 95% | 479 ± 11 (acaso) | 1,19 ± 0,05 | 1,17 ± 0,08 | **1,10 ± 0,15** |
+| DenseNet-121 | 98% | 481 ± 14 (acaso) | 1,65 ± 0,05 | 1,54 ± 0,09 | **1,23 ± 0,09** |
 
-Fonte: coluna `gpu_min` de `results/eixo2/prune_compare_summary.csv`. "Antes" exige um treino completo por nível de esparsidade; "depois" reaproveita um único treino denso.
+Razão de erro vs baseline denso da mesma seed; o eixo 2c não foi executado em 90% (nível em que o fine-tuning de 5 épocas já fica dentro do ruído).
 
-### 3.3 Conclusão
+**Sem retreino, a poda acima de 50% não é utilizável; com retreino, o que decide é o orçamento, não a ordem da poda.** Em 90% a rede crua responde com ~14% de acurácia e 5 épocas de fine-tuning a devolvem ao erro do baseline (1,10× / 1,03×). A 98%, retreinar 30 épocas depois da poda dá 1,12 ± 0,02× (ResNet-50) e 1,23 ± 0,09× (DenseNet-121): o joelho desaparece nas duas. Podar antes do treino fica no meio (1,40 ± 0,16× / 1,54 ± 0,09×), e o fine-tuning de 5 épocas é o pior dos protocolos com retreino (1,90× / 1,65×). Com orçamento igual, podar depois do treino é igual ou melhor que podar antes. A 95% os três métodos com retreino ficam dentro do ruído entre seeds (1,10–1,28). **O "joelho em 98%" do eixo 2 é uma propriedade do protocolo de 5 épocas, não das redes.** Na seed 0 isolada, a ResNet-50 podada antes parecia ganhar nas esparsidades extremas (98%: 1,36× vs 1,90×); com 3 seeds e o controle, o efeito ficou explicado pelo orçamento. A DenseNet-121 é um pouco mais robusta que a ResNet-50 à poda crua (70%: 1,29× vs 1,99×) e ao fine-tuning curto (98%: 1,65× vs 1,90×), mas um pouco pior nos protocolos de 30 épocas (98%: 1,54× vs 1,40× antes; 1,23× vs 1,12× depois).
 
-**O que decide é o orçamento de retreino, não a ordem da poda.** A 98%, retreinar 30 épocas depois da poda dá 1,12 ± 0,02× (ResNet-50) e 1,23 ± 0,09× (DenseNet-121): o joelho desaparece nas duas. Podar antes do treino fica no meio (1,40 ± 0,16× / 1,54 ± 0,09×), e o fine-tuning de 5 épocas é o pior (1,90× / 1,65×). Com orçamento igual, podar depois do treino é igual ou melhor que podar antes. A 95% os três métodos ficam dentro do ruído entre seeds (1,10–1,28). **O "joelho em 98%" do eixo 2 é uma propriedade do protocolo de 5 épocas, não das redes.** Na seed 0 isolada, a ResNet-50 podada antes parecia ganhar nas esparsidades extremas (98%: 1,36× vs 1,90×); com 3 seeds e o controle, o efeito ficou explicado pelo orçamento.
-
-Status das seeds: 95% e 98% têm 3 seeds nos três protocolos (eixo 2b: 10 runs da seed 0 em 20/09, seeds 1–2 de 22/09 a 01/10; eixo 2c: 12 runs em 21–22/09). Os níveis 50/70/90% do eixo 2b têm só a seed 0.
+Status das seeds: 95% e 98% têm 3 seeds nos três protocolos com retreino (eixo 2b: 10 runs da seed 0 em 20/09, seeds 1–2 de 22/09 a 01/10; eixo 2c: 12 runs em 21–22/09). Os níveis 50/70/90% do eixo 2b têm só a seed 0. O eixo 2d tem 3 seeds em todos os cinco níveis (30 células em 17/10).
 
 ## 4. Eixo 2: Quantização int8 pós-treinamento (PTQ)
 
@@ -193,13 +222,14 @@ Fonte: `runs/eixo1_<arch>_s0/trt/build_int8.json` (`EngineInspector`). Para comp
 
 ## 5. Achados do eixo 2 a sustentar no texto
 
-1. **90% dos pesos são dispensáveis** nas duas redes com fine-tuning de 5 épocas; o joelho de 98% é do orçamento curto (seção 3.3).
-2. **Poda não-estruturada não acelera.** Kernels densos calculam os zeros: latência CPU dos podados = baseline (ResNet 10,9–11,4 ms vs 10,7 ms; DenseNet 15,8–16,5 vs 16,6 ms, 16 threads), MACs inalterados. O que cai é o artefato comprimido (21% do original a 90%) e os parâmetros efetivos. Detalhes no documento 04.
-3. **A int8 é gratuita para a ResNet-50 e custa à DenseNet-121**: 24% a mais de erro em CPU, 7% no TensorRT.
-4. **A engine int8 da DenseNet-121 é mais lenta que a FP16 no TensorRT** (3,17 vs 2,76 ms, lote 1, preliminar; na avaliação com dataloader 1.102 vs 3.198 img/s). Causa: 399 das 1.497 camadas ficam em float, e as conversões Q/DQ em torno das concatenações custam mais do que os kernels int8 economizam. Na ResNet-50 a int8 é 1,2× mais rápida que a FP16 (0,80 vs 0,94 ms).
-5. **A calibração da int8 é um hiperparâmetro** e precisa ser escolhida em validação com mais de uma amostra (seção 4.2).
-6. **Poda e int8 compõem de forma aproximadamente aditiva** na ResNet-50 (90%: 1,07× → 1,14× CPU / 1,10× TensorRT). Na DenseNet-121 a int8 de CPU domina e 95% + int8 CPU sai do orçamento de 1,5× (1,58×). Tabela no documento 04, seção 1.
-7. **Custo teórico e real divergem.** A DenseNet tem 30% menos MACs e 3,4× menos parâmetros, mas é mais lenta em todos os runtimes medidos.
+1. **90% dos pesos são dispensáveis** nas duas redes com fine-tuning de 5 épocas; o joelho de 98% é do orçamento curto (seção 3.4).
+2. **Sem retreino, só a poda de 50% é gratuita** (1,05× / 1,01×). A 70% o erro já dobra na ResNet-50 (1,99×; DenseNet-121 1,29×), a 90% a rede quebra (~14% de acurácia) e a 95/98% responde ao acaso (1/18). As mesmas máscaras com 5 épocas de fine-tuning voltam a 1,10× / 1,03× em 90%: o retreino recupera a calibração conjunta dos pesos restantes, não a capacidade da sub-rede, que a poda preserva. Acima de 50%, retreinar é obrigatório (seção 3.1).
+3. **Poda não-estruturada não acelera.** Kernels densos calculam os zeros: latência CPU dos podados = baseline (ResNet 10,9–11,4 ms vs 10,7 ms; DenseNet 15,8–16,5 vs 16,6 ms, 16 threads), MACs inalterados. O que cai é o artefato comprimido (21% do original a 90%) e os parâmetros efetivos. Detalhes no documento 04.
+4. **A int8 é gratuita para a ResNet-50 e custa à DenseNet-121**: 24% a mais de erro em CPU, 7% no TensorRT.
+5. **A engine int8 da DenseNet-121 é mais lenta que a FP16 no TensorRT** (3,17 vs 2,76 ms, lote 1, preliminar; na avaliação com dataloader 1.102 vs 3.198 img/s). Causa: 399 das 1.497 camadas ficam em float, e as conversões Q/DQ em torno das concatenações custam mais do que os kernels int8 economizam. Na ResNet-50 a int8 é 1,2× mais rápida que a FP16 (0,80 vs 0,94 ms).
+6. **A calibração da int8 é um hiperparâmetro** e precisa ser escolhida em validação com mais de uma amostra (seção 4.2).
+7. **Poda e int8 compõem de forma aproximadamente aditiva** na ResNet-50 (90%: 1,07× → 1,14× CPU / 1,10× TensorRT). Na DenseNet-121 a int8 de CPU domina e 95% + int8 CPU sai do orçamento de 1,5× (1,58×). Tabela no documento 04, seção 1.
+8. **Custo teórico e real divergem.** A DenseNet tem 30% menos MACs e 3,4× menos parâmetros, mas é mais lenta em todos os runtimes medidos.
 
 ## 6. Reprodução
 
@@ -208,6 +238,7 @@ scripts/queue.sh eixo1                                           # 6 runs, ~9,7 
 scripts/queue_prune.sh "0 1 2" "0.5 0.7 0.9 0.95 0.98"            # 30 runs, ~8,5 h
 scripts/queue_prune_first.sh "0 1 2" "0.95 0.98"                  # eixo 2b
 scripts/queue_rewind.sh "0 1 2" "0.95 0.98"                       # eixo 2c
+python src/compress/prune_eval.py --all                           # eixo 2d: 30 células, ~25 min
 python src/compress/quantize_cpu.py --checkpoint runs/eixo1_<arch>_s<k>/checkpoints/best.pt --threads 8
 scripts/queue_trt.sh "runs/eixo1_<arch>_s<k>" "fp32 fp16 int8"    # ONNX -> Q/DQ -> engines -> teste
 scripts/calib_sweep.sh                                            # results/eixo2/calib_sweep.csv
