@@ -122,19 +122,18 @@ Duas redes com conectividades opostas, treinadas de forma independente, falham n
 ## 3. Limitações
 
 1. **Poda não-estruturada não acelera.** O ganho é só de parâmetros efetivos e artefato comprimido; MACs e latência ficam iguais ao baseline em CPU e GPU densos. A poda estruturada, que reduziria MACs, não foi aplicada porque na DenseNet as concatenações exigem propagação de índices por todo o bloco denso; a comparação entre arquiteturas ficaria assimétrica.
-2. **Latência GPU preliminar.** Medida com a sessão gráfica aberta (campo `note` em cada JSON). A medição definitiva em TTY, após reconstruir as engines (`make trt`), está pendente. A decisão do eixo 3 depende de diferenças de latência de 0,9% a 15% entre finalistas: pode trocar as duas primeiras posições, não a arquitetura nem a precisão.
-3. **Extra B com uma seed** (ResNet-50, seed 0, 25% dos dados). A direção do efeito é clara (1,69× e 2,03× contra 1,07× e 1,14×); a magnitude pede mais seeds.
-4. **Eixo 2b em 50/70/90% com uma seed.** Só 95% e 98% têm 3 seeds nos três protocolos com retreino (eixo 2c não foi executado em 50/70/90%). A conclusão (orçamento de retreino decide) está sustentada em 95/98%, onde a diferença importa. O eixo 2d (poda sem retreino) tem 3 seeds em todos os cinco níveis; como não treina, cada célula custa ~40 s.
-5. **Poda + int8 com uma seed** (seed 0) em 90% e 95%.
-6. **Dataset com ruído de rótulo.** O piso de ~0,2% é em boa parte rótulo questionável (seção 2); a acurácia absoluta é um limite inferior e as comparações são relativas.
-7. **`user_id` não é identidade.** Contas duplicadas no HaGRID produzem 0,10% de quase-duplicatas entre treino e teste; pior caso de 99,72% (seção 1.4).
-8. **Regime de fine-tuning.** Todos os treinos partem de pesos ImageNet. A curva do eixo 4 mede redução de dados nesse regime, que é o cenário realista de aplicação (Kornblith et al., 2019), não a eficiência de dados de treino do zero.
-9. **Eixo 4 só na ResNet-50**, por critério do protocolo (melhor configuração do eixo 3). A curva da DenseNet-121 (extra A, ~10 h de GPU) ficou em espera.
-10. **Dois ajustes de protocolo pendentes de confirmação do orientador:** retirada da parada antecipada no eixo 4 (documento 04, § 3.4) e tolerância de empate de 5% na decisão do eixo 3 (documento 04, § 2).
-11. **Subconjunto de 50% e 18 classes.** Os números absolutos não são comparáveis diretamente com os do artigo do HaGRID (quadro inteiro, 33 classes na v2, split oficial).
-12. **Uma GPU, um hardware.** Latências valem para RTX 3080 Ti e Ryzen 9 9950X com TensorRT 11.3 e PyTorch 2.11; a FX graph mode quantization está marcada como legada no PyTorch 2.11.
-13. **Não-determinismo residual** de `cudnn.benchmark = True` nos kernels de backward; dados, init e augmentation são determinísticos.
-14. **Augmentation mínima** (random crop + hflip), por decisão de protocolo. Não se mediu o efeito de augmentations mais fortes.
+2. **Extra B com uma seed** (ResNet-50, seed 0, 25% dos dados). A direção do efeito é clara (1,69× e 2,03× contra 1,07× e 1,14×); a magnitude pede mais seeds.
+3. **Eixo 2b em 50/70/90% com uma seed.** Só 95% e 98% têm 3 seeds nos três protocolos com retreino (eixo 2c não foi executado em 50/70/90%). A conclusão (orçamento de retreino decide) está sustentada em 95/98%, onde a diferença importa. O eixo 2d (poda sem retreino) tem 3 seeds em todos os cinco níveis; como não treina, cada célula custa ~40 s.
+4. **Poda + int8 com uma seed** (seed 0) em 90% e 95%.
+5. **Dataset com ruído de rótulo.** O piso de ~0,2% é em boa parte rótulo questionável (seção 2); a acurácia absoluta é um limite inferior e as comparações são relativas.
+6. **`user_id` não é identidade.** Contas duplicadas no HaGRID produzem 0,10% de quase-duplicatas entre treino e teste; pior caso de 99,72% (seção 1.4).
+7. **Regime de fine-tuning.** Todos os treinos partem de pesos ImageNet. A curva do eixo 4 mede redução de dados nesse regime, que é o cenário realista de aplicação (Kornblith et al., 2019), não a eficiência de dados de treino do zero.
+8. **Eixo 4 só na ResNet-50**, por critério do protocolo (melhor configuração do eixo 3). A curva da DenseNet-121 (extra A, ~10 h de GPU) ficou em espera.
+9. **Dois ajustes de protocolo pendentes de confirmação do orientador:** retirada da parada antecipada no eixo 4 (documento 04, § 3.4) e os refinamentos da decisão do eixo 3 — latência compartilhada entre células do mesmo grafo e tolerância de empate de 5% (documento 04, § 2); nenhum deles altera a vencedora.
+10. **Subconjunto de 50% e 18 classes.** Os números absolutos não são comparáveis diretamente com os do artigo do HaGRID (quadro inteiro, 33 classes na v2, split oficial).
+11. **Uma GPU, um hardware.** Latências valem para RTX 3080 Ti e Ryzen 9 9950X com TensorRT 11.3 e PyTorch 2.11, medidas numa máquina de uso pessoal (GPU: mediana de 5 rodadas, sessão gráfica aberta, sem diferença sistemática em relação ao TTY); a FX graph mode quantization está marcada como legada no PyTorch 2.11.
+12. **Não-determinismo residual** de `cudnn.benchmark = True` nos kernels de backward; dados, init e augmentation são determinísticos.
+13. **Augmentation mínima** (random crop + hflip), por decisão de protocolo. Não se mediu o efeito de augmentations mais fortes.
 
 ## 4. Lições de método
 
@@ -149,3 +148,4 @@ Duas redes com conectividades opostas, treinadas de forma independente, falham n
 9. **Infraestrutura de execução.** Filas longas desacopladas da sessão (`setsid nohup`; uma fila lançada em background da ferramenta morreu na época 29/30 em 30/09); tudo retomável de `last.pt` com replay exato dos lotes; `gpu_wait.sh` ignorando processos de desktop (o compositor Wayland aparece como processo de compute e travou a espera); globs do zsh sem correspondência abortam o comando inteiro (um `rm -f` não rodou; usar `find -delete` e conferir).
 10. **Rastreabilidade mínima por run:** seed, versão e sha256 do manifesto, commit git e estado da árvore, versões, GPU. Os dois primeiros runs do eixo 1 começaram com árvore suja e exigiram uma nota de proveniência; os seguintes saíram limpos porque o commit foi feito durante a fila.
 11. **Todo número em `results/` sai de um script a partir de `runs/`.** Nenhuma tabela é digitada à mão; `make results` regenera tudo. Isso foi o que permitiu refazer 28 células int8 e republicar todas as tabelas no mesmo dia.
+12. **Latência de lote 1 em GPU exige rodadas repetidas.** Uma medição isolada (50 + 300 iterações) alterna entre dois patamares ~15% apart para a mesma engine, com o clock SM estável; a diferença entre FP16 e int8 na ResNet-50 (3%) é menor que esse ruído, e a estabilidade de 5% entre duas medições consecutivas (`tests/test_latency.py`) não captura a alternância entre sessões. Uma única medição em TTY (17/10) inverteu a ordem de três células que rodam o mesmo grafo e teria trocado a leitura literal da decisão. Correção: 5 rodadas por célula (mediana do p50), remedição de todas as células e latência compartilhada entre células do mesmo grafo — a poda não-estruturada não muda o grafo, então a dispersão entre elas é variância de build (~4%) e de medição, não propriedade dos pesos (`results/eixo3/build_variance.md`).

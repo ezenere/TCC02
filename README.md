@@ -31,7 +31,7 @@ Leituras principais: as duas arquiteturas empatam em erro (o piso de ~0,2% é em
 erradas pelas duas redes, quase sempre com a mesma predição); ambas toleram 90% de poda sem perda mensurável e quebram em 98%; a
 quantização int8 é gratuita para a ResNet-50 e custa à DenseNet-121 24% a mais de erro em CPU e 7% no TensorRT, onde a engine int8 dela
 é ainda mais lenta que a FP16; a calibração da int8 precisou ser escolhida em validação (a por entropia era instável). Configuração
-vencedora do benchmark (preliminar): **ResNet-50 int8 TensorRT**, 0,80 ms por imagem com razão de erro 1,01. Com 25% dos dados de treino o
+vencedora do benchmark: **ResNet-50 int8 TensorRT**, 0,80 ms por imagem em GPU (lote 1, mediana de 5 rodadas) com razão de erro 1,01. Com 25% dos dados de treino o
 erro sobe 41%; o joelho fica entre 25% e 10% (erro ∝ N^-0,38). Ver [eixo 3](results/eixo3/README.md), [eixo 4](results/eixo4/) e o [diário](STATUS.md).
 
 ## Estrutura

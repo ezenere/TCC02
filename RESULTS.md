@@ -41,16 +41,20 @@ menos dados tem menos redundância para ceder. ![poda](results/eixo2/figures/pru
 
 ## Eixo 3 — benchmark ([detalhes](results/eixo3/README.md), [decisão](results/eixo3/decision.md))
 
-| latência p50, lote 1 | ResNet-50 | DenseNet-121 |
+| latência p50 (lote 1, salvo indicação) | ResNet-50 | DenseNet-121 |
 |---|---|---|
 | CPU FP32 eager, 16 threads | 10,7 ms | 16,6 ms |
 | CPU int8 fbgemm, 16 threads | **1,38 ms** | 2,86 ms |
-| GPU TensorRT FP32 / FP16 / INT8 _(preliminar)_ | 2,65 / 0,94 / **0,80 ms** | 4,23 / 2,76 / 3,17 ms |
+| GPU TensorRT FP32 / FP16 / INT8 | 2,65 / 0,82 / **0,80 ms** | 4,21 / 2,80 / 3,19 ms |
+| GPU TensorRT FP32 / FP16 / INT8, lote 32 | 14,7 / 4,09 / 3,10 ms | 18,1 / 8,57 / 17,2 ms |
 | modelos podados (CPU, 16 threads) | 10,9–11,4 ms (= baseline) | 15,8–16,5 ms (= baseline) |
 
-**Configuração vencedora: ResNet-50 int8 TensorRT** — razão de erro 1,01, 0,80 ms por imagem, artefato de 23,9 MiB (critério fixado antes
-dos resultados: menor latência GPU entre as células com razão ≤ 1,5). A int8 da DenseNet é mais lenta que a FP16 no TensorRT. A latência de
-GPU é preliminar (medida com a sessão gráfica aberta). ![pareto](results/eixo3/figures/pareto_gpu.png)
+**Configuração vencedora: ResNet-50 int8 TensorRT** — razão de erro 1,01, 0,80 ms por imagem (0,805 ms como mediana das três células que
+rodam o mesmo grafo int8), artefato de 23,9 MiB (critério fixado antes dos resultados: menor latência GPU entre as células com razão ≤ 1,5).
+A int8 da DenseNet é mais lenta que a FP16 no TensorRT. **Latência GPU final (17–18/10):** cada célula medida em 5 rodadas de 50 + 300
+iterações, mediana do p50; a medição em TTY (sessão gráfica fechada) e a remedição com a sessão aberta não diferem sistematicamente; células
+com o mesmo grafo (a poda não-estruturada não muda o grafo) compartilham a latência — ver [variância](results/eixo3/build_variance.md).
+![pareto](results/eixo3/figures/pareto_gpu.png)
 
 ## Eixo 4 — redução de dados anotados (ResNet-50; [dados](results/eixo4/eixo4_summary.csv))
 
@@ -78,3 +82,6 @@ de 278.702 imagens de 19.042 sujeitos nunca usados, o erro é 0,235% (ResNet-50)
 1. Parada antecipada com paciência curta **trunca a agenda cosseno**: 13 de 18 runs do eixo 4 pararam com o lr ainda alto; corrigido para 30 épocas fixas.
 2. A calibração da int8 é um hiperparâmetro: com entropia, o mesmo modelo foi de 194 a 2.596 erros conforme a amostra de calibração; percentil 99,99, escolhido em validação, é estável.
 3. O `user_id` de um dataset crowdsourced não é identidade perfeita; o efeito foi medido em vez de presumido.
+4. **Latência de lote 1 em GPU exige rodadas repetidas.** Uma medição isolada alterna entre dois patamares ~15% apart para a mesma engine
+   (clock estável), mais que a diferença entre FP16 e int8; uma única medição em TTY chegou a inverter a ordem de células que rodam o mesmo
+   grafo. Corrigido com 5 rodadas por célula (mediana) e latência compartilhada entre células do mesmo grafo (`results/eixo3/build_variance.md`).

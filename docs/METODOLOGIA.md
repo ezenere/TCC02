@@ -213,21 +213,38 @@ seria implantado — `state_dict` FP32 para o baseline, o mesmo comprimido com g
 TensorRT para os quantizados.
 
 **Latência** (`src/measure/latency.py`): entrada sintética, 50 iterações de aquecimento e 300 medidas por
-lote; p50, p95 e média; lotes 1 e 32. **CPU** (Ryzen 9 9950X): PyTorch eager FP32 e TorchScript int8
+lote; p50, p95 e média; lotes 1 e 32. Em GPU, cada célula é medida em **5 rodadas** independentes
+(`--rounds`, padrão 5 para `cuda`) e o número reportado é a **mediana do p50** entre rodadas; o JSON
+grava também o p50 de cada rodada e a dispersão. **CPU** (Ryzen 9 9950X): PyTorch eager FP32 e TorchScript int8
 (fbgemm) no mesmo processo, com 1 e 16 threads declarados. **GPU** (RTX 3080 Ti): PyTorch eager
 FP32/FP16 e engines TensorRT FP32/FP16/INT8 — o baseline é medido também em TensorRT, para que o ganho
 de int8 não se confunda com o ganho de runtime. Cada JSON de latência grava hardware, versões, threads
-e uma nota manual sobre o estado da sessão gráfica; as medições de GPU são feitas em TTY com o
-compositor fechado. Os modelos podados são medidos uma vez para documentar que kernels densos não
-exploram esparsidade não-estruturada (latência ≈ baseline).
+e uma nota manual sobre o estado da sessão gráfica. Os modelos podados são medidos uma vez para
+documentar que kernels densos não exploram esparsidade não-estruturada (latência ≈ baseline).
+
+**Histórico da medição em GPU.** A medição preliminar (20/09) foi feita com a sessão gráfica aberta,
+em uma rodada. Em 17/10 o autor mediu em TTY, com a sessão gráfica parada e as engines
+reconstruídas com a GPU ociosa (`scripts/latency_tty.sh`). Essa medição única inverteu a ordem de
+células que rodam o mesmo grafo (poda 95% + int8 em 0,797 ms contra 0,920 ms da int8 sem poda) e
+colocou a FP16 à frente da int8. O experimento de 18/10 (`results/eixo3/build_variance.md`) mostrou
+que a latência de lote 1 alterna entre dois patamares ~15% apart para **qualquer** engine, com o clock
+SM estável — variância de medição, não da engine (a mesma engine reconstruída três vezes varia ~4%).
+Por isso o harness ganhou as rodadas repetidas e **todas as células de GPU foram remedidas em 18/10**
+com 5 rodadas; entre TTY e sessão gráfica aberta não houve diferença sistemática nas demais células
+(eager FP32 1,81 ms nas duas; TensorRT FP32 2,65 nas duas), e os JSONs de TTY ficam arquivados como
+`*_tty1round.json`. Os números finais são os de 18/10.
 
 **Decisão** (`results/eixo3/make_eixo3.py --decide`, critério fixado em 2026-09-14 antes dos
 resultados): entre as células com razão de erro média ≤ 1,5×, vence a de **menor latência p50 em GPU
 (TensorRT, lote 1)**; empate → menor artefato em disco. A configuração vencedora alimenta o eixo 4;
-`results/eixo3/decision.md` lista as finalistas e o motivo de cada derrota. Na aplicação, as duas primeiras colocadas ficaram a 0,9% de
-latência uma da outra (mesmo grafo int8, com e sem poda); como isso está abaixo da estabilidade do harness (5%), a regra
-trata latências dentro de 5% como empate, desempata por artefato e, com artefatos a menos de 1%, pela menor razão de erro —
-refinamento registrado como proposta em `decision.md`, ao lado da leitura literal.
+`results/eixo3/decision.md` lista as finalistas e o motivo de cada derrota. **Refinamento (18/10, sinalizado
+ao orientador):** a poda não-estruturada não altera o grafo nem os kernels, então células com o mesmo grafo
+(int8 com e sem poda, na mesma arquitetura) **compartilham a latência** — a mediana do grupo; a dispersão
+entre elas é variância de build e de medição do TensorRT, não propriedade dos pesos. Dentro do grupo, e entre
+latências a menos de 5% (estabilidade do harness), o desempate é o do critério: menor artefato e, com artefatos
+a menos de 1%, menor razão de erro. A leitura literal (engine mais rápida, sem agrupar) fica registrada ao
+lado em `decision.md`; com a medição final de 18/10 as duas leituras apontam a mesma célula, ResNet-50 int8
+TensorRT (0,798 ms esta engine; 0,805 ms a mediana do grafo).
 
 **Figuras.** Fronteiras de Pareto razão de erro × latência (CPU e GPU em painéis separados), × tamanho
 em disco e × MACs, com barras de erro entre seeds.

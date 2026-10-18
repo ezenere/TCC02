@@ -60,8 +60,8 @@ def fig_poda():
 
 def fig_velocidade():
     rows = [("CPU FP32\n(16 threads)", 10.75, 16.64), ("CPU int8\n(fbgemm)", 1.38, 2.86),
-            ("GPU TensorRT\nFP32", 2.65, 4.23), ("GPU TensorRT\nFP16", 0.94, 2.76),
-            ("GPU TensorRT\nINT8", 0.80, 3.17)]
+            ("GPU TensorRT\nFP32", 2.65, 4.21), ("GPU TensorRT\nFP16", 0.82, 2.80),
+            ("GPU TensorRT\nINT8", 0.80, 3.19)]
     fig, ax = plt.subplots(figsize=(7.2, 4.3))
     h = 0.34
     for i, (lab, r, d) in enumerate(rows):

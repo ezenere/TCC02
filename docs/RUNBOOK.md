@@ -41,7 +41,7 @@ Cada run tem o seu `train.log`; `python scripts/compact_log.py <log>` remove os 
 
 - **Memória.** Calibração/quantização ONNX roda sob `systemd-run --user --scope -p MemoryMax=16G`: os calibradores por histograma do ONNX Runtime, sem o modo incremental deste repositório, passam de 50 GB.
 - **Engines TensorRT** são construídas com a GPU ociosa (a seleção de kernels é por cronometragem) e são específicas da GPU e da versão do TensorRT.
-- **Latência.** CPU: máquina em repouso (`make latency-cpu`). GPU: em um TTY com a sessão gráfica fechada: `NOTE="sessão gráfica fechada (TTY)" make latency-gpu`. O campo `note` fica gravado em cada JSON.
+- **Latência.** CPU: máquina em repouso (`make latency-cpu`). GPU: `make latency-gpu` mede cada célula em 5 rodadas (mediana do p50; `--rounds`), porque a latência de lote 1 alterna entre dois patamares ~15% apart entre medições (`results/eixo3/build_variance.md`); `scripts/latency_tty.sh` faz o mesmo em um TTY com a sessão gráfica parada e as engines reconstruídas (sem diferença sistemática medida). O campo `note` fica gravado em cada JSON.
 - **Um run só vale** com `run_meta.json` registrando commit git limpo, versão e sha do manifesto. Commitar antes de lançar filas.
 - **Teste intocável.** Nenhuma escolha (época, calibrador, hiperparâmetro) usa o split de teste; tudo isso usa `val`.
 

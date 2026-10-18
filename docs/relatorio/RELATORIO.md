@@ -106,13 +106,14 @@ Com poda de 95%, as três formas dão resultados parecidos. Com 98%, treinar 30 
 |---|---|---|
 | CPU, FP32 | 10,8 | 16,6 |
 | CPU, int8 (fbgemm) | 1,38 | 2,86 |
-| GPU, TensorRT FP32 | 2,65 | 4,23 |
-| GPU, TensorRT INT8 | **0,80** | 3,17 |
+| GPU, TensorRT FP32 | 2,65 | 4,21 |
+| GPU, TensorRT FP16 | 0,82 | 2,80 |
+| GPU, TensorRT INT8 | **0,80** | 3,19 |
 | Poda 90%, CPU FP32 | 10,9 | 16,5 |
 
-A regra de escolha foi definida **antes** de ver os resultados: entre as versões que erram no máximo 1,5× o original, vence a mais rápida na GPU.
+A regra de escolha foi definida **antes** de ver os resultados: entre as versões que erram no máximo 1,5× o original, vence a mais rápida na GPU. Os tempos de placa de vídeo são a medição final (18/10): cada versão foi medida 5 vezes e vale a mediana, porque uma medição sozinha oscila ~15% para cima ou para baixo (ver a seção 7). As versões podadas + int8 rodam exatamente o mesmo programa na placa que a int8 sem poda, então as três contam com o mesmo tempo (0,805 ms, mediana das três).
 
-**Vencedora: ResNet-50 int8 TensorRT** — 0,80 ms por foto, erros 1,01×, arquivo de 24 MB.
+**Vencedora: ResNet-50 int8 TensorRT** — 0,80 ms por foto, erros 1,01×, arquivo de 24 MB. É a mesma vencedora apontada pela medição preliminar de 20/09, então a etapa 4 já foi feita com a versão certa.
 
 Três aprendizados: a DenseNet faz menos contas no papel, mas é mais lenta em todas as medições; a int8 da DenseNet ficou mais lenta que a FP16 no TensorRT; a poda não mudou a velocidade.
 
@@ -138,14 +139,15 @@ Com um quarto das fotos, o erro sobe 41%. O ponto de virada fica entre 25% e 10%
 - **Treinos interrompidos cedo demais.** Uma regra de "parar quando deixar de melhorar" estava cortando 13 dos 18 treinos da etapa 4 antes da fase final, que é onde o modelo mais ganha. Um ponto chegou a 277 erros em vez de 165. A regra foi retirada e os treinos foram continuados de onde pararam.
 - **Calibração da int8 instável no TensorRT.** A calibração usa uma amostra de 1.024 fotos. Com o método inicial, o mesmo modelo ia de 194 a 2.596 erros dependendo da amostra sorteada. Testamos quatro métodos e adotamos o mais estável, que varia de 62 a 64 erros onde o original faz 60. As 28 medições afetadas foram refeitas.
 - **Memória estourada.** Esse mesmo ajuste chegou a usar 53 GB de memória e derrubou o computador duas vezes. Foi reescrito para trabalhar em partes pequenas.
+- **Cronômetro da placa de vídeo instável.** A medição definitiva de velocidade, feita com a tela gráfica fechada (17/10), deu tempos diferentes para três versões que rodam exatamente o mesmo programa na placa (0,80 ms contra 0,92 ms). Investigando, vimos que uma medição sozinha de uma foto por vez oscila entre dois patamares ~15% apart, para qualquer versão, mesmo com o relógio da placa estável; a diferença real entre FP16 e int8 na ResNet-50 é menor que isso. Passamos a medir cada versão 5 vezes e usar a mediana, refizemos todas as medições (18/10) e, na regra de escolha, versões que rodam o mesmo programa passaram a dividir o mesmo tempo. A vencedora não mudou.
 
 ## 8. Em andamento e pendente
 
 | Item | Situação |
 |---|---|
 | Seeds 1 e 2 da poda antes/depois do treino, em 95% e 98% | Concluído em 1º/10 (16 de 16) |
-| Medição final de velocidade na placa de vídeo | Pendente: precisa ser feita com a tela gráfica fechada. Os tempos de placa de vídeo deste relatório são preliminares |
-| Confirmar com o orientador dois ajustes feitos no caminho | Pendente: a retirada da parada antecipada e o critério de desempate quando duas versões têm praticamente a mesma velocidade |
+| Medição final de velocidade na placa de vídeo | Concluída em 17–18/10: medida com a tela gráfica fechada e depois refeita com 5 medições por versão (mediana). Os tempos deste relatório são os finais |
+| Confirmar com o orientador dois ajustes feitos no caminho | Pendente: a retirada da parada antecipada e o critério de desempate quando duas versões têm praticamente a mesma velocidade (versões que rodam o mesmo programa dividem o mesmo tempo); nenhum dos dois muda a vencedora |
 | Artigo e pôster | A partir de 1º de novembro |
 
 ## 9. O que já está entregue
@@ -180,7 +182,7 @@ Teste: 83.613 imagens. Cada versão comprimida parte do baseline da mesma seed. 
 | int8 CPU (fbgemm) | **99,785%** | 99,797% | 99,792% | 99,766% | 180 |
 | TensorRT FP32 | **99,793%** | 99,790% | 99,805% | 99,786% | 173 |
 | TensorRT FP16 | **99,792%** | 99,790% | 99,801% | 99,786% | 174 |
-| TensorRT INT8 | **99,791%** | 99,793% | 99,801% | 99,780% | 174 |
+| TensorRT INT8 | **99,791%** | 99,791% | 99,801% | 99,780% | 175 |
 | Poda 90% + int8 CPU | **99,758%** | 99,758% | — | — | 202 |
 | Poda 95% + int8 CPU | **99,715%** | 99,715% | — | — | 238 |
 | Poda 90% + TensorRT INT8 | **99,767%** | 99,767% | — | — | 195 |

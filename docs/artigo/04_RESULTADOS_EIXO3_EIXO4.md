@@ -8,7 +8,9 @@ Convenções como no documento 03: teste de 83.613 imagens, razão de erro contr
 
 **Métricas de custo** (`src/measure/cost.py`): parâmetros não-nulos (os zerados pela poda não contam), MACs a 224×224 (fvcore), tamanho em disco do artefato que seria implantado (`state_dict` FP32 para o baseline; o mesmo com gzip para os podados; TorchScript int8; engine TensorRT).
 
-**Latência** (`src/measure/latency.py`): entrada sintética, 50 iterações de aquecimento e 300 medidas por lote; p50 (reportado), p95 e média; lotes 1 e 32. CPU: Ryzen 9 9950X, PyTorch eager FP32 e TorchScript int8 fbgemm no mesmo processo, 1 e 16 threads, máquina em repouso (medida em 20/09/2026). GPU: RTX 3080 Ti, PyTorch eager FP32/FP16 e engines TensorRT FP32/FP16/INT8; o baseline é medido também em TensorRT para que o ganho de int8 não se confunda com o ganho de runtime. **A medição de GPU é preliminar: feita com a sessão gráfica (KDE) aberta**, campo `note` gravado em cada JSON; a medição válida é em TTY com o compositor fechado, após `make trt` reconstruir as engines (pendente). Modelos podados medidos uma vez em CPU para documentar que kernels densos não exploram esparsidade.
+**Latência** (`src/measure/latency.py`): entrada sintética, 50 iterações de aquecimento e 300 medidas por lote; p50 (reportado), p95 e média; lotes 1 e 32. CPU: Ryzen 9 9950X, PyTorch eager FP32 e TorchScript int8 fbgemm no mesmo processo, 1 e 16 threads, máquina em repouso (medida em 20/09/2026). GPU: RTX 3080 Ti, PyTorch eager FP32/FP16 e engines TensorRT FP32/FP16/INT8; o baseline é medido também em TensorRT para que o ganho de int8 não se confunda com o ganho de runtime. Em GPU, cada célula é medida em **5 rodadas** independentes e o número reportado é a **mediana do p50** entre rodadas (`--rounds`; o JSON grava cada rodada e a dispersão). Modelos podados medidos uma vez em CPU e em GPU eager para documentar que kernels densos não exploram esparsidade.
+
+**Histórico da medição em GPU.** A medição de 20/09 (sessão gráfica aberta, uma rodada) foi rotulada preliminar. Em 17/10 o autor mediu em TTY com a sessão gráfica parada e as engines reconstruídas com a GPU ociosa (`scripts/latency_tty.sh`, `8ade7b5`). Essa medição única inverteu a ordem de células que rodam o **mesmo grafo** (ResNet-50: int8 0,920 ms, poda 90% + int8 0,923, poda 95% + int8 0,797) e colocou a FP16 (0,827) à frente da int8. O experimento de 18/10 (`results/eixo3/build_variance.md`) mostrou que a latência de lote 1 alterna entre dois patamares ~15% apart (≈ 0,80 e ≈ 0,93 ms) para qualquer engine, com o clock SM estável: variância de medição, não da engine (a mesma engine reconstruída três vezes varia ~4%; as três engines de TTY, medidas em sequência, ficam em 0,923–0,930 ms). O harness ganhou as rodadas repetidas (`59f4132`) e **todas as células de GPU foram remedidas em 18/10** com 5 rodadas (`66621e1`; sessão gráfica aberta; entre TTY e sessão aberta não houve diferença sistemática: eager FP32 1,81 ms nas duas, TensorRT FP32 2,65 nas duas, DenseNet dentro de 1%). Os JSONs de TTY ficam arquivados como `*_tty1round.json`. Os números abaixo são os finais, de 18/10.
 
 ### 1.1 Qualidade e custo estático
 
@@ -47,45 +49,46 @@ Fonte: `results/eixo3/eixo3_summary.csv` (por célula) e `results/eixo3/eixo3_ta
 
 ### 1.2 Latência, p50 em ms (seed 0)
 
-CPU: Ryzen 9 9950X, máquina em repouso. GPU: RTX 3080 Ti, **preliminar** (sessão gráfica aberta). "—" = não se aplica ou não medido.
+CPU: Ryzen 9 9950X, máquina em repouso (20/09). GPU: RTX 3080 Ti, **medição final de 18/10, mediana de 5 rodadas** por célula. "—" = não se aplica ou não medido.
 
 | arquitetura | célula | CPU 1 thr, lote 1 | CPU 16 thr, lote 1 | CPU 16 thr, lote 32 | GPU eager FP32, lote 1 | GPU eager FP16, lote 1 | GPU TRT, lote 1 | GPU TRT, lote 32 |
 |---|---|---|---|---|---|---|---|---|
-| ResNet-50 | baseline FP32 (eager) / TRT FP32 | 51,74 | 10,75 | 374,5 | 1,81 | 1,44 | 2,645 | 14,44 |
+| ResNet-50 | baseline FP32 (eager) / TRT FP32 | 51,74 | 10,75 | 374,5 | 1,803 (lote 32: 23,2) | 1,480 (lote 32: 10,6) | 2,652 | 14,74 |
 | ResNet-50 | poda 50% | — | 11,03 | — | — | — | — | — |
 | ResNet-50 | poda 70% | — | 11,28 | — | — | — | — | — |
-| ResNet-50 | poda 90% | — | 10,86 | — | — | — | — | — |
-| ResNet-50 | poda 95% | — | 11,39 | — | — | — | — | — |
+| ResNet-50 | poda 90% | — | 10,86 | — | 1,98 | — | — | — |
+| ResNet-50 | poda 95% | — | 11,39 | — | 1,93 | — | — | — |
 | ResNet-50 | poda 98% | — | 11,34 | — | — | — | — | — |
 | ResNet-50 | int8 CPU (fbgemm) | 8,00 | **1,385** | 33,3 | — | — | — | — |
-| ResNet-50 | TensorRT FP16 | — | — | — | — | — | 0,941 | 4,05 |
-| ResNet-50 | TensorRT INT8 | — | — | — | — | — | **0,800** | 3,04 |
-| ResNet-50 | poda 90% + TensorRT INT8 | — | — | — | — | — | 0,793 | — |
-| ResNet-50 | poda 95% + TensorRT INT8 | — | — | — | — | — | 0,930 | — |
-| DenseNet-121 | baseline FP32 (eager) / TRT FP32 | 41,25 | 16,64 | 377,1 | 3,52 | 3,15 | 4,225 | 17,97 |
+| ResNet-50 | TensorRT FP16 | — | — | — | — | — | 0,823 | 4,09 |
+| ResNet-50 | TensorRT INT8 | — | — | — | — | — | **0,798** | 3,10 |
+| ResNet-50 | poda 90% + TensorRT INT8 | — | — | — | — | — | 0,814 | — |
+| ResNet-50 | poda 95% + TensorRT INT8 | — | — | — | — | — | 0,805 | — |
+| DenseNet-121 | baseline FP32 (eager) / TRT FP32 | 41,25 | 16,64 | 377,1 | 3,497 (lote 32: 25,6) | 3,327 (lote 32: 13,3) | 4,206 | 18,13 |
 | DenseNet-121 | poda 50% | — | 15,91 | — | — | — | — | — |
 | DenseNet-121 | poda 70% | — | 15,79 | — | — | — | — | — |
-| DenseNet-121 | poda 90% | — | 16,51 | — | — | — | — | — |
-| DenseNet-121 | poda 95% | — | 16,24 | — | — | — | — | — |
+| DenseNet-121 | poda 90% | — | 16,51 | — | 3,70 | — | — | — |
+| DenseNet-121 | poda 95% | — | 16,24 | — | 3,72 | — | — | — |
 | DenseNet-121 | poda 98% | — | 16,54 | — | — | — | — | — |
 | DenseNet-121 | int8 CPU (fbgemm) | 7,23 | **2,86** | 31,5 | — | — | — | — |
-| DenseNet-121 | TensorRT FP16 | — | — | — | — | — | 2,759 | 8,43 |
-| DenseNet-121 | TensorRT INT8 | — | — | — | — | — | 3,171 | 16,88 |
-| DenseNet-121 | poda 90% + TensorRT INT8 | — | — | — | — | — | 3,156 | — |
-| DenseNet-121 | poda 95% + TensorRT INT8 | — | — | — | — | — | 3,176 | — |
+| DenseNet-121 | TensorRT FP16 | — | — | — | — | — | 2,799 | 8,57 |
+| DenseNet-121 | TensorRT INT8 | — | — | — | — | — | 3,192 | 17,21 |
+| DenseNet-121 | poda 90% + TensorRT INT8 | — | — | — | — | — | 3,397 | — |
+| DenseNet-121 | poda 95% + TensorRT INT8 | — | — | — | — | — | 3,339 | — |
 
-Fonte: `results/eixo3/eixo3_summary.csv` (colunas `lat_*`), JSONs `runs/eixo1_<arch>_s0/latency_*.json`, `runs/latency_cpu.log`, `runs/latency_gpu_prelim.log`. Na linha do baseline, a coluna TRT é a engine FP32 (TF32 desligado). Medição complementar (15–20/09): ONNX Runtime CPU FP32, lote 1: ResNet-50 5,9 ms, DenseNet-121 9,8 ms, sem ganho de 1 para 16 threads; em CPU o ORT é mais rápido que o eager na ResNet e mais lento na DenseNet, mais um sinal de que o backend interage com a arquitetura.
+Fonte: `results/eixo3/eixo3_summary.csv` (colunas `lat_*`), JSONs `runs/<run>/latency_*cuda*.json` (campo `note`: "5 rodadas (mediana)"; `p50_ms_per_round` por rodada), `runs/latency_cpu.log`; medição de TTY de 17/10 arquivada em `*_tty1round.json` e `runs/latency_gpu_tty.log`; a de 20/09 em `runs/latency_gpu_prelim.log`. Na linha do baseline, a coluna TRT é a engine FP32 (TF32 desligado). As três células int8 da ResNet-50 rodam o mesmo grafo: a mediana do grupo é 0,805 ms e a dispersão entre elas (0,798–0,814) é variância de build e de medição. Medição complementar (15–20/09): ONNX Runtime CPU FP32, lote 1: ResNet-50 5,9 ms, DenseNet-121 9,8 ms, sem ganho de 1 para 16 threads; em CPU o ORT é mais rápido que o eager na ResNet e mais lento na DenseNet, mais um sinal de que o backend interage com a arquitetura.
 
 Figuras de Pareto: `results/eixo3/figures/pareto_{cpu,gpu,disk,macs}`.
 
 ### 1.3 Leitura
 
 1. **Poda não-estruturada não compra latência.** Em CPU os podados ficam em 10,9–11,4 ms (ResNet-50, baseline 10,7) e 15,8–16,5 ms (DenseNet-121, baseline 16,6); em GPU rodam o mesmo grafo. O que cai é o artefato comprimido (10% do original a 98%) e os parâmetros efetivos.
-2. **Quantização é o que acelera.** CPU int8: 7,8× na ResNet-50 (10,7 → 1,38 ms, 16 threads) e 5,8× na DenseNet-121 (16,6 → 2,86 ms). GPU, contra o baseline FP32 no mesmo runtime: ResNet-50 3,3× (2,65 → 0,80 ms); FP16 já dá 2,8× (0,94 ms).
-3. **A int8 não favorece a DenseNet-121:** em CPU custa 1,24× de erro; no TensorRT o erro quase não muda (1,07×), mas a latência fica pior que a FP16 (3,17 vs 2,76 ms; lote 32: 16,9 vs 8,4 ms). Causa: 399 das 1.497 camadas da engine ficam em float, com conversões Q/DQ em torno das concatenações.
-4. **Custo teórico e real divergem.** A DenseNet-121 tem 30% menos MACs e 3,4× menos parâmetros, mas é mais lenta em todos os runtimes (TensorRT FP32: 4,23 vs 2,65 ms; CPU 16 thr: 16,6 vs 10,7 ms).
+2. **Quantização é o que acelera.** CPU int8: 7,8× na ResNet-50 (10,7 → 1,38 ms, 16 threads) e 5,8× na DenseNet-121 (16,6 → 2,86 ms). GPU, contra o baseline FP32 no mesmo runtime: ResNet-50 3,3× (2,65 → 0,80 ms); FP16 já dá 3,2× (0,82 ms) e a int8 só a supera com folga em lote 32 (3,10 vs 4,09 ms, 1,3×).
+3. **A int8 não favorece a DenseNet-121:** em CPU custa 1,24× de erro; no TensorRT o erro quase não muda (1,07×), mas a latência fica pior que a FP16 (3,19 vs 2,80 ms; lote 32: 17,2 vs 8,6 ms). Causa: 399 das 1.497 camadas da engine ficam em float, com conversões Q/DQ em torno das concatenações.
+4. **Custo teórico e real divergem.** A DenseNet-121 tem 30% menos MACs e 3,4× menos parâmetros, mas é mais lenta em todos os runtimes (TensorRT FP32: 4,21 vs 2,65 ms; CPU 16 thr: 16,6 vs 10,7 ms).
 5. **As técnicas compõem de forma aproximadamente aditiva** na ResNet-50: poda 90% (1,07× na seed 0) + int8 dá 1,14× em CPU e 1,10× no TensorRT; 95% + int8, 1,34× / 1,33×. Na DenseNet-121 a int8 de CPU domina: 95% + int8 CPU = 1,58×, fora do orçamento.
-6. **Lote 32:** o TensorRT INT8 da ResNet-50 processa 32 imagens em 3,04 ms (~10.500 img/s); a DenseNet INT8, em 16,9 ms.
+6. **Lote 32:** o TensorRT INT8 da ResNet-50 processa 32 imagens em 3,10 ms (~10.300 img/s); a DenseNet INT8, em 17,2 ms.
+7. **A latência de lote 1 em GPU é bimodal entre medições.** Uma medição isolada alterna entre dois patamares ~15% apart para qualquer engine (clock estável); a diferença FP16 × int8 na ResNet-50 (3%) é menor que esse ruído. Só a mediana de rodadas repetidas ordena as células com segurança; as células que rodam o mesmo grafo ficam dentro de 2% uma da outra depois disso (`results/eixo3/build_variance.md`).
 
 ## 2. Eixo 3: Decisão
 
@@ -95,23 +98,23 @@ Figuras de Pareto: `results/eixo3/figures/pareto_{cpu,gpu,disk,macs}`.
 
 **Finalistas (menor latência GPU):**
 
-| arquitetura | célula | seeds | razão de erro | TRT lote 1 (ms) | artefato (bytes) |
-|---|---|---|---|---|---|
-| ResNet-50 | poda 90% + TensorRT INT8 | 1 | 1,10 | 0,793 | 25.076.000 |
-| ResNet-50 | TensorRT INT8 | 3 | 1,01 | 0,800 | 25.109.000 |
-| ResNet-50 | poda 95% + TensorRT INT8 | 1 | 1,33 | 0,930 | 25.112.300 |
-| ResNet-50 | TensorRT FP16 | 3 | 1,00 | 0,941 | 47.739.500 |
-| ResNet-50 | baseline (TRT FP32) | 3 | 1,00 | 2,645 | 94.492.700 |
+| arquitetura | célula | seeds | razão de erro | TRT lote 1, esta engine (ms) | TRT lote 1, grafo (ms) | artefato (bytes) |
+|---|---|---|---|---|---|---|
+| ResNet-50 | TensorRT INT8 | 3 | 1,01 | 0,798 | 0,805 | 25.078.800 |
+| ResNet-50 | poda 95% + TensorRT INT8 | 1 | 1,33 | 0,805 | 0,805 | 25.112.300 |
+| ResNet-50 | poda 90% + TensorRT INT8 | 1 | 1,10 | 0,814 | 0,805 | 25.076.000 |
+| ResNet-50 | TensorRT FP16 | 3 | 1,00 | 0,823 | 0,823 | 47.731.200 |
+| ResNet-50 | baseline (TRT FP32) | 3 | 1,00 | 2,652 | 2,652 | 94.492.700 |
 
-Fonte: `results/eixo3/decision.md`.
+Fonte: `results/eixo3/decision.md` (medição final de 18/10, mediana de 5 rodadas). "Grafo" = mediana das células da mesma arquitetura que rodam o mesmo grafo TensorRT.
 
-**Leitura literal do critério:** vence ResNet-50 **poda 90% + TensorRT INT8** (0,793 ms, razão 1,10×, uma seed), por 0,9% de latência sobre ResNet-50 TensorRT INT8 (0,800 ms, razão 1,01×, 3 seeds). As duas células rodam o **mesmo grafo int8**: a poda não-estruturada não altera os kernels. A diferença de 0,9% está abaixo da estabilidade do harness (5%).
+**Leitura literal do critério (engine mais rápida, sem agrupar):** vence ResNet-50 **TensorRT INT8** (0,798 ms, razão 1,01×, 3 seeds), por 0,9% sobre poda 95% + int8 (0,805 ms) e 2% sobre poda 90% + int8 (0,814 ms). As três células rodam o **mesmo grafo int8**: a poda não-estruturada não altera os kernels; a dispersão entre elas é variância de build (~4% entre builds da mesma engine) e de medição, e está abaixo da estabilidade do harness (5%).
 
-**Refinamento proposto (pendente de confirmação do orientador):** latências dentro de 5% contam como empate; desempate por artefato (o do critério); artefatos dentro de 1% também empatam e vence a menor razão de erro. Com ele a **vencedora é ResNet-50 TensorRT INT8**: razão de erro 1,01×, 0,800 ms por imagem, artefato de 23,9 MiB.
+**Refinamentos (sinalizados ao orientador, 18/10):** (1) células com o mesmo grafo **compartilham a latência**, a mediana do grupo (0,805 ms para o grafo int8 da ResNet-50); (2) latências dentro de 5% contam como empate; desempate por artefato (o do critério); artefatos dentro de 1% também empatam e vence a menor razão de erro. Com eles a **vencedora é a mesma: ResNet-50 TensorRT INT8**, razão de erro 1,01×, 0,805 ms por imagem (esta engine: 0,798 ms), artefato de 23,9 MiB. A FP16 (0,823 ms) entra no empate de 5% e perde pelo artefato (45,5 MiB).
 
-Em todas as leituras a arquitetura é a ResNet-50, então o treino denso do eixo 4 é o mesmo em qualquer desfecho; a quantização de cada ponto da curva é aplicada depois. Caso a leitura literal prevaleça, cada ponto do eixo 4 exigiria ainda poda 90% + fine-tuning na fração (previsto em `reduce_data.py --sparsity`); o extra B (seção 4) já mede esse encadeamento em 25% dos dados.
+Em todas as leituras a arquitetura é a ResNet-50 e a precisão é int8 sem poda, então o eixo 4 (ResNet-50 densa + int8 TensorRT por ponto) foi feito na configuração certa. Caso a leitura literal tivesse apontado uma célula podada, cada ponto do eixo 4 exigiria ainda poda + fine-tuning na fração (previsto em `reduce_data.py --sparsity`); o extra B (seção 4) mede esse encadeamento em 25% dos dados.
 
-**Status:** decisão preliminar enquanto a latência GPU não for refeita em TTY. A ordem entre as finalistas depende de diferenças de 1% a 15%, de modo que a medição definitiva pode trocar as posições das duas primeiras, mas não a arquitetura nem a precisão (int8).
+**Status:** decisão **confirmada** com a medição final de 18/10. A decisão preliminar de 20/09 (uma rodada, sessão gráfica aberta) apontava a mesma célula; a medição única em TTY de 17/10 teria invertido a ordem entre as três células int8 do mesmo grafo (0,797 / 0,920 / 0,923 ms) e colocado a FP16 à frente — o que motivou o experimento de variância e as rodadas repetidas (`results/eixo3/build_variance.md`).
 
 ## 3. Eixo 4: Redução de dados anotados (ResNet-50)
 
@@ -202,7 +205,7 @@ Fonte: `results/analise/interacao.csv` (`make_interacao.py`); figura `results/an
 
 ```bash
 make latency-cpu                                        # máquina em repouso
-NOTE="sessão gráfica fechada (TTY)" make latency-gpu    # em um TTY, após make trt
+make latency-gpu                                        # 5 rodadas por célula (mediana); scripts/latency_tty.sh para TTY
 python results/eixo3/make_eixo3.py --decide             # tabela, Pareto, decision.md
 python src/reduce_data.py --config configs/train_resnet50.yaml --seeds 0 1 2   # 18 runs, retomável
 scripts/queue_trt.sh "$(ls -d runs/eixo4_resnet50_f*_s[012])" "int8"

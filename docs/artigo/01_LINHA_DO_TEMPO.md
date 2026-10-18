@@ -1,4 +1,4 @@
-# 01: Linha do tempo do projeto (28/08/2026 a 17/10/2026)
+# 01: Linha do tempo do projeto (28/08/2026 a 18/10/2026)
 
 Cronologia do que foi implementado, executado e decidido, com incidentes e correções. Fontes: `STATUS.md` (diário), `git log` (fuso −03:00), logs de fila em `runs/queue_*.log`, `runs/*/run_meta.json`, `data/processed/MANIFESTS.md`.
 
@@ -20,9 +20,10 @@ Cronologia do que foi implementado, executado e decidido, com incidentes e corre
 | 23–29/09 | pausa | 0 |
 | 30/09–01/10 | retomada; fila morta por limite de tempo e relançada desacoplada; eixo 2b fechado; extra B; release v0.5 | ~8,7 h |
 | 02–16/10 | sem GPU; pendências com o orientador | 0 |
-| 17/10 | eixo 2d: poda sem retreino (30 avaliações, 0 épocas); redação desta documentação | ~25 min |
+| 17/10 | eixo 2d: poda sem retreino (30 avaliações, 0 épocas); redação desta documentação; latência GPU medida em TTY pelo autor (`scripts/latency_tty.sh`) | ~25 min + ~22 min |
+| 18/10 | experimento de variância da latência GPU; `--rounds` no harness; todas as células de GPU remedidas (5 rodadas); decisão do eixo 3 confirmada | ~15 min |
 
-Total aproximado de GPU em treinos, engines e avaliações: **≈ 83,5 h**, soma dos logs de fila (≈ 83 h até 01/10 + ~25 min do eixo 2d em 17/10). Runs de treino: 6 (eixo 1) + 30 (eixo 2) + 16 (eixo 2b) + 12 (eixo 2c) + 18 (eixo 4) + 1 (extra B) + 1 (controle de rótulos embaralhados) + 1 (baseline de 5 épocas) = 85, todos com 0 falhas de execução (as interrupções foram externas e retomadas de `last.pt`). Além deles, 30 células de avaliação sem treino (eixo 2d, poda sem retreino), também com 0 falhas.
+Total aproximado de GPU em treinos, engines e avaliações: **≈ 84 h**, soma dos logs de fila (≈ 83 h até 01/10 + ~25 min do eixo 2d em 17/10 + ~40 min de engines e medições de latência em 17–18/10). Runs de treino: 6 (eixo 1) + 30 (eixo 2) + 16 (eixo 2b) + 12 (eixo 2c) + 18 (eixo 4) + 1 (extra B) + 1 (controle de rótulos embaralhados) + 1 (baseline de 5 épocas) = 85, todos com 0 falhas de execução (as interrupções foram externas e retomadas de `last.pt`). Além deles, 30 células de avaliação sem treino (eixo 2d, poda sem retreino), também com 0 falhas.
 
 ## Dia a dia
 
@@ -98,7 +99,7 @@ Decisões menores do dia: linhas de teste do manifesto v2 recebem `inner_split =
 
 - Releases **`v0.2-eixo1`** (tag em `bcafa82`, 12 assets, 1,4 GiB; `5be74c3`) e **`v0.3-eixo2`** (tag em `edf3eed`, 30 modelos podados + 10 artefatos int8 CPU, 40 assets, 4,0 GiB; `9303a62`). `publish_release.sh` corrigido para nomear assets pelo diretório do run (`e435fcd`).
 - 14:04 **eixo 2b seed 0 concluído**: 10 runs, 0 falhas, ~16 h (`c5552d9`). Antes × depois (razão): ResNet 98% 1,36 × 1,90; DenseNet 98% 1,64 × 1,65. Confusão declarada: ordem × orçamento (30 × 5 épocas). Controle previsto: podar depois com 30 épocas.
-- **Latência CPU** completa, máquina em repouso (14:17): ResNet FP32 51,7 / 10,7 ms (1 / 16 thr), int8 8,0 / 1,38 ms; DenseNet 41,3 / 16,6, int8 7,2 / 2,86; podados = baseline. **Latência GPU preliminar** (14:36, sessão gráfica aberta): TRT ResNet FP32 2,65 / FP16 0,94 / INT8 0,80 ms; DenseNet 4,23 / 2,76 / 3,17 (int8 mais lenta que fp16). `trt_runtime.py` passou a usar stream CUDA dedicado. Aviso do TensorRT sobre engines de outro "modelo de dispositivo": reconstruir com `make trt` antes da medição final em TTY.
+- **Latência CPU** completa, máquina em repouso (14:17): ResNet FP32 51,7 / 10,7 ms (1 / 16 thr), int8 8,0 / 1,38 ms; DenseNet 41,3 / 16,6, int8 7,2 / 2,86; podados = baseline. **Latência GPU preliminar** (14:36, sessão gráfica aberta, uma rodada; substituída pela medição final de 18/10): TRT ResNet FP32 2,65 / FP16 0,94 / INT8 0,80 ms; DenseNet 4,23 / 2,76 / 3,17 (int8 mais lenta que fp16). `trt_runtime.py` passou a usar stream CUDA dedicado. Aviso do TensorRT sobre engines de outro "modelo de dispositivo": reconstruir com `make trt` antes da medição final em TTY.
 - **Decisão do eixo 3, preliminar** (`1a0b269`, `results/eixo3/decision.md`): leitura literal → ResNet-50 poda 90% + int8 TRT (0,793 ms, 1,42× com calibração por entropia), por 0,9% sobre ResNet-50 int8 TRT (0,800 ms); refinamento proposto com tolerância de 5% → ResNet-50 int8 TRT. Arquitetura ResNet-50 em qualquer leitura.
 - 14:38 **fila do eixo 4 lançada**: `reduce_data.py`, ResNet-50, 6 frações × 3 seeds, 30 épocas + paciência 5 (`c620694`: calibração int8 respeita a fração do run; `43e47ae`).
 
@@ -113,7 +114,7 @@ Decisões menores do dia: linhas de teste do manifesto v2 recebem `inner_split =
 
 **Dia.**
 - Eixo 4 fechado na curva densa (`5a4da53`): 75% 1,05 · 50% 1,28 · 25% 1,41 · 10% 2,33 · 5% 3,13; erro ∝ N^−0,38 (R² 0,98); int8 acompanha (N^−0,40).
-- Decisão do eixo 3 atualizada com a int8 recalibrada: **ResNet-50 int8 TensorRT**, razão 1,01×, 0,80 ms, 23,9 MiB (preliminar).
+- Decisão do eixo 3 atualizada com a int8 recalibrada: **ResNet-50 int8 TensorRT**, razão 1,01×, 0,80 ms, 23,9 MiB (preliminar à época; confirmada em 18/10).
 - 11:41 → 22/09 00:39: eixo 2c seeds 1–2 (8 runs).
 - `RESULTS.md` (`cbee9de`); relatório em linguagem simples com figuras próprias e PDF (`9080977`, `de37a87`, `c76528a`; `docs/relatorio/`); `docs/MAPA_CODIGO.md` (`ff346a2`).
 
@@ -141,12 +142,20 @@ Pausa. Sem execução.
 
 ### 2026-10-02 a 2026-10-16
 
-Sem execução de GPU. Pendências com o autor e o orientador: (1) latência GPU em TTY, após `make trt` reconstruir as engines; (2) confirmar a tolerância de empate de 5% na decisão do eixo 3; (3) confirmar a retirada da parada antecipada no eixo 4; (4) decidir o extra A.
+Sem execução de GPU. Pendências com o autor e o orientador: (1) latência GPU em TTY, após `make trt` reconstruir as engines (feita em 17/10); (2) confirmar a tolerância de empate de 5% na decisão do eixo 3 (refinada em 18/10); (3) confirmar a retirada da parada antecipada no eixo 4; (4) decidir o extra A.
 
 ### 2026-10-17 (sáb): eixo 2d (poda sem retreino) e documentação de referência
 
 - Redação desta documentação de referência (`docs/artigo/`, `28834e7`).
 - **Eixo 2d: poda sem retreino.** Novo `src/compress/prune_eval.py`: aplica as máscaras globais por magnitude do eixo 2 (cabeça incluída) ao `best.pt` do eixo 1 da mesma seed e avalia direto no teste, sem nenhuma época. **30 avaliações** (2 arquiteturas × 5 níveis × 3 seeds), ~40 s cada, **~25 min de GPU**, 0 falhas; runs `runs/eixo2d_noft_*` com `metrics.json`, `run_meta.json`, `confusion_matrix.npy`, `cost.json` e checkpoint podado. Resultado: 50% é gratuito sem retreino (1,05× / 1,01×); 70% custa 1,99× (ResNet-50) / 1,29× (DenseNet-121); a 90% a rede quebra (~14% de acurácia) e a 95/98% responde ao acaso (1/18). O fine-tuning de 5 épocas recupera tudo até 90%: acima de 50%, o retreino é obrigatório. Integrado como coluna da tabela comparativa (`make_prune_compare.py`, figura `prune_compare` em escala log), `results/eixo2/README.md`, `docs/METODOLOGIA.md` § 2.1 e diário (`b66bdc5`). GPU livre.
+- **Latência GPU em TTY, pelo autor** (21:37–21:59; `scripts/latency_tty.sh`, `8ade7b5`): sessão gráfica parada (`systemctl stop sddm`), pré-condições verificadas (sem DISPLAY, sem outro processo na GPU), engines TensorRT da seed 0 reconstruídas com a GPU ociosa (baseline FP32/FP16/INT8 das duas redes + poda 90/95% + int8), 18 medições gravadas com a nota "sessão gráfica fechada (TTY)". **Resultado inesperado:** as três células int8 da ResNet-50, que rodam o mesmo grafo, saíram em 0,920 / 0,923 / **0,797** ms (int8, poda 90% + int8, poda 95% + int8) e a FP16 (0,827) ficou à frente da int8 — a leitura literal passaria a apontar poda 95% + int8. As demais células não diferiram da medição de 20/09 (eager FP32 1,81 ms nas duas; TensorRT FP32 2,645 nas duas).
+
+### 2026-10-18 (dom, madrugada): variância da latência GPU, rodadas repetidas, remedição e decisão confirmada
+
+- **Experimento de variância** (`results/eixo3/build_variance.md`, sessão gráfica aberta): (1) a mesma engine int8 da ResNet-50 construída três vezes varia ~4% (0,886–0,926 ms); (2) as três engines de TTY medidas em sequência ficam em 0,923–0,930 ms — o 0,797 ms de 17/10 não se reproduz, foi variância **de medição**; (3) FP16 × INT8 alternadas em 4 rodadas, clock SM estável em 1.980–2.010 MHz: cada medição isolada de lote 1 alterna entre dois patamares, ≈ 0,80 e ≈ 0,93 ms, para **qualquer** engine (ruído de ~15%, maior que a diferença entre as duas engines); a int8 é mais rápida que a FP16 nas 4 rodadas e por 25% em lote 32.
+- **Harness** (`src/measure/latency.py`, `59f4132`): `--rounds N` (padrão 5 em GPU), mediana do p50 entre rodadas, p50 de cada rodada e dispersão gravados no JSON. **Regra de decisão** (`make_eixo3.py --decide`, `graph_family`): células com o mesmo grafo compartilham a latência (mediana do grupo), além da tolerância de 5% já proposta.
+- 00:27–00:38 **todas as 18 células de GPU remedidas** com 5 rodadas (`66621e1`; sessão gráfica aberta; os JSONs de TTY arquivados como `*_tty1round.json`). Entre TTY e sessão aberta não há diferença sistemática. Números finais (p50 lote 1 / lote 32): ResNet-50 eager FP32 1,803 / 23,2, eager FP16 1,480 / 10,6, TensorRT FP32 2,652 / 14,74, FP16 0,823 / 4,09, INT8 0,798 / 3,10, poda 90% + int8 0,814, poda 95% + int8 0,805; DenseNet-121 eager FP32 3,497 / 25,6, eager FP16 3,327 / 13,3, TensorRT FP32 4,206 / 18,13, FP16 2,799 / 8,57, INT8 3,192 / 17,21, poda 90% + int8 3,397, poda 95% + int8 3,339.
+- **Decisão do eixo 3 confirmada** (`results/eixo3/decision.md`): **ResNet-50 int8 TensorRT**, razão 1,01×, 0,805 ms (mediana do grafo; esta engine 0,798), 23,9 MiB; a leitura literal aponta a mesma célula. Vencedora inalterada em relação à preliminar de 20/09: o eixo 4 já estava na configuração certa. Textos atualizados (README, RESULTS, METODOLOGIA, relatório, documentação de referência). GPU livre.
 
 ## Incidentes e correções (resumo)
 
@@ -160,6 +169,7 @@ Sem execução de GPU. Pendências com o autor e o orientador: (1) latência GPU
 | 21/09 | `rm -f` não executou | glob sem correspondência aborta o comando no zsh | `find -delete` + conferência |
 | 30/09 | fila e treino mortos na época 29/30 | comando em background da ferramenta encerrado por limite de tempo | `setsid nohup`, logs em `runs/`, retomada de `last.pt` |
 | 13/09 | dois runs com árvore suja no `run_meta` | fila lançada antes do commit | commit durante a fila; nota de proveniência |
+| 17/10 | medição única em TTY inverteu a ordem de três células int8 da ResNet-50 que rodam o mesmo grafo (0,797 vs 0,920 ms) | a latência de lote 1 em GPU alterna entre dois patamares ~15% apart entre medições, com clock estável | `--rounds 5` (mediana) no harness; remedição de todas as células; latência compartilhada entre células do mesmo grafo |
 
 ## Decisões do orientador e ajustes sinalizados
 
@@ -168,7 +178,8 @@ Sem execução de GPU. Pendências com o autor e o orientador: (1) latência GPU
 | 14/09 | 8 decisões (acima) | fechadas |
 | 19/09 | auditoria de vazamento; poda antes do treino (eixo 2b); app de webcam | executadas |
 | 21/09 | retirada do early stopping no eixo 4 (ajuste de parâmetro da decisão 3 de 14/09) | sinalizado; confirmação pendente |
-| 20/09 | tolerância de empate de 5% na decisão do eixo 3 (refinamento da decisão 2) | proposto; confirmação pendente |
+| 20/09 | tolerância de empate de 5% na decisão do eixo 3 (refinamento da decisão 2) | proposto; confirmação pendente; vencedora igual à leitura literal após 18/10 |
+| 18/10 | células com o mesmo grafo compartilham a latência (mediana); latência GPU em 5 rodadas (refinamento da decisão 2) | sinalizado; confirmação pendente; não altera a vencedora |
 | 14/09 | célula poda + int8 em 90% e 95% (não em 98%, onde a poda sozinha já excede 1,5×) | registrada |
 | 20/09 | fração 100% do eixo 4 como run próprio | adotada por padrão |
 | 30/09 | extra A (eixo 4 na DenseNet-121) | em espera |

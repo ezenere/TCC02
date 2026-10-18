@@ -458,3 +458,35 @@ DenseNet    98%   79434   78873   78951    481 ± 14               1,65 ± 0,05
 responde ao acaso (1/18). O fine-tuning de 5 épocas recupera tudo até 90% e quase tudo a 95% — acima de 50%, retreino é obrigatório.
 Integrado como 1ª coluna da tabela comparativa (`results/eixo2/make_prune_compare.py`, figura `prune_compare` agora em escala log),
 parágrafo em `results/eixo2/README.md` e procedimento em `docs/METODOLOGIA.md` § 2.1. GPU livre.
+
+## 2026-10-17 (sáb, noite) / 2026-10-18 (dom, madrugada) — latência GPU final: rodadas, variância, decisão confirmada
+
+**17/10, 21:37–21:59 — medição em TTY pelo autor** (`scripts/latency_tty.sh`, `8ade7b5`): sessão gráfica parada, engines da seed 0
+reconstruídas com a GPU ociosa, 18 medições com a nota "sessão gráfica fechada (TTY)". **Resultado inesperado:** as três células int8 da
+ResNet-50, que rodam o **mesmo grafo**, saíram em 0,920 (int8) / 0,923 (poda 90% + int8) / **0,797** (poda 95% + int8) ms, e a FP16
+(0,827) ficou à frente da int8 — a leitura literal passaria a apontar poda 95% + int8. As demais células não diferiram de 20/09.
+
+**18/10 — experimento de variância** (`results/eixo3/build_variance.md`): a mesma engine construída 3× varia ~4%; as três engines de TTY
+medidas em sequência ficam em 0,923–0,930 ms (o 0,797 não se reproduz: variância **de medição**); FP16 × INT8 alternadas em 4 rodadas,
+clock SM estável em 1.980–2.010 MHz — cada medição isolada de lote 1 alterna entre dois patamares, ≈ 0,80 e ≈ 0,93 ms, para **qualquer**
+engine (ruído ~15%, maior que a diferença FP16 × int8). A int8 vence a FP16 nas 4 rodadas e por 25% em lote 32.
+
+**Protocolo:** `src/measure/latency.py --rounds N` (padrão 5 em GPU), mediana do p50 entre rodadas, cada rodada e a dispersão gravadas no
+JSON (`59f4132`). **Regra de decisão:** células com o mesmo grafo compartilham a latência (mediana do grupo; `graph_family` em
+`make_eixo3.py --decide`), além da tolerância de 5% já proposta. 00:27–00:38: **todas as 18 células de GPU remedidas** com 5 rodadas
+(`66621e1`; sessão aberta; TTY arquivado como `*_tty1round.json`). TTY e sessão aberta não diferem sistematicamente.
+
+**Números finais (p50 ms, lote 1; lote 32 entre parênteses):**
+```
+                 eager FP32     eager FP16     TRT FP32       TRT FP16      TRT INT8      p90+INT8  p95+INT8
+ResNet-50        1,803 (23,2)   1,480 (10,6)   2,652 (14,74)  0,823 (4,09)  0,798 (3,10)  0,814     0,805
+DenseNet-121     3,497 (25,6)   3,327 (13,3)   4,206 (18,13)  2,799 (8,57)  3,192 (17,21) 3,397     3,339
+```
+CPU inalterada (20/09): ResNet FP32 51,7 / 10,7 ms (1 / 16 thr), int8 8,0 / 1,38; DenseNet 41,3 / 16,6, int8 7,2 / 2,86.
+
+**Decisão do eixo 3 — confirmada** (`results/eixo3/decision.md`): **ResNet-50 int8 TensorRT**, razão de erro 1,01×, latência do grafo
+0,805 ms (mediana de 0,798 / 0,814 / 0,805; esta engine 0,798), 23,9 MiB. Leitura literal (engine mais rápida, sem agrupar): a mesma
+célula. Vencedora inalterada em relação à preliminar de 20/09 → o eixo 4 (ResNet-50 densa + int8 por ponto) já estava na configuração
+certa. Refinamento de grafo compartilhado **sinalizado ao orientador** (não altera a vencedora). Textos atualizados: README, RESULTS,
+`results/eixo3/README.md`, METODOLOGIA § 3, RUNBOOK, `docs/artigo/`, relatório (figura de velocidade regenerada) e CLAUDE.md.
+**GPU hoje:** ~40 min (engines + medições). GPU livre.

@@ -1,7 +1,8 @@
 # Eixo 3 — Benchmark: qualidade × custo × latência
 
 > Gerado por `make_eixo3.py` a partir de `runs/` (`eixo3_table.csv` por seed, `eixo3_summary.csv` por célula). Razão de erro = taxa de erro
-> da célula ÷ taxa de erro do baseline da **mesma seed**, no teste. Custo e latência medidos na seed 0.
+> da célula ÷ taxa de erro do baseline da **mesma seed**, no teste. Custo e latência medidos na seed 0. Latência GPU: p50 de
+> 300 iterações após 50 de aquecimento, **mediana de 5 rodadas** por célula (medição final de 18/10; ver [`build_variance.md`](build_variance.md)).
 
 ## Tabela cruzada
 
@@ -50,12 +51,20 @@ Figuras de Pareto (razão de erro × custo): `figures/pareto_cpu`, `pareto_gpu`,
 2. **Quantização é o que acelera.** int8 em CPU: 7,8× na ResNet-50 (10,7 → 1,38 ms, 16 threads) e 5,8× na DenseNet-121 (16,6 → 2,86 ms).
    Em GPU, contra o baseline FP32 no mesmo runtime: ResNet-50 3,3× (2,65 → 0,80 ms).
 3. **A int8 não favorece a DenseNet-121:** em CPU custa 1,24× de erro (ResNet: 1,04×); no TensorRT o erro quase não muda (1,07×), mas a
-   **latência fica pior que a FP16** (3,17 contra 2,76 ms) — centenas de camadas em torno das concatenações ficam em float, com conversões Q/DQ.
+   **latência fica pior que a FP16** (3,19 contra 2,80 ms em lote 1; 17,2 contra 8,57 ms em lote 32) — centenas de camadas em torno das
+   concatenações ficam em float, com conversões Q/DQ. Na ResNet-50, int8 e FP16 ficam a 3% em lote 1 (0,80 contra 0,82 ms) e a int8 é
+   1,3× mais rápida em lote 32 (3,10 contra 4,09 ms).
 4. **Custo teórico e real divergem.** A DenseNet-121 tem 30% menos MACs e 3,4× menos parâmetros que a ResNet-50, mas é mais lenta em todos os
-   runtimes medidos (FP32 TensorRT: 4,23 contra 2,65 ms).
+   runtimes medidos (FP32 TensorRT: 4,21 contra 2,65 ms).
 5. **As técnicas compõem de forma aproximadamente aditiva:** na ResNet-50, poda 90% (1,07×) + int8 dá 1,14× em CPU e 1,10× no TensorRT.
 6. **A calibração da int8 é um hiperparâmetro que precisa de validação.** Com entropia, o mesmo modelo variou de 194 a 2.596 erros conforme a
    amostra de calibração; com percentil 99,99 (escolhido em `val`), de 62 a 64 em validação. Ver `results/eixo2/calib_sweep.csv`.
+7. **A latência de lote 1 em GPU é bimodal entre medições.** Uma medição isolada (50 + 300 iterações) alterna entre dois patamares
+   ~15% apart (≈ 0,80 e ≈ 0,93 ms na ResNet-50 int8) para qualquer engine, com o clock SM estável; a diferença entre FP16 e int8 é
+   menor que isso. A medição única em TTY de 17/10 pegou a FP16 no patamar rápido e a int8 no lento, e inverteu a ordem de três
+   células que rodam o mesmo grafo. A mesma engine reconstruída três vezes varia ~4%. Por isso a medição final (18/10) usa 5 rodadas
+   por célula (mediana do p50); entre TTY e sessão gráfica aberta não há diferença sistemática. Experimento completo em
+   [`build_variance.md`](build_variance.md).
 
 ## Decisão
 
@@ -63,10 +72,19 @@ Critério fixado antes dos resultados: menor latência p50 em GPU (TensorRT, lot
 artefato. Aplicação, finalistas, leitura literal × refinada e condições da medição em [`decision.md`](decision.md) (`make_eixo3.py --decide`).
 A configuração vencedora alimenta o eixo 4.
 
+**Refinamento (18/10, sinalizado ao orientador):** a poda não-estruturada não muda o grafo nem os kernels, então as células
+`trt-int8`, `prune-90+trt-int8` e `prune-95+trt-int8` da mesma arquitetura rodam a mesma engine a menos da variância de build e de
+medição; na regra de decisão elas **compartilham a latência** (mediana do grupo: 0,805 ms na ResNet-50, de 0,798 / 0,814 / 0,805) e
+o desempate dentro do grupo segue o critério (artefato; artefatos a menos de 1% → menor razão de erro). Latências dentro de 5% contam
+como empate (estabilidade do harness). Resultado: **ResNet-50 trt-int8**, razão de erro 1,01×, 0,805 ms (esta engine: 0,798 ms),
+23,9 MiB. A leitura literal (engine mais rápida, sem agrupar) aponta a mesma célula, então a vencedora é a mesma da decisão
+preliminar de 20/09 e o eixo 4 (ResNet-50 densa + int8 por ponto) já estava na configuração certa. Justificativa em [`build_variance.md`](build_variance.md).
+
 ## Reprodução
 
 ```bash
 make latency-cpu                                   # máquina em repouso
-NOTE="sessão gráfica fechada (TTY)" make latency-gpu    # em um TTY
+make latency-gpu                                   # 5 rodadas por célula (mediana); sessão aberta ou TTY
+scripts/latency_tty.sh                             # alternativa: TTY com a sessão gráfica parada, engines reconstruídas
 make eixo3                                         # tabela, Pareto e decision.md
 ```
