@@ -117,6 +117,11 @@ def main() -> int:
     ap.add_argument("--size", type=int, default=224)
     ap.add_argument("--warmup", type=int, default=50)
     ap.add_argument("--iters", type=int, default=300)
+    ap.add_argument("--rounds", type=int, default=None,
+                    help="repeat the whole warmup+iters block N times and report the MEDIAN of the per-round p50 "
+                         "(default 5 on GPU, 1 on CPU). Batch-1 GPU latency alternates between two levels ~15%% apart "
+                         "across measurements of the same engine; one 300-iteration block is not enough")
+    ap.add_argument("--round-pause", type=float, default=1.0, help="seconds between rounds")
     ap.add_argument("--note", default="", help="manual context, e.g. 'sessão gráfica fechada (TTY)'")
     ap.add_argument("--out", type=Path, default=None)
     args = ap.parse_args()
@@ -140,12 +145,24 @@ def main() -> int:
             x = x.to(args.device)
             if args.device == "cuda" and args.kind == "eager":
                 x = x.to(memory_format=torch.channels_last)   # TensorRT reads NCHW pointers
-        r = measure(fn, x, args.warmup, args.iters, sync)
+        rounds = args.rounds if args.rounds is not None else (5 if args.device == "cuda" else 1)
+        per_round = []
+        for k in range(rounds):
+            if k:
+                time.sleep(args.round_pause)
+            per_round.append(measure(fn, x, args.warmup, args.iters, sync))
+        p50s = sorted(rr["p50_ms"] for rr in per_round)
+        r = dict(per_round[np.argsort([rr["p50_ms"] for rr in per_round])[len(per_round) // 2]])   # the median round
+        r["p50_ms"] = float(np.median(p50s))
+        r["rounds"] = rounds
+        r["p50_ms_per_round"] = [round(v, 4) for v in (rr["p50_ms"] for rr in per_round)]
+        r["p50_ms_spread"] = float(p50s[-1] / p50s[0] - 1) if rounds > 1 else 0.0
         r["img_s_p50"] = 1000 * b / r["p50_ms"]
         r["img_s_mean"] = 1000 * b / r["mean_ms"]
         results[f"batch_{b}"] = r
+        extra = f"  [{rounds} rodadas: " + ", ".join(f"{v:.3f}" for v in r["p50_ms_per_round"]) + "]" if rounds > 1 else ""
         print(f"batch {b:>3}: p50 {r['p50_ms']:8.3f} ms  p95 {r['p95_ms']:8.3f} ms  "
-              f"mean {r['mean_ms']:8.3f} ms  -> {r['img_s_p50']:8.1f} img/s (p50)")
+              f"mean {r['mean_ms']:8.3f} ms  -> {r['img_s_p50']:8.1f} img/s (p50){extra}")
 
     payload = {"artifact": str(args.artifact), "artifact_bytes": args.artifact.stat().st_size,
                "kind": args.kind, "device": args.device, "precision": args.precision,

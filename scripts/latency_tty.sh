@@ -10,7 +10,10 @@
 # das duas redes + poda 90/95% + int8) com a GPU ociosa — a seleção de kernels do TensorRT é
 # por cronometragem, então engines construídas com o desktop aberto podem ser piores;
 # (3) mede tudo (PyTorch eager fp32/fp16, TensorRT fp32/fp16/int8, lotes 1 e 32) com a
-# nota "sessão gráfica fechada (TTY)" gravada em cada JSON. ~25 min.
+# nota "sessão gráfica fechada (TTY)" gravada em cada JSON. Cada célula é medida em 5 rodadas
+# (mediana), porque a latência de lote 1 alterna entre dois patamares ~15% apart entre medições
+# (results/eixo3/build_variance.md). ~45 min. Passo OPCIONAL: a medição de 18/10 com 5 rodadas e sessão
+# aberta não mostrou diferença sistemática em relação ao TTY.
 set -uo pipefail; cd "$(dirname "$0")/.."
 PY="${PY:-/home/ezenere/miniconda3/envs/tcc/bin/python}"; export PYTHONPATH=src
 LOG=runs/latency_gpu_tty.log; log() { printf '%s  %s\n' "$(date '+%F %T')" "$*" | tee -a "$LOG"; }
@@ -26,7 +29,7 @@ log "=== latência GPU em TTY — início ==="
 nvidia-smi --query-gpu=name,driver_version,clocks.sm,clocks.mem,temperature.gpu,memory.used --format=csv | tee -a "$LOG"
 
 # ---- 2. engines com a GPU ociosa -------------------------------------------
-NOTE="sessão gráfica fechada (TTY)"
+NOTE="sessão gráfica fechada (TTY); 5 rodadas (mediana)"
 for run in runs/eixo1_resnet50_s0 runs/eixo1_densenet121_s0; do
   log "engines $run (fp32 fp16 int8, --force)"
   "$PY" src/compress/trt_build.py --run "$run" --precision fp32 fp16 int8 --force >> "$LOG" 2>&1 || { log "FALHOU build $run"; exit 1; }

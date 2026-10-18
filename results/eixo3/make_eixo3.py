@@ -26,6 +26,14 @@ OUT = Path(__file__).resolve().parent
 LABEL = {"resnet50": "ResNet-50", "densenet121": "DenseNet-121"}
 P_BASE = re.compile(r"eixo1_(?P<arch>\w+?)_s(?P<seed>\d+)$")
 LAT_TOL, SIZE_TOL = 0.05, 0.01
+
+
+def graph_family(cell: str) -> str:
+    """Compute graph of a cell: pruning (unstructured) leaves it unchanged, so 'prune-90+trt-int8'
+    and 'trt-int8' are the same graph; 'baseline' on the GPU column is the TensorRT FP32 engine."""
+    if cell == "baseline":
+        return "trt-fp32"
+    return cell.split("+")[-1]
 P_PRUNE = re.compile(r"eixo2_prune_(?P<arch>\w+?)_p(?P<pct>\d+)_s(?P<seed>\d+)$")
 
 
@@ -132,24 +140,35 @@ def decide(s: pd.DataFrame, thr: float) -> str:
         return "\n".join(lines)
     ok = ok.dropna(subset=["lat_gpu_trt_b1_mean"]).sort_values(["lat_gpu_trt_b1_mean", "artifact_bytes_mean"])
     literal = ok.iloc[0]
-    # Refinement (proposal): latencies within LAT_TOL of the fastest are a tie — that is the
-    # run-to-run stability the harness itself guarantees (tests/test_latency.py). Tie-break as in the
-    # criterion (smaller artifact); artifacts within SIZE_TOL are again a tie -> lower error ratio.
-    tied = ok[ok.lat_gpu_trt_b1_mean <= literal.lat_gpu_trt_b1_mean * (1 + LAT_TOL)]
+    # Refinement 1 (2026-10-18): unstructured pruning does not change the compute graph, so cells
+    # that share a graph (same arch, same TensorRT precision) share one latency: the group median.
+    # Their measured spread (0.80-0.92 ms on identical graphs) is TensorRT build-to-build tactic
+    # noise, not a property of the weights -- see results/eixo3/build_variance.md.
+    ok["graph"] = ok.cell.map(graph_family)
+    ok["lat_graph"] = ok.groupby(["arch", "graph"]).lat_gpu_trt_b1_mean.transform("median")
+    ok = ok.sort_values(["lat_graph", "artifact_bytes_mean", "error_ratio_mean"])
+    fastest = ok.iloc[0]
+    # Refinement 2: latencies within LAT_TOL of the fastest are a tie (the harness' own stability);
+    # tie-break by artifact (the criterion); artifacts within SIZE_TOL tie -> lower error ratio.
+    tied = ok[ok.lat_graph <= fastest.lat_graph * (1 + LAT_TOL)]
     tied = tied[tied.artifact_bytes_mean <= tied.artifact_bytes_mean.min() * (1 + SIZE_TOL)]
     win = tied.sort_values("error_ratio_mean").iloc[0]
     name = lambda r: f"{LABEL.get(r.arch, r.arch)} — {r.cell}"
     lines.append(f"## Vencedora: **{name(win)}**\n")
-    lines.append(f"razão de erro {win.error_ratio_mean:.2f}× · latência TRT lote 1 {win.lat_gpu_trt_b1_mean:.3f} ms · "
+    lines.append(f"razão de erro {win.error_ratio_mean:.2f}× · latência TRT lote 1 {win.lat_graph:.3f} ms (mediana do grafo "
+                 f"{LABEL.get(win.arch, win.arch)} {win.graph}; esta engine: {win.lat_gpu_trt_b1_mean:.3f} ms) · "
                  f"artefato {win.artifact_bytes_mean / 2**20:.1f} MiB\n")
+    same = ok[(ok.arch == win.arch) & (ok.graph == win.graph)]
+    if len(same) > 1:
+        lines.append("Células do mesmo grafo (latência compartilhada): " + ", ".join(
+            f"{r.cell} {r.lat_gpu_trt_b1_mean:.3f} ms (razão {r.error_ratio_mean:.2f}×)" for r in same.itertuples()) + ".\n")
     if name(literal) != name(win):
-        lines.append(f"**Leitura literal do critério:** {name(literal)} ({literal.lat_gpu_trt_b1_mean:.3f} ms, razão "
-                     f"{literal.error_ratio_mean:.2f}×). A diferença de latência para a vencedora acima é de "
-                     f"{100 * (win.lat_gpu_trt_b1_mean / literal.lat_gpu_trt_b1_mean - 1):.1f}%, abaixo da tolerância de "
-                     f"estabilidade do harness ({100 * LAT_TOL:.0f}%): as duas células rodam o mesmo grafo int8 (a poda "
-                     "não-estruturada não acelera kernels densos). **Refinamento proposto, pendente de confirmação:** latências "
-                     f"dentro de {100 * LAT_TOL:.0f}% contam como empate; desempate por artefato (o do critério); artefatos dentro "
-                     f"de {100 * SIZE_TOL:.0f}% também empatam e vence a menor razão de erro.\n")
+        lines.append(f"**Leitura literal do critério (engine mais rápida, sem agrupar por grafo):** {name(literal)} "
+                     f"({literal.lat_gpu_trt_b1_mean:.3f} ms, razão {literal.error_ratio_mean:.2f}×). Essa célula roda o mesmo "
+                     f"grafo que a vencedora; a diferença de {100 * (1 - literal.lat_gpu_trt_b1_mean / win.lat_gpu_trt_b1_mean):.0f}% "
+                     "é variância entre builds do TensorRT (mesma engine reconstruída varia nessa ordem). **Refinamentos, "
+                     "pendentes de confirmação do orientador:** (1) células com o mesmo grafo compartilham a latência (mediana); "
+                     f"(2) latências dentro de {100 * LAT_TOL:.0f}% contam como empate; desempate por artefato, depois menor razão de erro.\n")
     archs = set(tied.arch) | {literal.arch}
     lines.append(f"Arquitetura em todas as leituras: **{', '.join(LABEL.get(a, a) for a in sorted(archs))}** — o treino denso do "
                  "eixo 4 é o mesmo em qualquer desfecho.\n")
