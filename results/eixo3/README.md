@@ -11,34 +11,34 @@ Na linha `baseline`, a coluna de GPU é a engine TensorRT **FP32** (o baseline m
 <!-- eixo3:table:start -->
 | arquitetura | célula | seeds | razão de erro | não-nulos (M) | MACs (G) | artefato (MiB) | CPU 16 thr, lote 1 (ms) | GPU TRT, lote 1 (ms) |
 |---|---|---|---|---|---|---|---|---|
-| DenseNet-121 | baseline | 3 | 1.00 | 6.97 | 2.86 | 27.2 | 16.64 | 4.225 |
+| DenseNet-121 | baseline | 3 | 1.00 | 6.97 | 2.86 | 27.2 | 16.64 | 4.206 |
 | DenseNet-121 | prune-50 | 3 | 0.97 ± 0.06 | 3.53 | 2.86 | 15.5 | 15.91 | — |
 | DenseNet-121 | prune-70 | 3 | 0.98 ± 0.05 | 2.15 | 2.86 | 10.8 | 15.79 | — |
 | DenseNet-121 | prune-90 | 3 | 1.03 ± 0.04 | 0.77 | 2.86 | 5.7 | 16.51 | — |
 | DenseNet-121 | prune-95 | 3 | 1.19 ± 0.05 | 0.43 | 2.86 | 4.2 | 16.24 | — |
 | DenseNet-121 | prune-98 | 3 | 1.65 ± 0.05 | 0.22 | 2.86 | 3.2 | 16.54 | — |
 | DenseNet-121 | int8-cpu | 3 | 1.24 ± 0.07 | 6.97 | 2.86 | 7.7 | 2.86 | — |
-| DenseNet-121 | trt-fp32 | 3 | 1.00 ± 0.00 | 6.97 | 2.86 | 34.3 | — | 4.225 |
-| DenseNet-121 | trt-fp16 | 3 | 1.00 ± 0.00 | 6.97 | 2.86 | 15.0 | — | 2.759 |
-| DenseNet-121 | trt-int8 | 3 | 1.07 ± 0.03 | 6.97 | 2.86 | 14.7 | — | 3.171 |
+| DenseNet-121 | trt-fp32 | 3 | 1.00 ± 0.00 | 6.97 | 2.86 | 34.3 | — | 4.206 |
+| DenseNet-121 | trt-fp16 | 3 | 1.00 ± 0.00 | 6.97 | 2.86 | 15.0 | — | 2.799 |
+| DenseNet-121 | trt-int8 | 3 | 1.07 ± 0.03 | 6.97 | 2.86 | 14.7 | — | 3.192 |
 | DenseNet-121 | prune-90+int8-cpu | 1 | 1.37 | 0.77 | 2.86 | 7.7 | — | — |
 | DenseNet-121 | prune-95+int8-cpu | 1 | 1.58 | 0.43 | 2.86 | 7.7 | — | — |
-| DenseNet-121 | prune-90+trt-int8 | 1 | 1.16 | 0.77 | 2.86 | 14.7 | — | 3.156 |
-| DenseNet-121 | prune-95+trt-int8 | 1 | 1.29 | 0.43 | 2.86 | 14.7 | — | 3.176 |
-| ResNet-50 | baseline | 3 | 1.00 | 23.54 | 4.11 | 90.1 | 10.75 | 2.645 |
+| DenseNet-121 | prune-90+trt-int8 | 1 | 1.16 | 0.77 | 2.86 | 14.7 | — | 3.397 |
+| DenseNet-121 | prune-95+trt-int8 | 1 | 1.29 | 0.43 | 2.86 | 14.7 | — | 3.339 |
+| ResNet-50 | baseline | 3 | 1.00 | 23.54 | 4.11 | 90.1 | 10.75 | 2.652 |
 | ResNet-50 | prune-50 | 3 | 0.97 ± 0.03 | 11.80 | 4.11 | 51.0 | 11.03 | — |
 | ResNet-50 | prune-70 | 3 | 0.98 ± 0.02 | 7.10 | 4.11 | 34.8 | 11.28 | — |
 | ResNet-50 | prune-90 | 3 | 1.10 ± 0.03 | 2.40 | 4.11 | 17.2 | 10.86 | — |
 | ResNet-50 | prune-95 | 3 | 1.28 ± 0.07 | 1.23 | 4.11 | 12.1 | 11.39 | — |
 | ResNet-50 | prune-98 | 3 | 1.90 ± 0.17 | 0.52 | 4.11 | 8.8 | 11.34 | — |
 | ResNet-50 | int8-cpu | 3 | 1.04 ± 0.07 | 23.54 | 4.11 | 23.0 | 1.38 | — |
-| ResNet-50 | trt-fp32 | 3 | 1.00 ± 0.01 | 23.54 | 4.11 | 100.8 | — | 2.645 |
-| ResNet-50 | trt-fp16 | 3 | 1.00 ± 0.01 | 23.54 | 4.11 | 45.5 | — | 0.941 |
-| ResNet-50 | trt-int8 | 3 | 1.01 ± 0.03 | 23.54 | 4.11 | 23.9 | — | 0.800 |
+| ResNet-50 | trt-fp32 | 3 | 1.00 ± 0.01 | 23.54 | 4.11 | 100.8 | — | 2.652 |
+| ResNet-50 | trt-fp16 | 3 | 1.00 ± 0.01 | 23.54 | 4.11 | 45.5 | — | 0.823 |
+| ResNet-50 | trt-int8 | 3 | 1.01 ± 0.02 | 23.54 | 4.11 | 23.9 | — | 0.798 |
 | ResNet-50 | prune-90+int8-cpu | 1 | 1.14 | 2.40 | 4.11 | 23.0 | — | — |
 | ResNet-50 | prune-95+int8-cpu | 1 | 1.34 | 1.23 | 4.11 | 23.0 | — | — |
-| ResNet-50 | prune-90+trt-int8 | 1 | 1.10 | 2.40 | 4.11 | 23.9 | — | 0.793 |
-| ResNet-50 | prune-95+trt-int8 | 1 | 1.33 | 1.23 | 4.11 | 23.9 | — | 0.930 |
+| ResNet-50 | prune-90+trt-int8 | 1 | 1.10 | 2.40 | 4.11 | 23.9 | — | 0.814 |
+| ResNet-50 | prune-95+trt-int8 | 1 | 1.33 | 1.23 | 4.11 | 23.9 | — | 0.805 |
 <!-- eixo3:table:end -->
 
 Figuras de Pareto (razão de erro × custo): `figures/pareto_cpu`, `pareto_gpu`, `pareto_disk`, `pareto_macs` (`.pdf` e `.png`).

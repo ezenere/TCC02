@@ -1,0 +1,84 @@
+2026-10-17 21:37:52  === latência GPU em TTY — início ===
+name, driver_version, clocks.current.sm [MHz], clocks.current.memory [MHz], temperature.gpu, memory.used [MiB]
+NVIDIA GeForce RTX 3080 Ti, 615.78.08, 210 MHz, 405 MHz, 47, 22 MiB
+2026-10-17 21:37:52  engines runs/eixo1_resnet50_s0 (fp32 fp16 int8, --force)
+fp32: runs/eixo1_resnet50_s0/trt/model_fp32.engine (100.7 MiB, build 13.2s) | camadas por tipo: {'Float': 75, '?': 1}
+fp16: runs/eixo1_resnet50_s0/trt/model_fp16.engine (45.5 MiB, build 11.9s) | camadas por tipo: {'Half': 58, '?': 1, 'Float': 1}
+int8: runs/eixo1_resnet50_s0/trt/model_int8.engine (23.9 MiB, build 11.2s) | camadas por tipo: {'Float': 5, 'Int8': 72, '?': 17}
+2026-10-17 21:38:32  engines runs/eixo1_densenet121_s0 (fp32 fp16 int8, --force)
+fp32: runs/eixo1_densenet121_s0/trt/model_fp32.engine (34.3 MiB, build 70.8s) | camadas por tipo: {'Float': 739, '?': 1}
+fp16: runs/eixo1_densenet121_s0/trt/model_fp16.engine (15.0 MiB, build 185.8s) | camadas por tipo: {'Half': 780, '?': 1, 'Float': 1}
+int8: runs/eixo1_densenet121_s0/trt/model_int8.engine (14.6 MiB, build 179.3s) | camadas por tipo: {'Float': 376, 'Int8': 970, '?': 125}
+2026-10-17 21:45:51  engine int8 runs/eixo2_prune_resnet50_p90_s0 (--force)
+int8: runs/eixo2_prune_resnet50_p90_s0/trt/model_int8.engine (23.9 MiB, build 11.3s) | camadas por tipo: {'Float': 6, 'Int8': 72, '?': 17}
+2026-10-17 21:46:04  engine int8 runs/eixo2_prune_resnet50_p95_s0 (--force)
+int8: runs/eixo2_prune_resnet50_p95_s0/trt/model_int8.engine (23.9 MiB, build 11.4s) | camadas por tipo: {'Float': 6, 'Int8': 72, '?': 17}
+2026-10-17 21:46:18  engine int8 runs/eixo2_prune_densenet121_p90_s0 (--force)
+int8: runs/eixo2_prune_densenet121_p90_s0/trt/model_int8.engine (14.5 MiB, build 171.4s) | camadas por tipo: {'Float': 376, 'Int8': 970, '?': 125}
+2026-10-17 21:49:12  engine int8 runs/eixo2_prune_densenet121_p95_s0 (--force)
+int8: runs/eixo2_prune_densenet121_p95_s0/trt/model_int8.engine (14.6 MiB, build 170.9s) | camadas por tipo: {'Float': 376, 'Int8': 970, '?': 125}
+trt fp32 test:   0%|          | 0/2613 [00:00<?, ?it/s]trt fp32 test:  71%|███████▏  | 1862/2613 [00:30<00:12, 62.04it/s]                                                                  resnet50 TRT fp32 test: n=83,613 acc 0.99790 f1 0.99792 erro 0.2105% (176) | 1985.1 img/s
+-> runs/eixo1_resnet50_s0/metrics_trt_fp32.json
+trt fp16 test:   0%|          | 0/2613 [00:00<?, ?it/s]                                                       resnet50 TRT fp16 test: n=83,613 acc 0.99790 f1 0.99792 erro 0.2105% (176) | 5504.3 img/s
+-> runs/eixo1_resnet50_s0/metrics_trt_fp16.json
+trt int8 test:   0%|          | 0/2613 [00:00<?, ?it/s]                                                       resnet50 TRT int8 test: n=83,613 acc 0.99791 f1 0.99793 erro 0.2093% (175) | 6313.0 img/s
+-> runs/eixo1_resnet50_s0/metrics_trt_int8.json
+trt fp32 test:   0%|          | 0/2613 [00:00<?, ?it/s]trt fp32 test:  58%|█████▊    | 1522/2613 [00:30<00:21, 50.72it/s]trt fp32 test:  58%|█████▊    | 1522/2613 [00:50<00:21, 50.72it/s]                                                                  densenet121 TRT fp32 test: n=83,613 acc 0.99809 f1 0.99810 erro 0.1914% (160) | 1628.9 img/s
+-> runs/eixo1_densenet121_s0/metrics_trt_fp32.json
+trt fp16 test:   0%|          | 0/2613 [00:00<?, ?it/s]                                                       densenet121 TRT fp16 test: n=83,613 acc 0.99809 f1 0.99810 erro 0.1914% (160) | 3050.0 img/s
+-> runs/eixo1_densenet121_s0/metrics_trt_fp16.json
+trt int8 test:   0%|          | 0/2613 [00:00<?, ?it/s]trt int8 test:  60%|█████▉    | 1556/2613 [00:30<00:20, 51.85it/s]trt int8 test:  60%|█████▉    | 1556/2613 [00:50<00:20, 51.85it/s]                                                                  densenet121 TRT int8 test: n=83,613 acc 0.99791 f1 0.99792 erro 0.2093% (175) | 1666.2 img/s
+-> runs/eixo1_densenet121_s0/metrics_trt_int8.json
+name, driver_version, clocks.current.sm [MHz], clocks.current.memory [MHz], temperature.gpu
+NVIDIA GeForce RTX 3080 Ti, 615.78.08, 1980 MHz, 9501 MHz, 63
+batch   1: p50    1.811 ms  p95    2.060 ms  mean    1.869 ms  ->    552.3 img/s (p50)
+batch  32: p50   20.589 ms  p95   20.665 ms  mean   20.590 ms  ->   1554.2 img/s (p50)
+-> runs/eixo1_resnet50_s0/latency_eager_cuda_fp32_t1.json
+batch   1: p50    1.436 ms  p95    1.662 ms  mean    1.502 ms  ->    696.5 img/s (p50)
+batch  32: p50   10.458 ms  p95   10.518 ms  mean   10.462 ms  ->   3059.8 img/s (p50)
+-> runs/eixo1_resnet50_s0/latency_eager_cuda_fp16_t1.json
+batch   1: p50    2.645 ms  p95    2.670 ms  mean    2.646 ms  ->    378.1 img/s (p50)
+batch  32: p50   14.589 ms  p95   14.613 ms  mean   14.592 ms  ->   2193.4 img/s (p50)
+-> runs/eixo1_resnet50_s0/latency_trt_cuda_fp32_t1.json
+batch   1: p50    0.827 ms  p95    0.946 ms  mean    0.877 ms  ->   1209.8 img/s (p50)
+batch  32: p50    4.077 ms  p95    4.102 ms  mean    4.079 ms  ->   7848.3 img/s (p50)
+-> runs/eixo1_resnet50_s0/latency_trt_cuda_fp16_t1.json
+batch   1: p50    0.920 ms  p95    0.929 ms  mean    0.867 ms  ->   1087.4 img/s (p50)
+batch  32: p50    3.104 ms  p95    3.127 ms  mean    3.108 ms  ->  10307.8 img/s (p50)
+-> runs/eixo1_resnet50_s0/latency_trt_cuda_int8_t1.json
+batch   1: p50    3.482 ms  p95    3.522 ms  mean    3.486 ms  ->    287.2 img/s (p50)
+batch  32: p50   25.358 ms  p95   25.436 ms  mean   25.364 ms  ->   1261.9 img/s (p50)
+-> runs/eixo1_densenet121_s0/latency_eager_cuda_fp32_t1.json
+batch   1: p50    3.112 ms  p95    3.123 ms  mean    3.112 ms  ->    321.3 img/s (p50)
+batch  32: p50   13.064 ms  p95   13.126 ms  mean   13.066 ms  ->   2449.6 img/s (p50)
+-> runs/eixo1_densenet121_s0/latency_eager_cuda_fp16_t1.json
+batch   1: p50    4.187 ms  p95    4.196 ms  mean    4.185 ms  ->    238.8 img/s (p50)
+batch  32: p50   18.035 ms  p95   18.069 ms  mean   18.037 ms  ->   1774.3 img/s (p50)
+-> runs/eixo1_densenet121_s0/latency_trt_cuda_fp32_t1.json
+batch   1: p50    2.759 ms  p95    2.770 ms  mean    2.758 ms  ->    362.5 img/s (p50)
+batch  32: p50    8.454 ms  p95    8.492 ms  mean    8.456 ms  ->   3785.2 img/s (p50)
+-> runs/eixo1_densenet121_s0/latency_trt_cuda_fp16_t1.json
+batch   1: p50    3.166 ms  p95    3.198 ms  mean    3.185 ms  ->    315.8 img/s (p50)
+batch  32: p50   16.981 ms  p95   17.021 ms  mean   16.981 ms  ->   1884.4 img/s (p50)
+-> runs/eixo1_densenet121_s0/latency_trt_cuda_int8_t1.json
+batch   1: p50    0.923 ms  p95    0.937 ms  mean    0.876 ms  ->   1083.0 img/s (p50)
+batch  32: p50    3.032 ms  p95    3.059 ms  mean    3.034 ms  ->  10553.9 img/s (p50)
+-> runs/eixo2_prune_resnet50_p90_s0/latency_trt_cuda_int8_t1.json
+batch   1: p50    1.799 ms  p95    2.062 ms  mean    1.845 ms  ->    555.9 img/s (p50)
+-> runs/eixo2_prune_resnet50_p90_s0/latency_eager_cuda_fp32_t1.json
+batch   1: p50    0.797 ms  p95    0.813 ms  mean    0.799 ms  ->   1254.3 img/s (p50)
+batch  32: p50    2.999 ms  p95    3.023 ms  mean    3.003 ms  ->  10670.3 img/s (p50)
+-> runs/eixo2_prune_resnet50_p95_s0/latency_trt_cuda_int8_t1.json
+batch   1: p50    1.812 ms  p95    2.066 ms  mean    1.845 ms  ->    551.8 img/s (p50)
+-> runs/eixo2_prune_resnet50_p95_s0/latency_eager_cuda_fp32_t1.json
+batch   1: p50    3.165 ms  p95    3.183 ms  mean    3.166 ms  ->    315.9 img/s (p50)
+batch  32: p50   16.952 ms  p95   16.984 ms  mean   16.952 ms  ->   1887.7 img/s (p50)
+-> runs/eixo2_prune_densenet121_p90_s0/latency_trt_cuda_int8_t1.json
+batch   1: p50    3.482 ms  p95    3.519 ms  mean    3.499 ms  ->    287.2 img/s (p50)
+-> runs/eixo2_prune_densenet121_p90_s0/latency_eager_cuda_fp32_t1.json
+batch   1: p50    3.160 ms  p95    3.177 ms  mean    3.161 ms  ->    316.4 img/s (p50)
+batch  32: p50   16.928 ms  p95   16.980 ms  mean   16.929 ms  ->   1890.4 img/s (p50)
+-> runs/eixo2_prune_densenet121_p95_s0/latency_trt_cuda_int8_t1.json
+batch   1: p50    3.486 ms  p95    3.850 ms  mean    3.513 ms  ->    286.9 img/s (p50)
+-> runs/eixo2_prune_densenet121_p95_s0/latency_eager_cuda_fp32_t1.json
+2026-10-17 21:59:13  === concluído: 18 medições gravadas. Agora: sudo systemctl start sddm ===

@@ -1,6 +1,6 @@
 {
   "artifact": "runs/eixo2_prune_densenet121_p90_s0/trt/model_int8.engine",
-  "artifact_bytes": 15183340,
+  "artifact_bytes": 15243556,
   "kind": "trt",
   "device": "cuda",
   "precision": "int8",
@@ -8,8 +8,8 @@
   "arch": null,
   "input_size": 224,
   "cpu": "AMD Ryzen 9 9950X 16-Core Processor",
-  "note": "PRELIMINAR: sessão gráfica ABERTA (KDE); refazer em TTY",
-  "measured_at": "2026-09-20T14:37:11",
+  "note": "5 rodadas (mediana); sessão gráfica aberta; TTY de 17/10 sem diferença sistemática (results/eixo3/build_variance.md)",
+  "measured_at": "2026-10-18T00:36:02",
   "python": "3.11.15",
   "torch": "2.11.0+cu128",
   "torchvision": "0.26.0+cu128",
@@ -20,15 +20,44 @@
   "onnxruntime": null,
   "results": {
     "batch_1": {
-      "p50_ms": 3.1557914917357266,
-      "p95_ms": 3.1994039396522567,
-      "mean_ms": 3.1588085350813344,
-      "std_ms": 0.02191768071176288,
-      "min_ms": 3.109486016910523,
+      "p50_ms": 3.3966030005103676,
+      "p95_ms": 3.872680049971678,
+      "mean_ms": 3.4390636066715765,
+      "std_ms": 0.2034307377420988,
+      "min_ms": 3.181339000548178,
       "iters": 300,
       "warmup": 50,
-      "img_s_p50": 316.87771597672537,
-      "img_s_mean": 316.575059518209
+      "rounds": 5,
+      "p50_ms_per_round": [
+        3.4015,
+        3.3966,
+        3.4028,
+        3.3964,
+        3.393
+      ],
+      "p50_ms_spread": 0.0028940228375193833,
+      "img_s_p50": 294.4117990385517,
+      "img_s_mean": 290.7768260116097
+    },
+    "batch_32": {
+      "p50_ms": 18.5343730004206,
+      "p95_ms": 19.3220119997477,
+      "mean_ms": 18.603287643378888,
+      "std_ms": 0.4302672429801309,
+      "min_ms": 17.827361999479763,
+      "iters": 300,
+      "warmup": 50,
+      "rounds": 5,
+      "p50_ms_per_round": [
+        18.5344,
+        18.326,
+        18.5229,
+        18.716,
+        18.736
+      ],
+      "p50_ms_spread": 0.022367734661970173,
+      "img_s_p50": 1726.521852089295,
+      "img_s_mean": 1720.1260666089388
     }
   }
 }

@@ -1,6 +1,6 @@
 {
   "artifact": "runs/eixo1_densenet121_s0/trt/model_int8.engine",
-  "artifact_bytes": 15216044,
+  "artifact_bytes": 15293900,
   "kind": "trt",
   "device": "cuda",
   "precision": "int8",
@@ -8,8 +8,8 @@
   "arch": null,
   "input_size": 224,
   "cpu": "AMD Ryzen 9 9950X 16-Core Processor",
-  "note": "PRELIMINAR: sessão gráfica ABERTA (KDE); refazer em TTY",
-  "measured_at": "2026-09-20T14:36:35",
+  "note": "5 rodadas (mediana); sessão gráfica aberta; TTY de 17/10 sem diferença sistemática (results/eixo3/build_variance.md)",
+  "measured_at": "2026-10-18T00:34:07",
   "python": "3.11.15",
   "torch": "2.11.0+cu128",
   "torchvision": "0.26.0+cu128",
@@ -20,26 +20,44 @@
   "onnxruntime": null,
   "results": {
     "batch_1": {
-      "p50_ms": 3.1708960013929754,
-      "p95_ms": 3.195689510903321,
-      "mean_ms": 3.1745792420891426,
-      "std_ms": 0.03450588837465551,
-      "min_ms": 3.141305991448462,
+      "p50_ms": 3.192428500369715,
+      "p95_ms": 3.363112050010386,
+      "mean_ms": 3.207274983305979,
+      "std_ms": 0.055842339038581074,
+      "min_ms": 3.161788999932469,
       "iters": 300,
       "warmup": 50,
-      "img_s_p50": 315.3682743176376,
-      "img_s_mean": 315.0023747216072
+      "rounds": 5,
+      "p50_ms_per_round": [
+        3.1942,
+        3.1924,
+        3.2005,
+        3.1899,
+        3.1921
+      ],
+      "p50_ms_spread": 0.0033181248412506026,
+      "img_s_p50": 313.2411579097825,
+      "img_s_mean": 311.79116390239324
     },
     "batch_32": {
-      "p50_ms": 16.880729992408305,
-      "p95_ms": 16.934079452767037,
-      "mean_ms": 16.887567202405382,
-      "std_ms": 0.031422755400252904,
-      "min_ms": 16.8470450444147,
+      "p50_ms": 17.21000100042147,
+      "p95_ms": 18.84257745055038,
+      "mean_ms": 17.536671083331992,
+      "std_ms": 0.6129767288538853,
+      "min_ms": 17.037096999956702,
       "iters": 300,
       "warmup": 50,
-      "img_s_p50": 1895.6526177713413,
-      "img_s_mean": 1894.8851315565498
+      "rounds": 5,
+      "p50_ms_per_round": [
+        17.4354,
+        17.1703,
+        17.1476,
+        17.21,
+        18.9541
+      ],
+      "p50_ms_spread": 0.10534753206415393,
+      "img_s_p50": 1859.3839709373824,
+      "img_s_mean": 1824.7476871716497
     }
   }
 }

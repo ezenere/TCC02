@@ -1,0 +1,45 @@
+{
+  "artifact": "runs/eixo1_densenet121_s0/trt/model_int8.engine",
+  "artifact_bytes": 15293900,
+  "kind": "trt",
+  "device": "cuda",
+  "precision": "int8",
+  "threads": null,
+  "arch": null,
+  "input_size": 224,
+  "cpu": "AMD Ryzen 9 9950X 16-Core Processor",
+  "note": "sessão gráfica fechada (TTY)",
+  "measured_at": "2026-10-17T21:57:58",
+  "python": "3.11.15",
+  "torch": "2.11.0+cu128",
+  "torchvision": "0.26.0+cu128",
+  "cuda": "12.8",
+  "cudnn": 91900,
+  "gpu": "NVIDIA GeForce RTX 3080 Ti",
+  "hostname": "EZenereArch",
+  "onnxruntime": null,
+  "results": {
+    "batch_1": {
+      "p50_ms": 3.1662389999382867,
+      "p95_ms": 3.198168950063973,
+      "mean_ms": 3.1847004799912306,
+      "std_ms": 0.09498532506980233,
+      "min_ms": 3.138383999839789,
+      "iters": 300,
+      "warmup": 50,
+      "img_s_p50": 315.83212765034193,
+      "img_s_mean": 314.0012714799332
+    },
+    "batch_32": {
+      "p50_ms": 16.98133999991569,
+      "p95_ms": 17.02144099990619,
+      "mean_ms": 16.980858000005508,
+      "std_ms": 0.024059400420404723,
+      "min_ms": 16.92317600009119,
+      "iters": 300,
+      "warmup": 50,
+      "img_s_p50": 1884.4213707610163,
+      "img_s_mean": 1884.4748598680715
+    }
+  }
+}

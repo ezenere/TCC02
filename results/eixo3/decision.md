@@ -4,9 +4,9 @@ Critério (fixado em 2026-09-14): entre as células com razão de erro média �
 
 ## Vencedora: **ResNet-50 — trt-int8**
 
-razão de erro 1.01× · latência TRT lote 1 0.800 ms · artefato 23.9 MiB
+razão de erro 1.01× · latência TRT lote 1 0.805 ms (mediana do grafo ResNet-50 trt-int8; esta engine: 0.798 ms) · artefato 23.9 MiB
 
-**Leitura literal do critério:** ResNet-50 — prune-90+trt-int8 (0.793 ms, razão 1.10×). A diferença de latência para a vencedora acima é de 0.9%, abaixo da tolerância de estabilidade do harness (5%): as duas células rodam o mesmo grafo int8 (a poda não-estruturada não acelera kernels densos). **Refinamento proposto, pendente de confirmação:** latências dentro de 5% contam como empate; desempate por artefato (o do critério); artefatos dentro de 1% também empatam e vence a menor razão de erro.
+Células do mesmo grafo (latência compartilhada): prune-90+trt-int8 0.814 ms (razão 1.10×), trt-int8 0.798 ms (razão 1.01×), prune-95+trt-int8 0.805 ms (razão 1.33×).
 
 Arquitetura em todas as leituras: **ResNet-50** — o treino denso do eixo 4 é o mesmo em qualquer desfecho.
 
@@ -14,11 +14,11 @@ Arquitetura em todas as leituras: **ResNet-50** — o treino denso do eixo 4 é 
 
 | arch     | cell              |   n_seeds |   error_ratio_mean |   lat_gpu_trt_b1_mean |   artifact_bytes_mean |
 |:---------|:------------------|----------:|-------------------:|----------------------:|----------------------:|
-| resnet50 | prune-90+trt-int8 |         1 |            1.10169 |              0.792821 |           2.5076e+07  |
-| resnet50 | trt-int8          |         3 |            1.00572 |              0.799906 |           2.5109e+07  |
-| resnet50 | prune-95+trt-int8 |         1 |            1.32768 |              0.930051 |           2.51123e+07 |
-| resnet50 | trt-fp16          |         3 |            1.00201 |              0.941446 |           4.77395e+07 |
-| resnet50 | baseline          |         3 |            1       |              2.64456  |           9.44927e+07 |
+| resnet50 | prune-90+trt-int8 |         1 |            1.10169 |              0.81426  |           2.5076e+07  |
+| resnet50 | trt-int8          |         3 |            1.00949 |              0.797909 |           2.50788e+07 |
+| resnet50 | prune-95+trt-int8 |         1 |            1.32768 |              0.804785 |           2.51123e+07 |
+| resnet50 | trt-fp16          |         3 |            1.00201 |              0.822649 |           4.77312e+07 |
+| resnet50 | baseline          |         3 |            1       |              2.65231  |           9.44927e+07 |
 
 ## Excluídas pela razão de erro
 
@@ -30,4 +30,5 @@ Arquitetura em todas as leituras: **ResNet-50** — o treino denso do eixo 4 é 
 
 ## Condições da medição de latência GPU
 
-- PRELIMINAR: sessão gráfica ABERTA (KDE); refazer em TTY
+- 5 rodadas (mediana); sessão gráfica aberta; TTY de 17/10 sem diferença sistemática (results/eixo3/build_variance.md)
+- sessão gráfica fechada (TTY)

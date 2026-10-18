@@ -1,6 +1,6 @@
 {
   "artifact": "runs/eixo2_prune_densenet121_p95_s0/trt/model_int8.engine",
-  "artifact_bytes": 15197116,
+  "artifact_bytes": 15295932,
   "kind": "trt",
   "device": "cuda",
   "precision": "int8",
@@ -8,8 +8,8 @@
   "arch": null,
   "input_size": 224,
   "cpu": "AMD Ryzen 9 9950X 16-Core Processor",
-  "note": "PRELIMINAR: sessão gráfica ABERTA (KDE); refazer em TTY",
-  "measured_at": "2026-09-20T14:37:14",
+  "note": "5 rodadas (mediana); sessão gráfica aberta; TTY de 17/10 sem diferença sistemática (results/eixo3/build_variance.md)",
+  "measured_at": "2026-10-18T00:37:19",
   "python": "3.11.15",
   "torch": "2.11.0+cu128",
   "torchvision": "0.26.0+cu128",
@@ -20,15 +20,44 @@
   "onnxruntime": null,
   "results": {
     "batch_1": {
-      "p50_ms": 3.176140977302566,
-      "p95_ms": 3.7085284042404965,
-      "mean_ms": 3.2225080197288967,
-      "std_ms": 0.15098097406688435,
-      "min_ms": 3.144146001432091,
+      "p50_ms": 3.3392779996574973,
+      "p95_ms": 3.772071449884607,
+      "mean_ms": 3.386200889990505,
+      "std_ms": 0.20788852661188578,
+      "min_ms": 3.1364690003101714,
       "iters": 300,
       "warmup": 50,
-      "img_s_p50": 314.8474854064193,
-      "img_s_mean": 310.31730375154444
+      "rounds": 5,
+      "p50_ms_per_round": [
+        3.3396,
+        3.3393,
+        3.3472,
+        3.3376,
+        3.3387
+      ],
+      "p50_ms_spread": 0.0028901284735278754,
+      "img_s_p50": 299.46593248677345,
+      "img_s_mean": 295.31620612231427
+    },
+    "batch_32": {
+      "p50_ms": 18.58322899988707,
+      "p95_ms": 19.42860950011891,
+      "mean_ms": 18.656462496668002,
+      "std_ms": 0.4870461070791219,
+      "min_ms": 17.73186500031443,
+      "iters": 300,
+      "warmup": 50,
+      "rounds": 5,
+      "p50_ms_per_round": [
+        18.5611,
+        18.7255,
+        18.5832,
+        18.5726,
+        18.78
+      ],
+      "p50_ms_spread": 0.011795581315910297,
+      "img_s_p50": 1721.9827619944017,
+      "img_s_mean": 1715.223344496049
     }
   }
 }
